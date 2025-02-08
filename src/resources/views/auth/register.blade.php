@@ -5,23 +5,15 @@
 
 @section('content')
 
-<!-- 会員登録後に遷移してくる画面 -->
-@extends('layouts.app')
-
-@section('css')
-@endsection
-
-@section('content')
-
 <div class="contact-form__content">
     <div class="contact-form__heading">
-        <h2>プロフィール設定</h2>
+        <h2>会員登録</h2>
     </div>
 
     <div class="contact-form__input">
-    <form class="form" action="/" method="post">
+    <form class="form" action="/register" method="post">
         @csrf
-        <!-- ユーザー名 -->
+        <!-- ユーザー名のフォーム -->
         <div class="form__group">
         <div class="form__group-title">
             <span class="form__label--item">ユーザー名</span>
@@ -94,5 +86,6 @@
     </form>
 </div>
 </div>
+
 
 @endsection
