@@ -20,4 +20,9 @@ use App\Http\Controllers\AuthController;
 // });
 
 Route::get('/',[ItemController::class,'index']);
-Route::get('/mypage/profile',[AuthController::class,'index']);
+Route::get('/mypage/profile',[AuthController::class,'edit']);
+Route::get('/mypage',[ItemController::class,'mypage']);
+Route::get('/sell',[ItemController::class,'sell']);
+Route::get('/item',[ItemController::class,'detail']);
+Route::get('/purchase',[ItemController::class,'purchase']);
+Route::get('/purchase/address',[ItemController::class,'addressEdit']);

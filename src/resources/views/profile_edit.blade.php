@@ -1,11 +1,4 @@
-@extends('layouts.app')
-
-@section('css')
-@endsection
-
-@section('content')
-
-<!-- 会員登録後に遷移してくる画面 -->
+<!-- 会員登録後に遷移してくる画面 住所の入力(初回) -->
 @extends('layouts.app')
 
 @section('css')

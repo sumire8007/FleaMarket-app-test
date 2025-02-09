@@ -11,7 +11,7 @@
 </head>
 <body>
     <header>
-        <img src="img/logo.png" alt="coachtech">
+        <a href="/"><img src="{{ asset('../../img/logo.png') }}" alt="coachtech"></a>
         <ul class="header-nav">
             @if (Auth::check())
             <li class="header-nav__item">
