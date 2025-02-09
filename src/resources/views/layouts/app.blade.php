@@ -13,20 +13,26 @@
     <header>
         <a href="/"><img src="{{ asset('../../img/logo.png') }}" alt="coachtech"></a>
         <ul class="header-nav">
-            @if (Auth::check())
-            <li class="header-nav__item">
+            <!-- @if (Auth::check()) -->
+            <ol class="header-nav__item-search">
+                <form action="" method="get">
+                @csrf
+                    <input type="text" name="keyword" value="{{ old('keyword') }}" placeholder="  なにをお探しですか？">
+                </form>
+            </ol>
+            <ol class="header-nav__item-logout">
                 <form action="/logout" method="post">
                     @csrf
                     <button>ログアウト</button>
                 </form>
-            </li>
-            <li>
-                <a class="header-nav__link" href="/mypage">マイページ</a>
-            </li>
-            <li>
-                <a class="header-nav__link" href="/sell">出品</a>
-            </li>
-            @endif
+            </ol>
+            <ol>
+                <a class="header-nav__link-mypage" href="/mypage">マイページ</a>
+            </ol>
+            <ol>
+                <a class="header-nav__link-sell" href="/sell">出品</a>
+            </ol>
+            <!-- @endif -->
         </ul>
     </header>
 

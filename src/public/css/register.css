@@ -8,7 +8,7 @@ img {
     padding-left: 20px;
 }
 
-.login-form__content {
+.register-form__content {
     margin: 0 auto;
     width: 500px;
     text-align: center;
@@ -43,3 +43,4 @@ img {
     text-decoration-line: none;
     color: #0173cc;
 }
+

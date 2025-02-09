@@ -1,0 +1,53 @@
+.profile_edit-form__content {
+    margin: 0 auto;
+    width: 500px;
+    text-align: center;
+}
+
+.form__group-content-img {
+    display: flex;
+    align-items: center;
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.img_select-button {
+    height: 30px;
+    border: solid #ff5555 1px;
+    border-radius: 3px;
+    color: #ff5555;
+    background-color: white;
+    cursor: pointer;
+    margin-left: 30px;
+}
+
+.circle img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: gray;
+    padding: 30px;
+}
+
+.form__group-title {
+    text-align: left;
+    font-weight: bold;
+}
+
+.form__input--text input {
+    width: 500px;
+    height: 35px;
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+.form__button-submit {
+    width: 500px;
+    height: 35px;
+    color: white;
+    background-color: #ff5555;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-top: 45px;
+}

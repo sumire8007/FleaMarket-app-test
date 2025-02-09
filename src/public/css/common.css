@@ -1,4 +1,44 @@
-.img {
+header {
     background-color: black;
+    display: flex;
 }
 
+img {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+}
+
+ul {
+    display: flex;
+    justify-content: flex-end;
+}
+.header-nav__item-search input{
+    display: block;
+    width: 300px;
+    height: 30px;
+}
+
+.header-nav__item-search {
+
+}
+
+.header-nav__item-logout button {
+    border: none;
+    background-color: black;
+    color: white;
+    cursor: pointer;
+}
+
+.header-nav__link-mypage {
+    color: white;
+    text-decoration-line: none;
+}
+
+.header-nav__link-sell {
+    background-color: white;
+    color: black;
+    padding: 5px 10px;
+    border-radius: 3px;
+    text-decoration-line: none;
+}

@@ -1,15 +1,71 @@
 @extends('layouts.app')
 
 @section('css')
+<link rel="stylesheet" href="{{ asset('css/item.css') }}">
 @endsection
 
 @section('content')
-<h1>アイテム一覧画面</h1>
+    <div class="item-list__tab">
+        <a href="/">おすすめ</a>
+        <form action="/" method="get">
+            @csrf
+            <input type="submit" value="マイリスト" >
+        </form>
+    </div>
 
+<div class="item-list__content">
 <form action="/item" method="get">   <!--パラメータあってる？-->
     @csrf
-    <input type="hidden" name="item_id" value="">
-    <input type="image" src="" alt="商品画像" name="item_img" value="">
-    <input type="text" name="item_name" value="">
+    <div class="item-list">
+        <input type="hidden" name="" value="">
+        <div class="item-list__img">
+            <input type="image" src="" alt="商品画像" name="" readonly />
+        </div>
+        <div class="item-list__item-name">
+            <input type="text" name="" value="商品名" readonly />
+        </div>
+    </div>
+    <div class="item-list">
+        <input type="hidden" name="" value="">
+        <div class="item-list__img">
+            <input type="image" src="" alt="商品画像" name="" readonly />
+        </div>
+        <div class="item-list__item-name">
+            <input type="text" name="" value="商品名" readonly />
+        </div>
+    </div>
+    <div class="item-list">
+        <input type="hidden" name="" value="">
+        <div class="item-list__img">
+            <input type="image" src="" alt="商品画像" name="" readonly />
+        </div>
+        <div class="item-list__item-name">
+            <input type="text" name="" value="商品名" readonly />
+        </div>
+    </div>
+    <div class="item-list">
+        <input type="hidden" name="" value="">
+        <div class="item-list__img">
+            <input type="image" src="" alt="商品画像" name="" readonly />
+        </div>
+        <div class="item-list__item-name">
+            <input type="text" name="" value="商品名" readonly />
+        </div>
+    </div>
+    <div class="item-list">
+        <input type="hidden" name="" value="">
+        <div class="item-list__img">
+            <input type="image" src="" alt="商品画像" name="" readonly />
+        </div>
+        <div class="item-list__item-name">
+            <input type="text" name="" value="商品名" readonly />
+        </div>
+    </div>
+
 </form>
+</div>
+
+
+
 @endsection
+

@@ -1,0 +1,6 @@
+.ster_icon::after {
+    background: url(./img/ster_icon.png);
+}
+.comment_icon::after {
+    background: url(./img/comment_icon.png);
+}

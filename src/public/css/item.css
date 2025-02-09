@@ -1,0 +1,52 @@
+/* 親要素の幅を子要素の幅が上回った際に、子要素は折り返され、複数行で表示されます。 */
+/* .item-content {
+    display: flex;
+    flex-wrap: wrap;
+} */
+
+.item-list__tab {
+    display: flex;
+    border-bottom: solid black 1px;
+    padding-top: 50px;
+
+}
+
+.item-list__tab a {
+    text-decoration-line: none;
+    color: black;
+    padding-left: 100px;
+    font-weight: bold;
+}
+
+.item-list__tab input {
+    border: none;
+    color: #ff5555;
+    margin-left: 50px;
+    background-color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+.item-list__content form {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: 30px;
+}
+
+.item-list {
+    width: 20%;
+}
+
+.item-list__img {
+    width: 150px;
+    height: 150px;
+    background-color: gray;
+    margin-top: 50px;
+    border-radius: 3px;
+}
+
+.item-list__item-name input {
+    border: none;
+    cursor: pointer;
+}
