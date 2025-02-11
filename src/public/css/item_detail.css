@@ -1,6 +1,79 @@
-.ster_icon::after {
-    background: url(./img/ster_icon.png);
+.item-detail__group {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 50px;
 }
-.comment_icon::after {
-    background: url(./img/comment_icon.png);
+.item-detail__img {
+    background-color: #d9d9d9;
+    width: 250px;
+    height: 250px;
+    margin: 50px 30px;
+}
+
+.item-detail__content {
+    width: 50%;
+}
+
+.icon_ster {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+}
+.icon_comment {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    margin-left: 10px;
+}
+
+.buy_button ,.comment_button button {
+    width: 100%;
+    height: 35px;
+    color: white;
+    background-color: #ff5555;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.category_title,.condition_title {
+    display: inline-block;
+}
+
+.category {
+    border: none;
+    background-color: #d9d9d9;
+    border-radius: 10px;
+    text-align: center;
+    width: 60px;
+}
+
+.condition {
+    border: none;
+}
+
+.account-box {
+    display: flex;
+}
+.account-box img {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #d9d9d9;
+    padding: 30px;
+}
+.account-box p {
+    margin-left: 10px;
+    font-weight: bold;
+}
+
+.comment-box {
+    background-color: #d9d9d9;
+    width: 100%;
+    height: 40px;
+}
+.comment-box_input textarea {
+    width: 100%;
+    height: 100px;
 }

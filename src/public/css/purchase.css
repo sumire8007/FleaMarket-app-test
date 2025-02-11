@@ -1,0 +1,79 @@
+.purchase__content-group {
+    display: flex;
+    margin-top: 50px;
+    margin-left: 50px;
+}
+
+.purchase__content-detail {
+    width: 60%;
+}
+
+.purchase__content {
+    display: flex;
+    padding-bottom: 30px;
+    border-bottom: solid black 1px;
+}
+.item-detail__img {
+    width: 150px;
+    height: 150px;
+    background-color: #d9d9d9;
+}
+.item-detail__basic {
+    margin-left: 30px;
+}
+
+.purchase__content-payment ,.purchase__content-address-box {
+    border-bottom: solid black 1px;
+    padding-bottom: 30px;
+}
+.purchase__content-payment p {
+    font-weight: bold;
+    margin-left: 20px;
+}
+.purchase__content-payment select {
+    display: inline-block;
+    margin-left: 50px;
+    width: 200px;
+}
+
+.purchase__content-address-title {
+    display: flex;
+    justify-content: space-between;
+}
+
+.purchase__content-address-title p {
+    font-weight: bold;
+    margin-left: 20px;
+}
+.purchase__content-address-title a {
+    display: inline-block;
+    margin-right: 20px;
+    line-height: 50px;
+    text-decoration-line: none;
+    color: #0173cc;
+}
+.purchase__content-address {
+    margin-left: 50px;
+}
+
+.purchase_total {
+    width: 30%;
+    margin-left: 30px;
+}
+.purchase_total table ,tr {
+    border: solid black 1px;
+    width: 100%;
+}
+.purchase_total th,td {
+    padding: 20px 20px;
+}
+.purchase_total button {
+    width: 100%;
+    height: 35px;
+    color: white;
+    background-color: #ff5555;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-top: 45px;
+}

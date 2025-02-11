@@ -17,7 +17,7 @@
             <ol class="header-nav__item-search">
                 <form action="" method="get">
                 @csrf
-                    <input type="text" name="keyword" value="{{ old('keyword') }}" placeholder="  なにをお探しですか？">
+                    <input type="search" name="keyword" value="{{ old('keyword') }}" placeholder="  なにをお探しですか？">
                 </form>
             </ol>
             <ol class="header-nav__item-logout">
