@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Address;
 
 class ItemController extends Controller
 {
@@ -36,4 +37,10 @@ class ItemController extends Controller
         return view('address_edit');
     }
 
+    // プロフィールの更新(初回)
+    public function create(Request $request){
+        $form = $request->all();
+        Address::create($form);
+        return redirect('/');
+    }
 }

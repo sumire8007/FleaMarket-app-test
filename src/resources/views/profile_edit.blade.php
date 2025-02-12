@@ -19,9 +19,9 @@
         <div class="form__group-img">
             <div class="form__group-content-img">
                 <div class="circle">
-                    <img src="" alt="画像">
+                    <input type="image" name="user_img" alt="画像">
                 </div>
-                <button class="img_select-button">画像を選択する</button>
+                <input type="file" class="img_select-button" value="" />
             </div>
         </div>
         <!-- ユーザー名 -->
@@ -31,7 +31,7 @@
             </div>
             <div class="form__group-content">
                 <div class="form__input--text">
-                    <input type="text" name="name" value="{{ old('name') }}"/>
+                    <input type="text" name="user_name" value="{{ old('user_name') }}"/>
                 </div>
                 <div class="form__error">
                     @error('name')
@@ -47,7 +47,7 @@
             </div>
             <div class="form__group-content">
                 <div class="form__input--text">
-                    <input type="text" name="email" value="{{ old('email') }}"/>
+                    <input type="text" name="post_code" value="{{ old('post_code') }}"/>
                 </div>
                 <div class="form__error">
                     @error('email')
@@ -63,7 +63,7 @@
             </div>
             <div class="form__group-content">
                 <div class="form__input--text">
-                    <input type="text" name="password" value="{{ old('password') }}"/>
+                    <input type="text" name="address" value="{{ old('address') }}"/>
                 </div>
                 <div class="form__error">
                     @error('password')
@@ -79,7 +79,7 @@
             </div>
             <div class="form__group-content">
                 <div class="form__input--text">
-                    <input type="text" name="password_confirmation"/>
+                    <input type="text" name="building" value="{{ old('building') }}" />
                 </div>
                 <div class="form__error">
                     @error('password')

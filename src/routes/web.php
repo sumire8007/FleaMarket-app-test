@@ -19,7 +19,7 @@ use App\Http\Controllers\AuthController;
 //     return view('welcome');
 // });
 
-Route::get('/',[ItemController::class,'index']);
+Route::post('/',[ItemController::class,'index']);
 Route::get('/mypage/profile',[AuthController::class,'edit']);
 Route::get('/mypage',[ItemController::class,'mypage']);
 Route::get('/sell',[ItemController::class,'sell']);

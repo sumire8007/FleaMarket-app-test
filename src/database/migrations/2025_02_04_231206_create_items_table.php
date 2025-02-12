@@ -19,8 +19,9 @@ class CreateItemsTable extends Migration
             $table->foreignID('category_id')->constrained();
             $table->foreignID('condition_id')->constrained();
             $table->string('item_name');
-            $table->integer('price');
+            $table->string('price');
             $table->text('detail');
+            $table->string('brand')->nullable();
             $table->string('item_img');
             $table->timestamps();
         });
