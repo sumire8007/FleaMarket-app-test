@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Address;
+use Illuminate\Support\Facades\Auth;
 
 class ItemController extends Controller
 {
@@ -17,8 +18,9 @@ class ItemController extends Controller
     }
     // 出品画面の表示
     public function sell(){
-        return view('sell');
-    }
+            return view('sell');
+        }
+
 
     // 商品詳細の表示 クエリパラメータを使用
     // public function detail(Request $request){
@@ -37,10 +39,4 @@ class ItemController extends Controller
         return view('address_edit');
     }
 
-    // プロフィールの更新(初回)
-    public function create(Request $request){
-        $form = $request->all();
-        Address::create($form);
-        return redirect('/');
-    }
 }

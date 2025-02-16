@@ -5,13 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Address.php extends Model
+class Address extends Model
 {
     use HasFactory;
-    protected $fillable = ['user_name',
+    protected $fillable = [
                             'user_img',
                             'post_code',
                             'address',
                             'building'
                         ];
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 }
