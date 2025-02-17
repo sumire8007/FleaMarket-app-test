@@ -13,15 +13,24 @@
     </div>
 
     <div class="profile_edit-form__input">
-    <form class="form" action="/" method="post">
+@if(isset($address))
+    <form class="form" action="/mypage/profile" method="POST">
+        @method('PATCH')
+@else
+        <form class="form" action="/" method="POST">
+@endif
         @csrf
         <!-- プロフ画像 -->
         <div class="form__group-img">
             <div class="form__group-content-img">
                 <div class="circle">
-                    <img src="" alt="画像">
+                    <img src="{{ asset($address->user_img) }}" alt="画像">
                 </div>
+                @if(isset($address))
+                    <input type="file" class="img_select-button" name="user_img" value="{{ $address->user_img }}" />
+                @else
                     <input type="file" class="img_select-button" name="user_img" value="" />
+                @endif
             </div>
         </div>
         <!-- ユーザー名 -->
@@ -48,7 +57,11 @@
             </div>
             <div class="form__group-content">
                 <div class="form__input--text">
-                    <input type="text" name="post_code" value="{{ optional($address)->post_code}}"/>
+                @if(isset($address))
+                    <input type="text" name="post_code" value="{{ $address->post_code }}"/>
+                @else
+                    <input type="text" name="post_code" value=""/>
+                @endif
                 </div>
                 <div class="form__error">
                     @error('email')
@@ -64,7 +77,11 @@
             </div>
             <div class="form__group-content">
                 <div class="form__input--text">
-                    <input type="text" name="address" value="{{ optional($address)->address }}"/>
+                @if(isset($address))
+                    <input type="text" name="address" value="{{ $address->address }}"/>
+                @else
+                    <input type="text" name="address" value=""/>
+                @endif
                 </div>
                 <div class="form__error">
                     @error('password')
@@ -80,7 +97,11 @@
             </div>
             <div class="form__group-content">
                 <div class="form__input--text">
-                    <input type="text" name="building" value="{{ optional($address)->building }}" />
+                @if(isset($address))
+                    <input type="text" name="building" value="{{ $address->building }}" />
+                @else
+                    <input type="text" name="building" value="" />
+                @endif
                 </div>
                 <div class="form__error">
                     @error('password')
