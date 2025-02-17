@@ -26,6 +26,7 @@
                 <div class="circle">
                     <img src="{{ asset($address->user_img) }}" alt="画像">
                 </div>
+                <input type="hidden" name="id" value="{{ $address->id}}" />
                 @if(isset($address))
                     <input type="file" class="img_select-button" name="user_img" value="{{ $address->user_img }}" />
                 @else

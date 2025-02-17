@@ -17,7 +17,7 @@ class AuthController extends Controller
     }
 
     // プロフィール設定の新規登録
-    public function create(Request $request){
+    public function store(Request $request){
         $address = $request->only(['user_id','user_img','post_code','address','building']);
         Address::create($address);
         return redirect('/');
@@ -27,7 +27,6 @@ class AuthController extends Controller
     // プロフィール設定の更新
     public function update(Request $request){
         $address = $request->only(['user_id','user_img','post_code','address','building']);
-        dd($address);
         Address::find($request->id)->update($address);
         return redirect('/mypage/profile');
     }

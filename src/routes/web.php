@@ -28,4 +28,4 @@ Route::middleware('auth')->get('/sell',[ItemController::class,'sell']);
 Route::middleware('auth')->get('/purchase',[ItemController::class,'purchase']);
 
 Route::patch('/mypage/profile',[AuthController::class,'update']);
-Route::post('/',[AuthController::class,'create']);
+Route::post('/',[AuthController::class,'store']);
