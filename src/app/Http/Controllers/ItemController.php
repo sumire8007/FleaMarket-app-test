@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Address;
+use App\Models\Item;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ItemController extends Controller
 {
@@ -20,8 +22,6 @@ class ItemController extends Controller
     public function sell(){
             return view('sell');
         }
-
-
     // 商品詳細の表示 クエリパラメータを使用
     // public function detail(Request $request){
     //     $detail = item::find($request->id);
@@ -39,4 +39,21 @@ class ItemController extends Controller
         return view('address_edit');
     }
 
+    // 出品
+    public function store(Request $request)
+    {
+        $items = $request->only(['user_id','category_id','condition_id','item_name','price','detail','brand'])
+        $image = $request->file('item_img');
+
+    //画像が送信されてきていたら保存処理
+        if($image){
+            //保存されたパス
+            $image_url = Storage::disk('public')->put('items', $image); //画像の保存処理
+            $item->item_img = $image_url;
+            $item->save();
+        }
+        $item['image_url'] = $image_url;
+        Item::create($items);
+        return redirect('/');
+    }
 }

@@ -17,6 +17,16 @@
 <form action="/item" method="get">   <!--パラメータあってる？-->
     @csrf
     <div class="item-list">
+        <!-- 後ほどforeach文で表示する -->
+        <input type="hidden" name="" value="">
+        <div class="item-list__img">
+            <input type="image" src="" alt="商品画像" name="" readonly />
+        </div>
+        <div class="item-list__item-name">
+            <input type="text" name="" value="商品名" readonly />
+        </div>
+    </div>
+    <!-- <div class="item-list">
         <input type="hidden" name="" value="">
         <div class="item-list__img">
             <input type="image" src="" alt="商品画像" name="" readonly />
@@ -51,16 +61,7 @@
         <div class="item-list__item-name">
             <input type="text" name="" value="商品名" readonly />
         </div>
-    </div>
-    <div class="item-list">
-        <input type="hidden" name="" value="">
-        <div class="item-list__img">
-            <input type="image" src="" alt="商品画像" name="" readonly />
-        </div>
-        <div class="item-list__item-name">
-            <input type="text" name="" value="商品名" readonly />
-        </div>
-    </div>
+    </div> -->
 
 </form>
 </div>

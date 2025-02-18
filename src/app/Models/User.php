@@ -42,7 +42,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function Address(){
+    public function address(){
         return $this->hasMany('App\Models\Address');
     }
+    public function item(){
+        return $this->hasMany('App\Models\Item');
+    }
+
 }

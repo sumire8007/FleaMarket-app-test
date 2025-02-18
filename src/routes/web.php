@@ -20,12 +20,13 @@ use App\Http\Controllers\AuthController;
 // });
 
 Route::get('/',[ItemController::class,'index']);
-Route::middleware('auth')->get('/mypage/profile',[AuthController::class,'edit']);
 Route::get('/mypage',[ItemController::class,'mypage']);
 Route::get('/item',[ItemController::class,'detail']);
 Route::get('/purchase/address',[ItemController::class,'addressEdit']);
 Route::middleware('auth')->get('/sell',[ItemController::class,'sell']);
 Route::middleware('auth')->get('/purchase',[ItemController::class,'purchase']);
+Route::middleware('auth')->get('/mypage/profile',[AuthController::class,'edit']);
 
-Route::patch('/mypage/profile',[AuthController::class,'update']);
+Route::post('/',[ItemController::class,'store']);
 Route::post('/',[AuthController::class,'store']);
+Route::patch('/mypage/profile',[AuthController::class,'update']);

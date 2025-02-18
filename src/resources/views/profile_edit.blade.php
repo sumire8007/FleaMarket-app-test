@@ -13,7 +13,7 @@
     </div>
 
     <div class="profile_edit-form__input">
-@if(isset($address))
+@if(isset($profiles))
     <form class="form" action="/mypage/profile" method="POST">
         @method('PATCH')
 @else
@@ -24,11 +24,11 @@
         <div class="form__group-img">
             <div class="form__group-content-img">
                 <div class="circle">
-                    <img src="{{ asset($address->user_img) }}" alt="画像">
+                    <img src="{{ asset($profiles->user_img) }}" alt="画像">
                 </div>
-                <input type="hidden" name="id" value="{{ $address->id}}" />
-                @if(isset($address))
-                    <input type="file" class="img_select-button" name="user_img" value="{{ $address->user_img }}" />
+                <input type="hidden" name="id" value="{{ $profiles->id}}" />
+                @if(isset($profiles))
+                    <input type="file" class="img_select-button" name="user_img" value="{{ $profiles->user_img }}" />
                 @else
                     <input type="file" class="img_select-button" name="user_img" value="" />
                 @endif
@@ -58,8 +58,8 @@
             </div>
             <div class="form__group-content">
                 <div class="form__input--text">
-                @if(isset($address))
-                    <input type="text" name="post_code" value="{{ $address->post_code }}"/>
+                @if(isset($profiles))
+                    <input type="text" name="post_code" value="{{ $profiles->post_code }}"/>
                 @else
                     <input type="text" name="post_code" value=""/>
                 @endif
@@ -78,8 +78,8 @@
             </div>
             <div class="form__group-content">
                 <div class="form__input--text">
-                @if(isset($address))
-                    <input type="text" name="address" value="{{ $address->address }}"/>
+                @if(isset($profiles))
+                    <input type="text" name="address" value="{{ $profiles->address }}"/>
                 @else
                     <input type="text" name="address" value=""/>
                 @endif
@@ -98,8 +98,8 @@
             </div>
             <div class="form__group-content">
                 <div class="form__input--text">
-                @if(isset($address))
-                    <input type="text" name="building" value="{{ $address->building }}" />
+                @if(isset($profiles))
+                    <input type="text" name="building" value="{{ $profiles->building }}" />
                 @else
                     <input type="text" name="building" value="" />
                 @endif

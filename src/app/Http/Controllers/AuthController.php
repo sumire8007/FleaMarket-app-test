@@ -12,22 +12,22 @@ class AuthController extends Controller
     // プロフィール設定の表示（初回含む）
     public function edit(){
         $user = Auth::user();
-        $address = Address::where('user_id',$user->id)->first();
-        return view('profile_edit', compact('user','address'));
+        $profiles = Address::where('user_id',$user->id)->first();
+        return view('profile_edit', compact('user','profiles'));
     }
 
     // プロフィール設定の新規登録
     public function store(Request $request){
-        $address = $request->only(['user_id','user_img','post_code','address','building']);
-        Address::create($address);
+        $profiles = $request->only(['user_id','user_img','post_code','address','building']);
+        Address::create($profiles);
         return redirect('/');
     }
 
 
     // プロフィール設定の更新
     public function update(Request $request){
-        $address = $request->only(['user_id','user_img','post_code','address','building']);
-        Address::find($request->id)->update($address);
+        $profiles = $request->only(['user_id','user_img','post_code','address','building']);
+        Address::find($request->id)->update($profiles);
         return redirect('/mypage/profile');
     }
 
