@@ -40,20 +40,24 @@ class ItemController extends Controller
     }
 
     // 出品
-    public function store(Request $request)
-    {
-        $items = $request->only(['user_id','category_id','condition_id','item_name','price','detail','brand'])
+    public function store(Request $request){
+        $items = $request->only(['user_id','category_id','condition_id','item_name','price','detail','brand']);
         $image = $request->file('item_img');
-
-    //画像が送信されてきていたら保存処理
+        $item['item_img'] = $image_url;
+        $categoryIds = $request->input('categories',[]);
+        Item::create($items);
+        //画像が送信されてきていたら保存処理
         if($image){
             //保存されたパス
             $image_url = Storage::disk('public')->put('items', $image); //画像の保存処理
             $item->item_img = $image_url;
             $item->save();
         }
-        $item['image_url'] = $image_url;
-        Item::create($items);
+        if (!empty($categoryIds)) {
+            $item->categories()->attach($categoryIds);  // 多対多の関連付け
+        }
+
         return redirect('/');
+
     }
 }
