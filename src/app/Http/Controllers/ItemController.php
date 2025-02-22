@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Address;
 use App\Models\Item;
+use App\Models\Category;
+use App\Models\Condition;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -20,7 +22,10 @@ class ItemController extends Controller
     }
     // 出品画面の表示
     public function sell(){
-            return view('sell');
+            $user = Auth::user();
+            $categories = Category::all();
+            $conditions = Condition::all();
+            return view('sell',compact('user','categories','conditions'));
         }
     // 商品詳細の表示 クエリパラメータを使用
     // public function detail(Request $request){
@@ -39,25 +44,28 @@ class ItemController extends Controller
         return view('address_edit');
     }
 
-    // 出品
+    // 出品されるアイテムの保存
     public function store(Request $request){
-        $items = $request->only(['user_id','category_id','condition_id','item_name','price','detail','brand']);
-        $image = $request->file('item_img');
-        $item['item_img'] = $image_url;
-        $categoryIds = $request->input('categories',[]);
-        Item::create($items);
+        $items = $request->only([
+                            'user_id',
+                            'condition_id',
+                            'item_name',
+                            'price',
+                            'detail',
+                            'brand'
+                            ]);
         //画像が送信されてきていたら保存処理
-        if($image){
-            //保存されたパス
-            $image_url = Storage::disk('public')->put('items', $image); //画像の保存処理
-            $item->item_img = $image_url;
-            $item->save();
+        if($request->hasFile('item_img')){
+            $image = $request->file('item_img');
+            $image_url = Storage::disk('public')->put('items', $image); //保存処理
+            $items['item_img'] = $image_url;
         }
-        if (!empty($categoryIds)) {
-            $item->categories()->attach($categoryIds);  // 多対多の関連付け
-        }
+        $item = Item::create($items);
 
+        // 選択されたカテゴリを紐づける
+        if ($request->has('categories')) {
+            $item->categories()->attach($request->categories);
+        }
         return redirect('/');
-
     }
 }

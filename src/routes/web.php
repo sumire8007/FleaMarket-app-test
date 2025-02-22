@@ -27,6 +27,6 @@ Route::middleware('auth')->get('/sell',[ItemController::class,'sell']);
 Route::middleware('auth')->get('/purchase',[ItemController::class,'purchase']);
 Route::middleware('auth')->get('/mypage/profile',[AuthController::class,'edit']);
 
-Route::post('/',[ItemController::class,'store']);
+Route::post('/sell',[ItemController::class,'store']);
 Route::post('/',[AuthController::class,'store']);
 Route::patch('/mypage/profile',[AuthController::class,'update']);
