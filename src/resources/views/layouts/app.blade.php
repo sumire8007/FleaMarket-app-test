@@ -11,7 +11,7 @@
 </head>
 <body>
     <header>
-        <a href="/"><img src="{{ asset('../../img/logo.png') }}" alt="coachtech"></a>
+        <a href="/"><img class="header_logo" src="{{ asset('../../img/logo.png') }}" alt="coachtech"></a>
         <ul class="header-nav">
             <ol class="header-nav__item-search">
                 <form action="" method="get">

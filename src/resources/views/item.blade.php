@@ -14,55 +14,21 @@
     </div>
 
 <div class="item-list__content">
-<form action="/item" method="get">   <!--パラメータあってる？-->
+<form action="/item" method="get">
     @csrf
+    @foreach($items as $item)
     <div class="item-list">
-        <!-- 後ほどforeach文で表示する -->
-        <input type="hidden" name="" value="">
-        <div class="item-list__img">
-            <input type="image" src="" alt="商品画像" name="" readonly />
-        </div>
-        <div class="item-list__item-name">
-            <input type="text" name="" value="商品名" readonly />
-        </div>
-    </div>
-    <!-- <div class="item-list">
-        <input type="hidden" name="" value="">
-        <div class="item-list__img">
-            <input type="image" src="" alt="商品画像" name="" readonly />
-        </div>
-        <div class="item-list__item-name">
-            <input type="text" name="" value="商品名" readonly />
-        </div>
-    </div>
-    <div class="item-list">
-        <input type="hidden" name="" value="">
-        <div class="item-list__img">
-            <input type="image" src="" alt="商品画像" name="" readonly />
-        </div>
-        <div class="item-list__item-name">
-            <input type="text" name="" value="商品名" readonly />
-        </div>
-    </div>
-    <div class="item-list">
-        <input type="hidden" name="" value="">
-        <div class="item-list__img">
-            <input type="image" src="" alt="商品画像" name="" readonly />
-        </div>
-        <div class="item-list__item-name">
-            <input type="text" name="" value="商品名" readonly />
-        </div>
-    </div>
-    <div class="item-list">
-        <input type="hidden" name="" value="">
-        <div class="item-list__img">
-            <input type="image" src="" alt="商品画像" name="" readonly />
-        </div>
-        <div class="item-list__item-name">
-            <input type="text" name="" value="商品名" readonly />
-        </div>
-    </div> -->
+        <a href="{{ url('/item') }}?id={{ $item['id'] }}">
+            <div class="item-list__img">
+                <img src=" {{ $item['item_img'] }}" alt="商品画像">
+            </div>
 
+            <div class="item-list__item-name">
+                <p>{{ $item['item_name'] }}</p>
+            </div>
+        </a>
+    </div>
+    @endforeach
 </form>
 </div>
 @endsection

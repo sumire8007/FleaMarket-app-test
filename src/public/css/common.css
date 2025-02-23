@@ -3,13 +3,13 @@ header {
     display: flex;
 }
 
-img {
+.header_logo {
     padding-top: 10px;
     padding-bottom: 10px;
     padding-left: 20px;
 }
 
-ul {
+.header-nav {
     display: flex;
     justify-content: flex-end;
 }

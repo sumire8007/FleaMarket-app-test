@@ -14,7 +14,15 @@ class ItemController extends Controller
 {
     // 商品一覧画面の表示
     public function index(){
-        return view('item');
+        $items = Item::all();
+        return view('item',compact('items'));
+    }
+    // 商品詳細の表示 クエリパラメータを使用
+    public function detail(Request $request){
+        $id = $request->query('id');
+        $item = Item::with(['categories','condition'])->find($id);
+        $condition = Condition::where('id',$item->condition_id)->first();
+        return view('item_detail',compact('item','condition'));
     }
     // マイページの表示
     public function mypage(){
@@ -22,21 +30,15 @@ class ItemController extends Controller
     }
     // 出品画面の表示
     public function sell(){
-            $user = Auth::user();
-            $categories = Category::all();
-            $conditions = Condition::all();
-            return view('sell',compact('user','categories','conditions'));
-        }
-    // 商品詳細の表示 クエリパラメータを使用
-    // public function detail(Request $request){
-    //     $detail = item::find($request->id);
-    //     return view('item_detail',$detail);
-    // }
-    public function detail(){
-        return view('item_detail');
+        $user = Auth::user();
+        $categories = Category::all();
+        $conditions = Condition::all();
+        return view('sell',compact('user','categories','conditions'));
     }
-    // 商品購入画面の表示
-    public function purchase(){
+
+        // 商品購入画面の表示
+    public function purchase(Request $request){
+        $id = 
         return view('purchase');
     }
     // 商品配送先の住所変更
@@ -61,7 +63,6 @@ class ItemController extends Controller
             $items['item_img'] = $image_url;
         }
         $item = Item::create($items);
-
         // 選択されたカテゴリを紐づける
         if ($request->has('categories')) {
             $item->categories()->attach($request->categories);

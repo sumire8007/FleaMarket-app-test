@@ -3,7 +3,7 @@
     justify-content: center;
     margin-bottom: 50px;
 }
-.item-detail__img {
+.item-detail__img img {
     background-color: #d9d9d9;
     width: 250px;
     height: 250px;
@@ -37,16 +37,23 @@
     margin-top: 20px;
 }
 
-.category_title,.condition_title {
-    display: inline-block;
+.item-detail__explanation h3,.item-detail__information h3 {
+    font-size: 20px;
 }
 
-.category {
-    border: none;
+.category_title,.condition_title {
+    display: inline-block;
+    font-weight: bold;
+}
+
+.category_box {
+    display: flex;
+}
+.category_item {
     background-color: #d9d9d9;
-    border-radius: 10px;
-    text-align: center;
-    width: 60px;
+    border-radius: 15px;
+    padding: 0 8px;
+    margin: 0 5px;
 }
 
 .condition {
