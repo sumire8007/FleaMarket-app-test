@@ -50,9 +50,12 @@
             </div>
             <p class="comment-box">こちらにコメントが入ります。</p>
             <div class="comment-box_input">
-            <form action="">
+            <form action="/item" method="post">
+            @csrf
+                <input type="hidden" name="user_id" value="{{ $user->id }}">
+                <input type="hidden" name="item_id" value="{{ $item->id }}">
                 <h3>商品へのコメント</h3>
-                <textarea name="comment" id=""></textarea>
+                <textarea name="comment"></textarea>
                 <div class="comment_button">
                     <button>コメントを送信する</button>
                 </div>

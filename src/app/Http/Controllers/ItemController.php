@@ -8,6 +8,7 @@ use App\Models\Item;
 use App\Models\Category;
 use App\Models\Condition;
 use App\Models\Payment;
+use App\Models\Comment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -23,7 +24,8 @@ class ItemController extends Controller
         $id = $request->query('id');
         $item = Item::with(['categories','condition'])->find($id);
         $condition = Condition::where('id',$item->condition_id)->first();
-        return view('item_detail',compact('item','condition'));
+        $user = Auth::user();
+        return view('item_detail',compact('item','condition','user'));
     }
     // 商品購入画面の表示
     public function purchase(Request $request){
@@ -34,11 +36,15 @@ class ItemController extends Controller
         $payments = Payment::all();
         return view('purchase',compact('item','profiles','payments'));
     }
-    // 商品配送先の住所変更
-    public function addressEdit(){
-        $user = Auth::user();
-        $profiles = Address::where('user_id',$user->id)->first();
-        return view('address_edit',compact('profiles'));
+    //コメントの作成
+    public function commentStore(Request $request){
+        $comment = $request->only([
+            'user_id',
+            'item_id',
+            'comment',
+        ]);
+        Comment::create($comment);
+        return redirect('/item');
     }
 
     // マイページの表示

@@ -27,5 +27,17 @@ class AuthController extends Controller
         Address::find($request->id)->update($profiles);
         return redirect('/mypage/profile');
     }
+    //配送先住所の変更画面表示
+    public function addressView(){
+        $user = Auth::user();
+        $profiles = Address::where('user_id',$user->id)->first();
+        return view('address_edit',compact('profiles'));
+    }
+    //配送先住所の変更
+    public function addressEdit(Request $request){
+        $profiles = $request->only(['post_code','address','building']);
+        Address::find($request->id)->update($profiles);
+        return redirect('/purchase/address');
+    }
 
 }

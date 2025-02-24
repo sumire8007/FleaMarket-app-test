@@ -12,8 +12,10 @@
     </div>
 
     <div class="address_edit-form__input">
-    <form class="form" action="" method="post">
+    <form class="form" action="/purchase/address" method="post">
+        @method('PATCH')
         @csrf
+        <input type="hidden" name="id" value="{{ $profiles->id }}">
         <!-- 郵便番号 -->
         <div class="form__group">
             <div class="form__group-title">
@@ -63,7 +65,7 @@
             </div>
         </div>
 
-        <!-- 更新するをクリックすると商品一覧画面に遷移 -->
+        <!-- 更新するをクリックすると商品購入画面に遷移 -->
         <div class="form__button">
             <button class="form__button-submit" type="submit">更新する</button>
         </div>

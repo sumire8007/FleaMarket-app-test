@@ -19,10 +19,6 @@ header {
     height: 30px;
 }
 
-.header-nav__item-search {
-
-}
-
 .header-nav__item-logout button {
     border: none;
     background-color: black;

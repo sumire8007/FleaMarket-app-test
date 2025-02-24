@@ -17,7 +17,6 @@ use App\Http\Controllers\AuthController;
 Route::get('/',[ItemController::class,'index']);
 Route::get('/mypage',[ItemController::class,'mypage']);
 Route::get('/item',[ItemController::class,'detail']);
-Route::get('/purchase/address',[ItemController::class,'addressEdit']);
 Route::middleware('auth')->get('/sell',[ItemController::class,'sell']);
 Route::middleware('auth')->get('/purchase',[ItemController::class,'purchase']);
 Route::middleware('auth')->get('/mypage/profile',[AuthController::class,'edit']);
@@ -25,3 +24,6 @@ Route::middleware('auth')->get('/mypage/profile',[AuthController::class,'edit'])
 Route::post('/sell',[ItemController::class,'store']);
 Route::post('/',[AuthController::class,'store']);
 Route::patch('/mypage/profile',[AuthController::class,'update']);
+Route::get('/purchase/address',[AuthController::class,'addressView']);
+Route::patch('/purchase/address',[AuthController::class,'addressEdit']);
+Route::post('/item',[ItemController::class,'commentStore']);

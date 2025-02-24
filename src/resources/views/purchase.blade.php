@@ -21,7 +21,9 @@
                 <select name="payment_content" wire:model="selectedValue">
                     <option>選択してください</option>
                     @foreach($payments as $payment)
-                    <option name="content" value="{{ $payment->content }}">{{ $payment->content }}</option>
+                    <option name="content" value="{{ $payment->content }}">
+                        {{ $payment->content }}
+                    </option>
                     @endforeach
                 </select>
         </div>
@@ -49,10 +51,9 @@
                 <td><livewire:counter></td>
             </tr>
         </table>
-        <form action="" name="" value="">
-        @csrf
+        <!-- @csrf -->
             <button  class="buy_button">購入する</button>
-        </form>
+        <!-- </form> -->
     </div>
 </div>
 
