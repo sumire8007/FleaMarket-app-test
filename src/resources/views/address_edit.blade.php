@@ -21,7 +21,7 @@
             </div>
             <div class="form__group-content">
                 <div class="form__input--text">
-                    <input type="text" name="email" value="{{ old('') }}"/>
+                    <input type="text" name="post_code" value="{{ $profiles->post_code }}"/>
                 </div>
                 <div class="form__error">
                     @error('email')
@@ -37,7 +37,7 @@
             </div>
             <div class="form__group-content">
                 <div class="form__input--text">
-                    <input type="text" name="password" value="{{ old('password') }}"/>
+                    <input type="text" name="address" value="{{ $profiles->address }}"/>
                 </div>
                 <div class="form__error">
                     @error('password')
@@ -53,7 +53,7 @@
             </div>
             <div class="form__group-content">
                 <div class="form__input--text">
-                    <input type="text" name="password_confirmation"/>
+                    <input type="text" name="building" value="{{ $profiles->building }}" />
                 </div>
                 <div class="form__error">
                     @error('password')

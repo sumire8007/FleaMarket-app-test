@@ -7,6 +7,7 @@ use App\Models\Address;
 use App\Models\Item;
 use App\Models\Category;
 use App\Models\Condition;
+use App\Models\Payment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -24,26 +25,33 @@ class ItemController extends Controller
         $condition = Condition::where('id',$item->condition_id)->first();
         return view('item_detail',compact('item','condition'));
     }
+    // 商品購入画面の表示
+    public function purchase(Request $request){
+        $id = $request->query('id');
+        $item = Item::where('id',$id)->first();
+        $user = Auth::user();
+        $profiles = Address::where('user_id',$user->id)->first();
+        $payments = Payment::all();
+        return view('purchase',compact('item','profiles','payments'));
+    }
+    // 商品配送先の住所変更
+    public function addressEdit(){
+        $user = Auth::user();
+        $profiles = Address::where('user_id',$user->id)->first();
+        return view('address_edit',compact('profiles'));
+    }
+
     // マイページの表示
     public function mypage(){
         return view('profile');
     }
+
     // 出品画面の表示
     public function sell(){
         $user = Auth::user();
         $categories = Category::all();
         $conditions = Condition::all();
         return view('sell',compact('user','categories','conditions'));
-    }
-
-        // 商品購入画面の表示
-    public function purchase(Request $request){
-        $id = 
-        return view('purchase');
-    }
-    // 商品配送先の住所変更
-    public function addressEdit(){
-        return view('address_edit');
     }
 
     // 出品されるアイテムの保存

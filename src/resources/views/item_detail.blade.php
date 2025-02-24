@@ -22,7 +22,7 @@
         <form action="/purchase" method="get">
         @csrf
             <input type="hidden" name="id" value="{{ $item->id }}">
-            <button type="submit" class="buy_button">購入手続きへ</button>
+            <a class="buy_button" href="{{ url('/purchase') }}?id={{ $item['id'] }}">購入手続きへ</a>
         </form>
         <section class="item-detail__explanation">
             <h3>商品説明</h3>
