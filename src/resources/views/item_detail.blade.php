@@ -4,9 +4,7 @@
 <link rel="stylesheet" href="{{ asset('css/item_detail.css') }}">
 <script src="https://kit.fontawesome.com/d872711579.js" crossorigin="anonymous"></script>
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <!-- {{-- csrfトークン --}} -->
 <meta name="csrf-token" content="{{ csrf_token() }}">
-<!-- <script src="{{ asset('../../img/ster_icon.png') }}" crossorigin="anonymous"></script> -->
 
 <style>
     /* いいね押下時の星の色 */
@@ -14,7 +12,7 @@
         color: #ff5555;
         transition:.2s;
     }
-    .count-num{
+    .like-count-num{
         font-size: 20px;
         margin: 0 0 0 10px;
     }
@@ -25,7 +23,6 @@
 @endsection
 
 @section('content')
-
 <div class="item-detail__group">
     <div class="item-detail__img">
         <img src=" {{ $item->item_img }}" alt="商品画像">
@@ -36,53 +33,42 @@
         <section class="item-detail__basic">
             <p>{{ $item->brand }}</p>
             <p>{{ $item->price }}(税込)</p>
-                <div class="flexbox">
+            <div class="like-comment-content">
+                <div class="like-content">
                 @if($item->isLikedByAuthUser())
                     <i class="fa-regular fa-star like-btn liked" id="{{$item->id}}"></i>
                 @else
                     <i class="fa-regular fa-star like-btn" id="{{$item->id}}"></i>
                 @endif
-                    <p class="count-num">{{ $item->likes->count() }}</p>
+                    <p class="like-count-num">{{ $item->likes->count() }}</p>
                 </div>
-
-<script>
-    //いいねボタンのhtml要素を取得します。
-        const likeBtn = document.querySelector('.like-btn');
-        //いいねボタンをクリックした際の処理を記述します。
-        likeBtn.addEventListener('click',async(e)=>{
-            //クリックされた要素を取得しています。
-            const clickedEl = e.target
-            //クリックされた要素にlikedというクラスがあれば削除し、なければ付与します。これにより星の色の切り替えができます。
-            clickedEl.classList.toggle('liked')
-            //記事のidを取得しています。
-            const itemId = e.target.id
-            //fetchメソッドを利用し、バックエンドと通信します。
-            const res = await fetch('/item/like',{
-                //リクエストメソッドはPOST
-                method: 'POST',
-                headers: {
-                    //Content-Typeでサーバーに送るデータの種類を伝える。今回はapplication/json
-                    'Content-Type': 'application/json',
-                    //csrfトークンを付与
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                },
-                //バックエンドにいいねをした記事のidを送信します。
-                body: JSON.stringify({ item_id: itemId })
-            })
-            .then((res)=>res.json())
-            .then((data)=>{
-                //記事のいいね数がバックエンドからlikesCountという変数に格納されて送信されるため、それを受け取りビューに反映します。
-                clickedEl.nextElementSibling.innerHTML = data.likesCount;
-            })
-            .catch(
-            //処理がなんらかの理由で失敗した場合に実施したい処理を記述します。
-            ()=>alert('処理が失敗しました。画面を再読み込みし、通信環境の良い場所で再度お試しください。'))
-
-        })
-    </script>
-
-
-            <input class="icon_comment" type="image" src="{{ asset('../../img/comment_icon.png') }}" alt="コメント">
+                <script>
+                        const likeBtn = document.querySelector('.like-btn');
+                        likeBtn.addEventListener('click',async(e)=>{
+                            const clickedEl = e.target
+                            clickedEl.classList.toggle('liked')
+                            const itemId = e.target.id
+                            const res = await fetch('/item/like',{
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                                },
+                                body: JSON.stringify({ item_id: itemId })
+                            })
+                            .then((res)=>res.json())
+                            .then((data)=>{
+                                clickedEl.nextElementSibling.innerHTML = data.likesCount;
+                            })
+                            .catch(
+                            ()=>alert('処理が失敗しました。画面を再読み込みし、通信環境の良い場所で再度お試しください。'))
+                        })
+                </script>
+                <div class="comment-content">
+                    <img class="icon_comment" src="{{ asset('../../img/comment_icon.png') }}" alt="コメント">
+                    <p class="comment-count-num">{{ $item->likes->count() }}</p>
+                </div>
+            </div>
         </section>
         <form action="/purchase" method="get">
         @csrf
@@ -102,18 +88,20 @@
                 <p class="category_item">{{ $category['content'] }}</p>
                 @endforeach
             </div>
-            <div >
+            <div>
                 <p class="condition_title">商品の状態</p>
-                <p>{{ $condition->condition }}</p>
+                <p>{{ $item->condition }}</p>
             </div>
         </section>
         <section>
             <h3>コメント(1)</h3>
-            <div class="account-box">
-                <img src="" alt="プロフ画像">
-                <p>admin</p>
-            </div>
-            <p class="comment-box">こちらにコメントが入ります。</p>
+            @foreach($comments as $comment)
+                <div class="account-box">
+                    <img src="" alt="プロフ画像">
+                    <p>{{ $comment->user->name }}</p>
+                </div>
+                    <p class="comment-box">{{ $comment['comment'] }}</p>
+            @endforeach
             <div class="comment-box_input">
             <form action="/item" method="post">
             @csrf

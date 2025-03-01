@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\Address;
 use App\Models\Item;
 use App\Models\Category;
-use App\Models\Condition;
 use App\Models\Payment;
 use App\Models\Comment;
 use Illuminate\Support\Facades\Auth;
@@ -22,10 +21,10 @@ class ItemController extends Controller
     // 商品詳細の表示 クエリパラメータを使用
     public function detail(Request $request){
         $id = $request->query('id');
-        $item = Item::with(['categories','condition'])->find($id);
-        $condition = Condition::where('id',$item->condition_id)->first();
+        $item = Item::with(['categories'])->find($id);
         $user = Auth::user();
-        return view('item_detail',compact('item','condition','user'));
+        $comments = Comment::where('item_id',$id)->with('user')->get();
+        return view('item_detail',compact('item','user','comments'));
     }
     // 商品購入画面の表示
     public function purchase(Request $request){
@@ -45,7 +44,10 @@ class ItemController extends Controller
         ]);
         Comment::create($comment);
         $id = $request->item_id;
-        return redirect('/item')->with('id',$id);
+        $item = Item::with(['categories'])->find($id);
+        $user = Auth::user();
+        $comments = Comment::where('item_id',$id)->with('user')->get();
+        return view('item_detail',compact('item','user','comments'));
     }
 
     // マイページの表示
@@ -57,15 +59,14 @@ class ItemController extends Controller
     public function sell(){
         $user = Auth::user();
         $categories = Category::all();
-        $conditions = Condition::all();
-        return view('sell',compact('user','categories','conditions'));
+        return view('sell',compact('user','categories'));
     }
 
     // 出品されるアイテムの保存
     public function store(Request $request){
         $items = $request->only([
                             'user_id',
-                            'condition_id',
+                            'condition',
                             'item_name',
                             'price',
                             'detail',

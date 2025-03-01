@@ -14,16 +14,18 @@
     width: 50%;
 }
 
-.icon_star img {
-    display: inline-block;
-    width: 25px;
-    height: 25px;
+.like-comment-content {
+    display: flex;
 }
 .icon_comment {
-    display: inline-block;
-    width: 25px;
-    height: 25px;
+    width: 30px;
+    height: 30px;
     margin-left: 10px;
+}
+.comment-count-num {
+    font-size: 20px;
+    margin: 0 0 0 10px;
+    text-align: center;
 }
 
 .buy_button ,.comment_button button {

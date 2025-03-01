@@ -31,13 +31,12 @@
                 @endforeach
             </div>
         <p>商品の状態</p>
-            <select class="item-condition" name="condition_id">
+            <select class="item-condition" name="condition">
                 <option>選択してください</option>
-                @foreach($conditions as $condition)
-                    <option value="{{ $condition['id'] }}">
-                        {{ $condition['condition'] }}
-                    </option>
-                @endforeach
+                <option value="良好">良好</option>
+                <option value="目立った傷や汚れなし">目立った傷や汚れなし</option>
+                <option value="やや傷や汚れあり">やや傷や汚れあり</option>
+                <option value="状態が悪い">状態が悪い</option>
             </select>
         <h2>商品名と説明</h2>
             <div class="item-detail">
