@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\LikeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,3 +28,5 @@ Route::patch('/mypage/profile',[AuthController::class,'update']);
 Route::get('/purchase/address',[AuthController::class,'addressView']);
 Route::patch('/purchase/address',[AuthController::class,'addressEdit']);
 Route::post('/item',[ItemController::class,'commentStore']);
+
+Route::post('/item/like', [LikeController::class, 'likeItem']);

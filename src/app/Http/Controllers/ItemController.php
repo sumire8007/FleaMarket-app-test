@@ -44,7 +44,8 @@ class ItemController extends Controller
             'comment',
         ]);
         Comment::create($comment);
-        return redirect('/item');
+        $id = $request->item_id;
+        return redirect('/item')->with('id',$id);
     }
 
     // マイページの表示
