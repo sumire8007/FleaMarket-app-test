@@ -8,6 +8,7 @@ use App\Models\Item;
 use App\Models\Category;
 use App\Models\Payment;
 use App\Models\Comment;
+use App\Models\ItemLike;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -16,8 +17,22 @@ class ItemController extends Controller
     // 商品一覧画面の表示
     public function index(){
         $items = Item::all();
-        return view('item',compact('items'));
+        $user = Auth::user();
+        return view('item',compact('items','user'));
     }
+    //マイリストの表示
+    public function myList(Request $request){
+        if(Auth::check()){
+            $user = Auth::user();
+            $likes = ItemLike::where('user_id',$user->id)->pluck('item_id');
+            $items = Item::whereIn('id',$likes)->get();
+            return view('myList',compact('user','items'));
+        }else{
+            return view('myList');
+        }
+    }
+
+
     // 商品詳細の表示 クエリパラメータを使用
     public function detail(Request $request){
         $id = $request->query('id');
@@ -85,4 +100,6 @@ class ItemController extends Controller
         }
         return redirect('/');
     }
+
+
 }

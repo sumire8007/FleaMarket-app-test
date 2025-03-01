@@ -21,7 +21,9 @@
 
 
     <div class="item-list__tab">
-        <a href="/">出品した商品</a>
+        <a href="/mypage">出品した商品</a>
+        <a href="url(/mypage)"></a>
+
         <form action="/" method="get">
             @csrf
             <input type="submit" value="購入した商品" >

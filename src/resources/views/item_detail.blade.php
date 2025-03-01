@@ -66,7 +66,7 @@
                 </script>
                 <div class="comment-content">
                     <img class="icon_comment" src="{{ asset('../../img/comment_icon.png') }}" alt="コメント">
-                    <p class="comment-count-num">{{ $item->likes->count() }}</p>
+                    <p class="comment-count-num">{{ $comments->count() }}</p>
                 </div>
             </div>
         </section>
@@ -94,7 +94,7 @@
             </div>
         </section>
         <section>
-            <h3>コメント(1)</h3>
+            <h3>コメント({{ $comments->count() }})</h3>
             @foreach($comments as $comment)
                 <div class="account-box">
                     <img src="" alt="プロフ画像">

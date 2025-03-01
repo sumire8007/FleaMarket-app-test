@@ -30,3 +30,4 @@ Route::patch('/purchase/address',[AuthController::class,'addressEdit']);
 Route::post('/item',[ItemController::class,'commentStore']);
 
 Route::post('/item/like', [LikeController::class, 'likeItem']);
+Route::get('/myList',[ItemController::class,'myList']);
