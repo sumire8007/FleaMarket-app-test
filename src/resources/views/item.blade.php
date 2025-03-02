@@ -5,8 +5,6 @@
 @endsection
 
 @section('content')
-
-<!-- おすすめを見ているときのview -->
 @if(!isset($param))
     <div class="item-list__tab">
         <a class="item-list__tab-active" href="/">おすすめ</a>

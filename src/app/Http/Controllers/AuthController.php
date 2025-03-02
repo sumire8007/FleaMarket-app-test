@@ -7,15 +7,23 @@ use Illuminate\Http\Request;
 use App\Models\Item;
 use App\Models\Address;
 use App\Models\User;
+use App\Models\Purchase;
+
 
 class AuthController extends Controller
 {
-    // マイページの表示(出品した商品)
-    public function mypage(){
+    // マイページの表示
+    public function mypage(Request $request){
+        $param = $request->query('id');
         $user = Auth::user();
         $profiles = Address::where('user_id',$user->id)->first();
-        $items = Item::where('user_id',$user->id)->get();
-        return view('mypage',compact('user','profiles','items'));
+        if(isset($param)){
+            $purchases = Purchase::where('user_id',$user->id)->pluck('item_id');
+            $items = Item::whereIn('id',$purchases)->get();
+        } else {
+            $items = Item::where('user_id',$user->id)->get();
+        }
+        return view('mypage',compact('user','profiles','items','param'));
     }
 
     // プロフィール設定の表示（初回含む）
