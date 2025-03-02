@@ -4,11 +4,20 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Models\Item;
 use App\Models\Address;
 use App\Models\User;
 
 class AuthController extends Controller
 {
+    // マイページの表示(出品した商品)
+    public function mypage(){
+        $user = Auth::user();
+        $profiles = Address::where('user_id',$user->id)->first();
+        $items = Item::where('user_id',$user->id)->get();
+        return view('mypage',compact('user','profiles','items'));
+    }
+
     // プロフィール設定の表示（初回含む）
     public function edit(){
         $user = Auth::user();
@@ -27,6 +36,7 @@ class AuthController extends Controller
         Address::find($request->id)->update($profiles);
         return redirect('/mypage/profile');
     }
+
     //配送先住所の変更画面表示
     public function addressView(){
         $user = Auth::user();

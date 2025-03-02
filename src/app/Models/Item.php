@@ -26,6 +26,14 @@ class Item extends Model
         return $this->belongsToMany(Category::class);
     }
 
+//検索機能
+    public function scopeKeywordSearch($query, $keyword)
+    {
+        if(!empty($keyword)) {
+            $query->where('item_name', 'like','%' . $keyword . '%');
+        }
+    }
+
 
 //いいね機能
 // /post_likesテーブルへのリレーションメソッド。Postモデルのインスタンス＄postに、$post->likes->count()とすると記事のいいね数を取得できるようになった。

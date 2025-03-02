@@ -31,6 +31,14 @@ class ItemController extends Controller
             return view('myList');
         }
     }
+    //検索機能
+    public function search(Request $request){
+        $user = Auth::user();
+        $items = Item::KeywordSearch($request->keyword)->get();
+        return view('item',compact('items','user'));
+    }
+
+
 
 
     // 商品詳細の表示 クエリパラメータを使用
@@ -64,12 +72,6 @@ class ItemController extends Controller
         $comments = Comment::where('item_id',$id)->with('user')->get();
         return view('item_detail',compact('item','user','comments'));
     }
-
-    // マイページの表示
-    public function mypage(){
-        return view('profile');
-    }
-
     // 出品画面の表示
     public function sell(){
         $user = Auth::user();

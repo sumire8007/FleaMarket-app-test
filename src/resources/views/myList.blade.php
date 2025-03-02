@@ -15,13 +15,13 @@
         @csrf
         @foreach($items as $item)
         <div class="item-list">
-            <a href="{{ url('/item') }}?id={{ $item['id'] }}">
+            <a href="{{ url('/item') }}?id={{ $item->id }}">
                 <div class="item-list__img">
-                    <img src=" {{ $item['item_img']}}" alt="商品画像">
+                    <img src=" {{ $item->item_img}}" alt="商品画像">
                 </div>
 
                 <div class="item-list__item-name">
-                    <p>{{ $item['item_name'] }}</p>
+                    <p>{{ $item->item_name }}</p>
                 </div>
             </a>
         </div>

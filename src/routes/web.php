@@ -16,11 +16,11 @@ use App\Http\Controllers\LikeController;
 |
 */
 Route::get('/',[ItemController::class,'index']);
-Route::get('/mypage',[ItemController::class,'mypage']);
+Route::middleware('auth')->get('/mypage',[AuthController::class,'mypage']);
 Route::get('/item',[ItemController::class,'detail']);
 Route::middleware('auth')->get('/sell',[ItemController::class,'sell']);
 Route::middleware('auth')->get('/purchase',[ItemController::class,'purchase']);
-Route::middleware('auth')->get('/mypage/profile',[AuthController::class,'edit']);
+Route::get('/mypage/profile',[AuthController::class,'edit']);
 
 Route::post('/sell',[ItemController::class,'store']);
 Route::post('/',[AuthController::class,'store']);
@@ -31,3 +31,4 @@ Route::post('/item',[ItemController::class,'commentStore']);
 
 Route::post('/item/like', [LikeController::class, 'likeItem']);
 Route::get('/myList',[ItemController::class,'myList']);
+Route::get('/search',[ItemController::class,'search']);
