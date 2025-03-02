@@ -9,38 +9,40 @@ use App\Models\Category;
 use App\Models\Payment;
 use App\Models\Comment;
 use App\Models\ItemLike;
+use App\Models\Purchase;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class ItemController extends Controller
 {
-    // 商品一覧画面の表示
-    public function index(){
-        $items = Item::all();
+    // 商品一覧画面の表示　※ユーザが出品したものを表示しない
+    public function index(Request $request){
         $user = Auth::user();
-        return view('item',compact('items','user'));
-    }
-    //マイリストの表示
-    public function myList(Request $request){
-        if(Auth::check()){
-            $user = Auth::user();
+        $param = $request->query('id');
+
+        if(isset($param)){
             $likes = ItemLike::where('user_id',$user->id)->pluck('item_id');
             $items = Item::whereIn('id',$likes)->get();
-            return view('myList',compact('user','items'));
-        }else{
-            return view('myList');
+            return view('item',compact('user','items','param'));
+        } else {
+            if(Auth::check()){
+                $user = Auth::user();
+                $userItemIds = Item::where('user_id',$user->id)->pluck('id')->toArray();
+                $items = Item::whereNotIn('id',$userItemIds)->get();
+            } else {
+                $items = Item::all();
+            }
+                return view('item',compact('items','user','param'));
         }
     }
+
     //検索機能
     public function search(Request $request){
-        $user = Auth::user();
         $items = Item::KeywordSearch($request->keyword)->get();
-        return view('item',compact('items','user'));
+        $keyword = $request->keyword;
+        // $request->session()->put('keyword',$keyword);
+        return view('item',compact('items'));
     }
-
-
-
-
     // 商品詳細の表示 クエリパラメータを使用
     public function detail(Request $request){
         $id = $request->query('id');
@@ -48,15 +50,6 @@ class ItemController extends Controller
         $user = Auth::user();
         $comments = Comment::where('item_id',$id)->with('user')->get();
         return view('item_detail',compact('item','user','comments'));
-    }
-    // 商品購入画面の表示
-    public function purchase(Request $request){
-        $id = $request->query('id');
-        $item = Item::where('id',$id)->first();
-        $user = Auth::user();
-        $profiles = Address::where('user_id',$user->id)->first();
-        $payments = Payment::all();
-        return view('purchase',compact('item','profiles','payments'));
     }
     //コメントの作成
     public function commentStore(Request $request){
@@ -72,13 +65,27 @@ class ItemController extends Controller
         $comments = Comment::where('item_id',$id)->with('user')->get();
         return view('item_detail',compact('item','user','comments'));
     }
+    // 商品購入画面の表示
+    public function purchase(Request $request){
+        $id = $request->query('id');
+        $item = Item::where('id',$id)->first();
+        $user = Auth::user();
+        $profiles = Address::where('user_id',$user->id)->first();
+        $payments = Payment::all();
+        return view('purchase',compact('item','profiles','payments','user'));
+    }
+    //　商品の購入(決済)
+    public function buy(Request $request){
+        $purchase = $request->only(['payment_id','user_id','item_id','address_id']);
+        Purchase::create($purchase);
+        return redirect('/');
+    }
     // 出品画面の表示
     public function sell(){
         $user = Auth::user();
         $categories = Category::all();
         return view('sell',compact('user','categories'));
     }
-
     // 出品されるアイテムの保存
     public function store(Request $request){
         $items = $request->only([

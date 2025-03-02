@@ -19,7 +19,7 @@
 
     <div class="item-list__tab">
         <a href="/mypage" class="item-list__tab-no-active">出品した商品</a>
-        <a href="">購入した商品</a>
+        <a href="/mypage/bought">購入した商品</a>
     </div>
 
 <div class="item-list__content">
