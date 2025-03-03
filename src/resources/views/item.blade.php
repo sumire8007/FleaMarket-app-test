@@ -21,9 +21,16 @@
     @foreach($items as $item)
     <div class="item-list">
         <a href="{{ url('/item') }}?id={{ $item->id }}">
+            @if(isset($sold) && in_array($item->id, $sold->toArray()))
+            <div class="item-list__img-sold">
+                <img src=" {{ $item->item_img }}" alt="商品画像">
+                <p>sold</p>
+            </div>
+            @else
             <div class="item-list__img">
                 <img src=" {{ $item->item_img }}" alt="商品画像">
             </div>
+            @endif
 
             <div class="item-list__item-name">
                 <p>{{ $item->item_name }}</p>
@@ -50,15 +57,26 @@
     @foreach($items as $item)
     <div class="item-list">
         <a href="{{ url('/item') }}?id={{ $item->id }}">
+            @if(isset($sold) && in_array($item->id, $sold->toArray()))
+            <div class="item-list__img-sold">
+                <img src=" {{ $item->item_img }}" alt="商品画像">
+                <p>sold</p>
+            </div>
+            @else
             <div class="item-list__img">
                 <img src=" {{ $item->item_img }}" alt="商品画像">
             </div>
+            @endif
 
             <div class="item-list__item-name">
                 <p>{{ $item->item_name }}</p>
             </div>
         </a>
     </div>
+
+
+
+
     @endforeach
 </form>
 </div>

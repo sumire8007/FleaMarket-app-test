@@ -12,7 +12,7 @@
             <img src="{{ asset($profiles->user_img) }}" alt="画像">
         </div>
         <div class="form__group-content-name">{{ $user->name }}</div>
-        <a href="/mypage/profile">プロフィールを編集</a>
+        <a href="/mypage/profile" class="profile-edit__button">プロフィールを編集</a>
     </div>
 </div>
 
@@ -22,8 +22,6 @@
     </div>
 
 <div class="item-list__content">
-<form action="/item" method="get">
-    @csrf
     @foreach($items as $item)
     <div class="item-list">
         <a href="{{ url('/item') }}?id={{ $item->id }}">
@@ -37,7 +35,6 @@
         </a>
     </div>
     @endforeach
-</form>
 </div>
 @else
 <div class="form__group-img">
@@ -46,7 +43,7 @@
             <img src="{{ asset($profiles->user_img) }}" alt="画像">
         </div>
         <div class="form__group-content-name">{{ $user->name }}</div>
-        <a href="/mypage/profile">プロフィールを編集</a>
+        <a href="/mypage/profile" class="profile-edit__button">プロフィールを編集</a>
     </div>
 </div>
 
@@ -55,8 +52,6 @@
         <a href="{{ url('/mypage') }}?id={{ $user->id }}" class="item-list__tab-active">購入した商品</a>
     </div>
 <div class="item-list__content">
-<form action="/item" method="get">
-    @csrf
     @foreach($items as $item)
     <div class="item-list">
         <a href="{{ url('/item') }}?id={{ $item->id }}">
@@ -70,7 +65,6 @@
         </a>
     </div>
     @endforeach
-</form>
 </div>
 @endif
 @endsection

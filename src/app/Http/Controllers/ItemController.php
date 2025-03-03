@@ -19,29 +19,33 @@ class ItemController extends Controller
     public function index(Request $request){
         $user = Auth::user();
         $param = $request->query('id');
+        $itemIds = Item::pluck('id')->toArray();
+        $sold = Purchase::whereIn('item_id',$itemIds)->pluck('item_id');
 
         if(isset($param)){
             $likes = ItemLike::where('user_id',$user->id)->pluck('item_id');
             $items = Item::whereIn('id',$likes)->get();
-            return view('item',compact('user','items','param'));
+            // return view('item',compact('items','user','param','sold'));
         } else {
             if(Auth::check()){
-                $user = Auth::user();
+                // $user = Auth::user();
                 $userItemIds = Item::where('user_id',$user->id)->pluck('id')->toArray();
                 $items = Item::whereNotIn('id',$userItemIds)->get();
             } else {
                 $items = Item::all();
             }
-                return view('item',compact('items','user','param'));
         }
+        return view('item',compact('items','user','param','sold'));
+
     }
 
     //検索機能
     public function search(Request $request){
         $items = Item::KeywordSearch($request->keyword)->get();
         $keyword = $request->keyword;
+        $user = Auth::user();
         // $request->session()->put('keyword',$keyword);
-        return view('item',compact('items'));
+        return view('item',compact('items','user'));
     }
     // 商品詳細の表示 クエリパラメータを使用
     public function detail(Request $request){

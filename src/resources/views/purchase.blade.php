@@ -5,9 +5,9 @@
 @endsection
 
 @section('content')
-<div class="purchase__content-group">
-    <form action="/purchase" method="post">
-    @csrf
+<form action="/purchase" method="post">
+@csrf
+    <div class="purchase__content-group">
         <input type="hidden" name="item_id" value="{{ $item->id }}">
         <input type="hidden" name="user_id" value="{{ $user->id }}">
         <input type="hidden" name="address_id" value="{{ $profiles->id }}">
@@ -57,7 +57,6 @@
             </table>
             <button type="submit" class="buy_button">購入する</button>
         </div>
-    </form>
-</div>
-
+    </div>
+</form>
 @endsection
