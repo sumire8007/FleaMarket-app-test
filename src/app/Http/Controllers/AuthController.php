@@ -35,6 +35,11 @@ class AuthController extends Controller
     // プロフィール設定の新規登録
     public function store(Request $request){
         $profiles = $request->only(['user_id','user_img','post_code','address','building']);
+        if($request->hasFile('user_img')){
+        $image = $request->file('user_img');
+        $image_url = Storage::disk('public')->put('users', $image); //保存処理
+        $users['user_img'] = $image_url;
+        }
         Address::create($profiles);
         return redirect('/');
     }

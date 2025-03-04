@@ -5,13 +5,17 @@
 <script src="https://kit.fontawesome.com/d872711579.js" crossorigin="anonymous"></script>
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta name="csrf-token" content="{{ csrf_token() }}">
-
+@if(Auth::check())
 <style>
-    /* いいね押下時の星の色 */
     .liked{
         color: #ff5555;
         transition:.2s;
     }
+</style>
+@endif
+
+<style>
+    /* いいね押下時の星の色 */
     .like-count-num{
         font-size: 20px;
         margin: 0 0 0 10px;
@@ -25,7 +29,7 @@
 @section('content')
 <div class="item-detail__group">
     <div class="item-detail__img">
-        <img src=" {{ $item->item_img }}" alt="商品画像">
+        <img src=" {{ asset('storage/'. $item->item_img) }}" alt="商品画像">
     </div>
 
     <article class="item-detail__content">
@@ -61,7 +65,7 @@
                                 clickedEl.nextElementSibling.innerHTML = data.likesCount;
                             })
                             .catch(
-                            ()=>alert('処理が失敗しました。画面を再読み込みし、通信環境の良い場所で再度お試しください。'))
+                            ()=>alert('ログインしてください'))
                         })
                 </script>
                 <div class="comment-content">

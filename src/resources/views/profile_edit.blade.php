@@ -25,16 +25,16 @@
             <div class="form__group-content-img">
                 <div class="circle">
                 @if(isset($profiles))
-                    <img src="{{ asset($profiles->user_img) }}" alt="画像">
+                    <img src="{{ asset('storage/'. $profiles->user_img) }}" alt="画像">
                 @else
                     <img src="" alt="画像">
                 @endif
                 </div>
                 @if(isset($profiles))
-                    <input type="hidden" name="id" value="{{ $profiles->id}}" />
+                    <input type="hidden" name="id" value="{{ $profiles->id }}" />
                 @endif
                 @if(isset($profiles))
-                    <input type="file" class="img_select-button" name="user_img" value="{{ $profiles->user_img }}" />
+                    <input type="file" class="img_select-button" name="user_img" value="{{ asset('storage/'. $profiles->user_img) }}" />
                 @else
                     <input type="file" class="img_select-button" name="user_img" value="" />
                 @endif

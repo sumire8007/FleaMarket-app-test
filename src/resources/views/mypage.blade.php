@@ -9,7 +9,7 @@
 <div class="form__group-img">
     <div class="form__group-content-img">
         <div class="circle">
-            <img src="{{ asset($profiles->user_img) }}" alt="画像">
+            <img src="{{ asset('storage/' . $profiles->user_img) }}" alt="画像">
         </div>
         <div class="form__group-content-name">{{ $user->name }}</div>
         <a href="/mypage/profile" class="profile-edit__button">プロフィールを編集</a>

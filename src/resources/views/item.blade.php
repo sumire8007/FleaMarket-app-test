@@ -23,12 +23,12 @@
         <a href="{{ url('/item') }}?id={{ $item->id }}">
             @if(isset($sold) && in_array($item->id, $sold->toArray()))
             <div class="item-list__img-sold">
-                <img src=" {{ $item->item_img }}" alt="商品画像">
+                <img src=" {{ 'storage/'. $item->item_img }}" alt="商品画像">
                 <p>sold</p>
             </div>
             @else
             <div class="item-list__img">
-                <img src=" {{ $item->item_img }}" alt="商品画像">
+                <img src=" {{ 'storage/'. $item->item_img }}" alt="商品画像">
             </div>
             @endif
 
@@ -59,12 +59,12 @@
         <a href="{{ url('/item') }}?id={{ $item->id }}">
             @if(isset($sold) && in_array($item->id, $sold->toArray()))
             <div class="item-list__img-sold">
-                <img src=" {{ $item->item_img }}" alt="商品画像">
+                <img src=" {{ 'storage/'. $item->item_img }}" alt="商品画像">
                 <p>sold</p>
             </div>
             @else
             <div class="item-list__img">
-                <img src=" {{ $item->item_img }}" alt="商品画像">
+                <img src=" {{ 'storage/'. $item->item_img }}" alt="商品画像">
             </div>
             @endif
 

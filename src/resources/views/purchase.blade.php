@@ -14,7 +14,7 @@
         <div class="purchase__content-detail">
             <div class="purchase__content">
                 <div class="item-detail__img">
-                    <img src="{{ $item->item_img }}" alt="商品画像">
+                    <img src="{{ asset('storage/'. $item->item_img) }}" alt="商品画像">
                 </div>
                 <div class="item-detail__basic">
                     <h2>{{ $item->item_name }}</h2>
