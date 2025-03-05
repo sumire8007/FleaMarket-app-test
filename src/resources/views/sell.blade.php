@@ -15,9 +15,7 @@
             <input type="hidden" name="user_id" value="{{ $user->id }}">
             <p>商品の画像</p>
             <div class="item-detail__img-box">
-                <img src="" alt="商品画像">
-                <input type="file" accept="image/*" name="item_img" value="画像を選択する" >
-                <button>画像を選択する</button>
+                <input class="img_select-button"  type="file" accept="image/*" name="item_img" value="画像を選択する" >
             </div>
         </div>
         <h2>商品の詳細</h2>

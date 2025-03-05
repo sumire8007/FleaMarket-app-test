@@ -25,10 +25,8 @@ class ItemController extends Controller
         if(isset($param)){
             $likes = ItemLike::where('user_id',$user->id)->pluck('item_id');
             $items = Item::whereIn('id',$likes)->get();
-            // return view('item',compact('items','user','param','sold'));
         } else {
             if(Auth::check()){
-                // $user = Auth::user();
                 $userItemIds = Item::where('user_id',$user->id)->pluck('id')->toArray();
                 $items = Item::whereNotIn('id',$userItemIds)->get();
             } else {
@@ -53,21 +51,26 @@ class ItemController extends Controller
         $item = Item::with(['categories'])->find($id);
         $user = Auth::user();
         $comments = Comment::where('item_id',$id)->with('user')->get();
-        return view('item_detail',compact('item','user','comments'));
+        $userIds = $comments->pluck('user_id');
+        $profiles = Address::whereIn('user_id',$userIds)->get()->keyBy('user_id');
+        // dd($profiles);
+        return view('item_detail',compact('item','user','comments','profiles'));
     }
     //コメントの作成
     public function commentStore(Request $request){
         $comment = $request->only([
-            'user_id',
-            'item_id',
-            'comment',
-        ]);
+                            'user_id',
+                            'item_id',
+                            'comment',
+                        ]);
         Comment::create($comment);
         $id = $request->item_id;
         $item = Item::with(['categories'])->find($id);
         $user = Auth::user();
         $comments = Comment::where('item_id',$id)->with('user')->get();
-        return view('item_detail',compact('item','user','comments'));
+        $userIds = $comments->pluck('user_id');
+        $profiles = Address::whereIn('user_id',$userIds)->get()->keyBy('user_id');
+        return view('item_detail',compact('item','user','comments','profiles'));
     }
     // 商品購入画面の表示
     public function purchase(Request $request){
@@ -80,7 +83,12 @@ class ItemController extends Controller
     }
     //　商品の購入(決済)
     public function buy(Request $request){
-        $purchase = $request->only(['payment_id','user_id','item_id','address_id']);
+        $purchase = $request->only([
+                            'payment_id',
+                            'user_id',
+                            'item_id',
+                            'address_id'
+                        ]);
         Purchase::create($purchase);
         return redirect('/');
     }
@@ -99,7 +107,7 @@ class ItemController extends Controller
                             'price',
                             'detail',
                             'brand'
-                            ]);
+                        ]);
         //画像が送信されてきていたら保存処理
         if($request->hasFile('item_img')){
             $image = $request->file('item_img');

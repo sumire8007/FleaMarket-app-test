@@ -14,10 +14,10 @@
 
     <div class="profile_edit-form__input">
 @if(isset($profiles))
-    <form class="form" action="/mypage/profile" method="POST">
+    <form class="form" action="/mypage/profile" method="POST" enctype="multipart/form-data">
         @method('PATCH')
 @else
-        <form class="form" action="/" method="POST">
+        <form class="form" action="/" method="POST" enctype="multipart/form-data">
 @endif
         @csrf
         <!-- プロフ画像 -->
@@ -34,9 +34,9 @@
                     <input type="hidden" name="id" value="{{ $profiles->id }}" />
                 @endif
                 @if(isset($profiles))
-                    <input type="file" class="img_select-button" name="user_img" value="{{ asset('storage/'. $profiles->user_img) }}" />
+                    <input type="file" class="img_select-button" name="user_img" value="{{ asset('storage/'. $profiles->user_img) }}"accept="image/*" />
                 @else
-                    <input type="file" class="img_select-button" name="user_img" value="" />
+                    <input type="file" class="img_select-button" name="user_img" accept="image/*" />
                 @endif
             </div>
         </div>

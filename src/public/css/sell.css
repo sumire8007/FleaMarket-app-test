@@ -22,15 +22,30 @@
     height: 100px;
     text-align: center;
 }
+.img_select-button::file-selector-button {
+    /* // サイズだけ固定して透明にして見えなくする　 */
+    width: 150px;
+    height: 35px;
+    opacity: 0;
+    /* // 疑似要素をのせるためにrelative */
+    position: relative;
+}
 
-.item-detail__img-box button {
-    display: inline-block;
-    width: 40%;
-    margin: 0 auto;
-    border: solid #ff5555 1px;
-    border-radius: 3px;
+.img_select-button::before {
+    /* // 「ファイルを選択」ボタンのテキストを変更、スタイルはここに記載する */
+    position: absolute;
+    content: "画像を選択する";
+    width: 150px;
+    height: 35px;
+    font-weight: bold;
     color: #ff5555;
-    background-color: white;
+    background: white;
+    font-size: 14px;
+    border-radius: 3px;
+    border: solid 1px #ff5555;
+    text-align: center;
+    align-items: center;
+    display: grid;
     cursor: pointer;
 }
 

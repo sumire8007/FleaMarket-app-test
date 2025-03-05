@@ -101,7 +101,9 @@
             <h3>コメント({{ $comments->count() }})</h3>
             @foreach($comments as $comment)
                 <div class="account-box">
-                    <img src="" alt="プロフ画像">
+                    <div class="circle">
+                        <img src="{{ asset('storage/' . $profiles[$comment->user_id]->user_img) }}" alt="プロフ画像">
+                    </div>
                     <p>{{ $comment->user->name }}</p>
                 </div>
                     <p class="comment-box">{{ $comment['comment'] }}</p>

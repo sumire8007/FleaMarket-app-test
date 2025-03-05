@@ -16,20 +16,20 @@
     </div>
 </div>
 
-    <div class="item-list__tab">
-        <a href="/mypage" class="item-list__tab-active">出品した商品</a>
-        <a href="{{ url('/mypage') }}?id={{ $user->id }}" class="item-list__tab-no-active">購入した商品</a>
+    <div class="mypage__tab">
+        <a href="/mypage" class="mypage__tab-active">出品した商品</a>
+        <a href="{{ url('/mypage') }}?id={{ $user->id }}" class="mypage__tab-no-active">購入した商品</a>
     </div>
 
-<div class="item-list__content">
+<div class="mypage__content">
     @foreach($items as $item)
-    <div class="item-list">
+    <div class="mypage">
         <a href="{{ url('/item') }}?id={{ $item->id }}">
-            <div class="item-list__img">
+            <div class="mypage__img">
                 <img src=" {{ $item->item_img }}" alt="商品画像">
             </div>
 
-            <div class="item-list__item-name">
+            <div class="mypage__item-name">
                 <p>{{ $item->item_name }}</p>
             </div>
         </a>
@@ -47,19 +47,19 @@
     </div>
 </div>
 
-    <div class="item-list__tab">
-        <a href="/mypage" class="item-list__tab-no-active">出品した商品</a>
-        <a href="{{ url('/mypage') }}?id={{ $user->id }}" class="item-list__tab-active">購入した商品</a>
+    <div class="mypage__tab">
+        <a href="/mypage" class="mypage__tab-no-active">出品した商品</a>
+        <a href="{{ url('/mypage') }}?id={{ $user->id }}" class="mypage__tab-active">購入した商品</a>
     </div>
-<div class="item-list__content">
+<div class="mypage__content">
     @foreach($items as $item)
-    <div class="item-list">
+    <div class="mypage">
         <a href="{{ url('/item') }}?id={{ $item->id }}">
-            <div class="item-list__img">
+            <div class="mypage__img">
                 <img src=" {{ $item->item_img }}" alt="商品画像">
             </div>
 
-            <div class="item-list__item-name">
+            <div class="mypage__item-name">
                 <p>{{ $item->item_name }}</p>
             </div>
         </a>

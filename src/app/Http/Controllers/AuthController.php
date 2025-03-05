@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Models\Item;
 use App\Models\Address;
@@ -34,11 +35,16 @@ class AuthController extends Controller
     }
     // プロフィール設定の新規登録
     public function store(Request $request){
-        $profiles = $request->only(['user_id','user_img','post_code','address','building']);
+        $profiles = $request->only([
+                                'user_id',
+                                'post_code',
+                                'address',
+                                'building'
+                                ]);
         if($request->hasFile('user_img')){
-        $image = $request->file('user_img');
-        $image_url = Storage::disk('public')->put('users', $image); //保存処理
-        $users['user_img'] = $image_url;
+            $image = $request->file('user_img');
+            $image_url = Storage::disk('public')->put('users', $image); //保存処理
+            $profiles['user_img'] = $image_url;
         }
         Address::create($profiles);
         return redirect('/');
