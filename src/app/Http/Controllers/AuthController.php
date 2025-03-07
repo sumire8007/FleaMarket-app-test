@@ -43,7 +43,7 @@ class AuthController extends Controller
                                 ]);
         if($request->hasFile('user_img')){
             $image = $request->file('user_img');
-            $image_url = Storage::disk('public')->put('users', $image); //保存処理
+            $image_url = Storage::disk('public')->put('users', $image);
             $profiles['user_img'] = $image_url;
         }
         Address::create($profiles);
@@ -51,7 +51,19 @@ class AuthController extends Controller
     }
     // プロフィール設定の更新
     public function update(Request $request){
-        $profiles = $request->only(['user_id','user_img','post_code','address','building']);
+        $profiles = $request->only([
+                                'user_id',
+                                'post_code',
+                                'address',
+                                'building'
+                            ]);
+        $userName = $request->only(['name']);
+        $use = User::find($request->user_id)->update($userName);
+        if($request->hasFile('user_img')){
+            $image = $request->file('user_img');
+            $image_url = Storage::disk('public')->put('users', $image);
+            $profiles['user_img'] = $image_url;
+        }
         Address::find($request->id)->update($profiles);
         return redirect('/mypage/profile');
     }

@@ -17,11 +17,10 @@
     <form class="form" action="/mypage/profile" method="POST" enctype="multipart/form-data">
         @method('PATCH')
 @else
-        <form class="form" action="/" method="POST" enctype="multipart/form-data">
+    <form class="form" action="/" method="POST" enctype="multipart/form-data">
 @endif
         @csrf
         <!-- プロフ画像 -->
-        <div class="form__group-img">
             <div class="form__group-content-img">
                 <div class="circle">
                 @if(isset($profiles))
@@ -48,7 +47,7 @@
             <div class="form__group-content">
                 <div class="form__input--text">
                     <input type="hidden" name="user_id" value="{{ $user->id }}" />
-                    <input type="text" name="user_name" value="{{ $user->name }}" />
+                    <input type="text" name="name" value="{{ $user->name }}" />
                 </div>
                 <div class="form__error">
                     @error('name')
