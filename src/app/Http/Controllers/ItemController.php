@@ -12,6 +12,8 @@ use App\Models\ItemLike;
 use App\Models\Purchase;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\CommentRequest;
+use App\Http\Requests\PurchaseRequest;
 
 class ItemController extends Controller
 {
@@ -57,7 +59,7 @@ class ItemController extends Controller
         return view('item_detail',compact('item','user','comments','profiles'));
     }
     //コメントの作成
-    public function commentStore(Request $request){
+    public function commentStore(CommentRequest $request){
         $comment = $request->only([
                             'user_id',
                             'item_id',
@@ -82,12 +84,12 @@ class ItemController extends Controller
         return view('purchase',compact('item','profiles','payments','user'));
     }
     //　商品の購入(決済)
-    public function buy(Request $request){
+    public function buy(PurchaseRequest $request){
         $purchase = $request->only([
                             'payment_id',
                             'user_id',
                             'item_id',
-                            'address_id'
+                            'address_id',
                         ]);
         Purchase::create($purchase);
         return redirect('/');
@@ -106,7 +108,7 @@ class ItemController extends Controller
                             'item_name',
                             'price',
                             'detail',
-                            'brand'
+                            'brand',
                         ]);
         //画像が送信されてきていたら保存処理
         if($request->hasFile('item_img')){

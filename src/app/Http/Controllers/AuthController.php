@@ -9,6 +9,7 @@ use App\Models\Item;
 use App\Models\Address;
 use App\Models\User;
 use App\Models\Purchase;
+use App\Http\Requests\AddressRequest;
 
 
 class AuthController extends Controller
@@ -31,10 +32,11 @@ class AuthController extends Controller
     public function edit(){
         $user = Auth::user();
         $profiles = Address::where('user_id',$user->id)->first();
+        dd($profiles);
         return view('profile_edit', compact('user','profiles'));
     }
     // プロフィール設定の新規登録
-    public function store(Request $request){
+    public function store(AddressRequest $request){
         $profiles = $request->only([
                                 'user_id',
                                 'post_code',
@@ -50,7 +52,7 @@ class AuthController extends Controller
         return redirect('/');
     }
     // プロフィール設定の更新
-    public function update(Request $request){
+    public function update(AddressRequest $request){
         $profiles = $request->only([
                                 'user_id',
                                 'post_code',
@@ -75,7 +77,7 @@ class AuthController extends Controller
         return view('address_edit',compact('profiles'));
     }
     //配送先住所の変更
-    public function addressEdit(Request $request){
+    public function addressEdit(AddressRequest $request){
         $profiles = $request->only(['post_code','address','building']);
         Address::find($request->id)->update($profiles);
         return redirect('/purchase/address');

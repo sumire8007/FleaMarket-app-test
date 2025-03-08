@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LikeController;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,6 +17,11 @@ use App\Http\Controllers\LikeController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::post('register', [RegisterController::class, 'store']);
+Route::post('login', [LoginController::class, 'store']);
+
+
 Route::get('/',[ItemController::class,'index']);
 Route::get('/item',[ItemController::class,'detail']);
 Route::middleware('auth')->get('/sell',[ItemController::class,'sell']);
@@ -26,8 +33,7 @@ Route::post('/',[AuthController::class,'store']);
 Route::patch('/mypage/profile',[AuthController::class,'update']);
 Route::get('/purchase/address',[AuthController::class,'addressView']);
 Route::patch('/purchase/address',[AuthController::class,'addressEdit']);
-Route::post('/item',[ItemController::class,'commentStore']);
-
-Route::post('/item/like', [LikeController::class, 'likeItem']);
+Route::middleware('auth')->post('/item',[ItemController::class,'commentStore']);
 Route::get('/search',[ItemController::class,'search']);
 Route::post('/purchase',[ItemController::class,'buy']);
+Route::post('/item/like', [LikeController::class, 'likeItem']);

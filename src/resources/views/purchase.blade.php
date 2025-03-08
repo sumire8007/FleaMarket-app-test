@@ -24,9 +24,9 @@
             <div class="purchase__content-payment">
                 <p>支払い方法</p>
                     <select name="payment_id" wire:model="selectedValue">
-                        <option>選択してください</option>
+                        <option value="">選択してください</option>
                         @foreach($payments as $payment)
-                        <option name="payment_id" value="{{ $payment->id }}">
+                        <option value="{{ $payment->id }}">
                             {{ $payment->content }}
                         </option>
                         @endforeach

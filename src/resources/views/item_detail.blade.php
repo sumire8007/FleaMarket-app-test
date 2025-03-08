@@ -108,20 +108,31 @@
                 </div>
                     <p class="comment-box">{{ $comment['comment'] }}</p>
             @endforeach
-            <div class="comment-box_input">
-            <form action="/item" method="post">
-            @csrf
-                @if(Auth::check())
-                <input type="hidden" name="user_id" value="{{ $user->id }}">
-                @endif
-                <input type="hidden" name="item_id" value="{{ $item->id }}">
-                <h3>商品へのコメント</h3>
-                <textarea name="comment"></textarea>
-                <div class="comment_button">
-                    <button>コメントを送信する</button>
+            @if (Auth::check())
+                <div class="comment-box_input">
+                <form action="/item" method="post">
+                @csrf
+                    <input type="hidden" name="user_id" value="{{ $user->id }}">
+                    <input type="hidden" name="item_id" value="{{ $item->id }}">
+                    <h3>商品へのコメント</h3>
+                    <textarea name="comment"></textarea>
+                    <div class="comment_button">
+                        <button>コメントを送信する</button>
+                    <div>
+                </form>
                 </div>
-            </form>
-            </div>
+            @else
+                <div class="comment-box_input">
+                <form action="/item" method="post">
+                @csrf
+                    <h3>商品へのコメント</h3>
+                    <textarea ></textarea>
+                    <div class="comment_button">
+                        <button>コメントを送信する</button>
+                    <div>
+                </form>
+                </div>
+            @endif
         </section>
     </article>
 </div>
