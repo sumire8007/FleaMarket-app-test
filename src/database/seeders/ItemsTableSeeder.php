@@ -17,16 +17,16 @@ class ItemsTableSeeder extends Seeder
     public function run()
     {
         $images = [
-            'watch.jpg' => 'https://coachtech-matter.s3.ap-northeast-1.amazonaws.com/image/Armani+Mens+Clock.jpg',
-            'hdd.jpg' => 'https://coachtech-matter.s3.ap-northeast-1.amazonaws.com/image/HDD+Hard+Disk.jpg',
-            'onion.jpg' => 'https://coachtech-matter.s3.ap-northeast-1.amazonaws.com/image/iLoveIMG+d.jpg',
-            'shoes.jpg' => 'https://coachtech-matter.s3.ap-northeast-1.amazonaws.com/image/Leather+Shoes+Product+Photo.jpg',
-            'notePc.jpg' => 'https://coachtech-matter.s3.ap-northeast-1.amazonaws.com/image/Living+Room+Laptop.jpg',
-            'mic.jpg' => 'https://coachtech-matter.s3.ap-northeast-1.amazonaws.com/image/Music+Mic+4632231.jpg',
-            'bag.jpg' => 'https://coachtech-matter.s3.ap-northeast-1.amazonaws.com/image/Purse+fashion+pocket.jpg',
-            'tumbler.jpg' => 'https://coachtech-matter.s3.ap-northeast-1.amazonaws.com/image/Tumbler+souvenir.jpg',
-            'coffeeMill.jpg' => 'https://coachtech-matter.s3.ap-northeast-1.amazonaws.com/image/Waitress+with+Coffee+Grinder.jpg',
-            'makeupSet.jpg' => 'https://coachtech-matter.s3.ap-northeast-1.amazonaws.com/image/%E5%A4%96%E5%87%BA%E3%83%A1%E3%82%A4%E3%82%AF%E3%82%A2%E3%83%83%E3%83%95%E3%82%9A%E3%82%BB%E3%83%83%E3%83%88.jpg',
+            'watch.jpg' => public_path('img/watch.jpg'),
+            'hdd.jpg' => public_path('img/HDDHardDisk.jpg'),
+            'onion.jpg' => public_path('img/Onion.jpg'),
+            'shoes.jpg' => public_path('img/LeatherShoesProductPhoto.jpg'),
+            'notePc.jpg' => public_path('img/notePC.jpg'),
+            'mic.jpg' => public_path('img/MusicMic.jpg'),
+            'bag.jpg' => public_path('img/Pursefashionpocket.jpg'),
+            'tumbler.jpg' => public_path('img/Tumbler+souvenir.jpg'),
+            'coffeeMill.jpg' => public_path('img/Waitress+with+Coffee+Grinder.jpg'),
+            'makeupSet.jpg' => public_path('img/makeupset.jpg'),
         ];
 
         foreach ($images as $filename => $url) {
