@@ -65,7 +65,7 @@
                                 clickedEl.nextElementSibling.innerHTML = data.likesCount;
                             })
                             .catch(
-                            ()=>alert('ログインしてください'))
+                            ()=>alert('ログインが必要です'))
                         })
                 </script>
                 <div class="comment-content">

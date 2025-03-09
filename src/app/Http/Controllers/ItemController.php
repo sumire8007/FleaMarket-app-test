@@ -38,8 +38,7 @@ class ItemController extends Controller
         return view('item',compact('items','user','param','sold'));
 
     }
-
-    //検索機能
+ //検索機能
     public function search(Request $request){
         $items = Item::KeywordSearch($request->keyword)->get();
         $keyword = $request->keyword;

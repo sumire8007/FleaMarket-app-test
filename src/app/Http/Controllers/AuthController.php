@@ -34,7 +34,6 @@ class AuthController extends Controller
     public function edit(){
         $user = Auth::user();
         $profiles = Address::where('user_id',$user->id)->first();
-        dd($profiles);
         return view('profile_edit', compact('user','profiles'));
     }
     // プロフィール設定の新規登録
