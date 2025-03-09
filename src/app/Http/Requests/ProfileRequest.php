@@ -24,8 +24,13 @@ class ProfileRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_img' => '',
-            'item_img' => '',
+            'user_img' => 'mimes:jpeg,png',
+            function ($attribute, $value, $fail) {
+                $extension = strtolower($value->getClientOriginalExtension());
+                if (!in_array($extension, ['jpeg', 'png'])) {
+                    $fail('');
+                }
+            }
         ];
     }
 }

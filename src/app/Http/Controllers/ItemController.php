@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\CommentRequest;
 use App\Http\Requests\PurchaseRequest;
-
+use App\Http\Requests\ExhibitionRequest;
 class ItemController extends Controller
 {
     // 商品一覧画面の表示　※ユーザが出品したものを表示しない
@@ -101,7 +101,7 @@ class ItemController extends Controller
         return view('sell',compact('user','categories'));
     }
     // 出品されるアイテムの保存
-    public function store(Request $request){
+    public function store(ExhibitionRequest $request){
         $items = $request->only([
                             'user_id',
                             'condition',

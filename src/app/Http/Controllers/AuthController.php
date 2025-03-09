@@ -10,6 +10,8 @@ use App\Models\Address;
 use App\Models\User;
 use App\Models\Purchase;
 use App\Http\Requests\AddressRequest;
+use App\Http\Requests\ProfileRequest;
+
 
 
 class AuthController extends Controller
