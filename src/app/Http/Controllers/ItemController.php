@@ -17,7 +17,7 @@ use App\Http\Requests\PurchaseRequest;
 use App\Http\Requests\ExhibitionRequest;
 class ItemController extends Controller
 {
-    // 商品一覧画面の表示　※ユーザが出品したものを表示しない
+    // 商品一覧画面の表示　※ユーザが出品した商品を表示しない
     public function index(Request $request){
         $user = Auth::user();
         $param = $request->query('id');
