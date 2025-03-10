@@ -16,12 +16,14 @@ class PaymentMethod extends Component
     public $selectedPayment = '';
     public $profile;
     public $item;
+    public $user;
 
     public function mount($id)
     {
         $this->payments = Payment::all();
         $this->profile = Address::where('user_id', Auth::id())->first();
         $this->item = Item::find($id);
+        $this->user = Auth::user();
     }
     public function updatedSelectedValue($value)
     {
