@@ -26,7 +26,7 @@
                     <input type="text" name="post_code" value="{{ $profiles->post_code }}"/>
                 </div>
                 <div class="form__error">
-                    @error('email')
+                    @error('post_code')
                     {{ $message }}
                     @enderror
                 </div>
@@ -42,7 +42,7 @@
                     <input type="text" name="address" value="{{ $profiles->address }}"/>
                 </div>
                 <div class="form__error">
-                    @error('password')
+                    @error('address')
                     {{ $message }}
                     @enderror
                 </div>
@@ -56,11 +56,6 @@
             <div class="form__group-content">
                 <div class="form__input--text">
                     <input type="text" name="building" value="{{ $profiles->building }}" />
-                </div>
-                <div class="form__error">
-                    @error('password')
-                    {{ $message }}
-                    @enderror
                 </div>
             </div>
         </div>

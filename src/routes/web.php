@@ -25,7 +25,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/mypage', [AuthController::class, 'mypage']);
     Route::get('/mypage/profile', [AuthController::class, 'edit']);
     Route::get('/purchase/address', [AuthController::class, 'addressView']);
-    Route::patch('/purchase/address', [AuthController::class, 'addressEdit']);
 });
 Route::prefix('/')->group(function () {
     Route::get('', [ItemController::class, 'index']);

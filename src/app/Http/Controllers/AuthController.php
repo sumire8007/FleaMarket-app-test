@@ -37,7 +37,7 @@ class AuthController extends Controller
         return view('profile_edit', compact('user','profiles'));
     }
     // プロフィール設定の新規登録
-    public function store(AddressRequest $request){
+    public function store(ProfileRequest $request){
         $profiles = $request->only([
                                 'user_id',
                                 'post_code',
@@ -53,7 +53,7 @@ class AuthController extends Controller
         return redirect('/');
     }
     // プロフィール設定の更新
-    public function update(AddressRequest $request){
+    public function update(ProfileRequest $request){
         $profiles = $request->only([
                                 'user_id',
                                 'post_code',

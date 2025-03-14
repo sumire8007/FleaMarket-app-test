@@ -36,7 +36,7 @@
         <h2>{{ $item->item_name }}</h2>
         <section class="item-detail__basic">
             <p>{{ $item->brand }}</p>
-            <p>{{ $item->price }}(税込)</p>
+            <p>¥{{ $item->price }}(税込)</p>
             <div class="like-comment-content">
                 <div class="like-content">
                 @if($item->isLikedByAuthUser())

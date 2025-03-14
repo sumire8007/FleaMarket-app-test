@@ -30,7 +30,10 @@ class ProfileRequest extends FormRequest
                 if (!in_array($extension, ['jpeg', 'png'])) {
                     $fail('');
                 }
-            }
+            },
+            'name' => ['required'],
+            'post_code' => ['required','regex:/^\d{3}-\d{4}$/'],
+            'address' => ['required'],
         ];
     }
 }

@@ -44,7 +44,7 @@
             <table>
                 <tr>
                     <th>商品代金</th>
-                    <td>{{ $item->price }}</td>
+                    <td>¥{{ $item->price }}</td>
                 </tr>
                 <tr>
                     <th>支払い方法</th>
