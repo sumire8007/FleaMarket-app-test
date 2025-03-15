@@ -13,10 +13,69 @@ class LoginOutTest extends TestCase
      *
      * @return void
      */
-    public function test_example()
+    use RefreshDatabase;
+    // メールアドレスが入力されていない場合、「メールアドレスを入力してください」というバリデーションメッセージが表示される
+    public function testEmailNone()
     {
-        $response = $this->get('/');
-
-        $response->assertStatus(200);
+        $response = $this->post(route("login"));
+        $response = $this->post('login', [
+            'email' => '',
+            'password' => 'password123',
+        ]);
+        $response->assertSessionHasErrors(['email']);
+        $errors = session('errors')->get('email');
+        $this->assertContains('メールアドレスを入力してください', $errors);
     }
+    // パスワードが入力されていない場合、「パスワードを入力してください」というバリデーションメッセージが表示される
+    public function testPasswordNone()
+    {
+        $response = $this->post(route("login"));
+        $response = $this->post('login', [
+            'email' => 'test123@example.com',
+            'password' => '',
+        ]);
+        $response->assertSessionHasErrors(['password']);
+        $errors = session('errors')->get('password');
+        $this->assertContains('パスワードを入力してください', $errors);
+    }
+    // 入力情報が間違っている場合、「ログイン情報が登録されていません」というバリデーションメッセージが表示される
+    public function testLoginCheck()
+    {
+        // もしパスワードが間違っていた場合
+        $response = $this->post('login', [
+            'email' => 'test123@example.com',
+            'password' => 'password456'
+        ]);
+        $errors = session('errors')->getBag('default')->get('email');
+        $this->assertContains('ログイン情報が登録されていません', $errors);
+
+        // もしメールアドレスが間違っていた場合
+        $response = $this->post('login', [
+            'email' => 'test@example.com',
+            'password' => 'password123'
+        ]);
+        $errors = session('errors')->getBag('default')->get('email');
+        $this->assertContains('ログイン情報が登録されていません', $errors);
+    }
+    // 正しい情報が入力された場合、ログイン処理が実行される
+    public function testLogin()
+    {
+        $response = $this->post(route("login"));
+        $response = $this->post('login', [
+            'email' => 'test123@example.com',
+            'password' => 'password123',
+        ]);
+        $response->assertRedirect('http://localhost');
+    }
+    // ログアウトができる
+    public function testLogout()
+    {
+        $response = $this->post('login', [
+            'email' => 'test123@example.com',
+            'password' => 'password123',
+        ]);
+        $response = $this->post('/logout');
+        $this->assertGuest();
+    }
+
 }

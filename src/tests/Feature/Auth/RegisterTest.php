@@ -5,7 +5,6 @@ namespace Tests\Feature\Auth;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
-use App\Models\User;
 
 class RegisterTest extends TestCase
 {
@@ -16,7 +15,7 @@ class RegisterTest extends TestCase
      * @return void
      */
 
-    // 名前を入力せずに他の必要項目を入力する
+    // 名前が入力されていない場合、「お名前を入力してください」というバリデーションメッセージが表示される
     public function testNameNone(){
         $response = $this->post(route("register"));
         $response = $this->post('register',[
@@ -30,7 +29,7 @@ class RegisterTest extends TestCase
         $this->assertContains('お名前を入力してください', $errors);
     }
 
-    // メールアドレスを入力せずに他の必要項目を入力する
+    // メールアドレスが入力されていない場合、「メールアドレスを入力してください」というバリデーションメッセージが表示される
     public function testEmailNone()
     {
         $response = $this->post(route("register"));
@@ -44,7 +43,7 @@ class RegisterTest extends TestCase
         $errors = session('errors')->get('email');
         $this->assertContains('メールアドレスを入力してください', $errors);
     }
-    // パスワードを入力せずに他の必要項目を入力する
+    // パスワードが入力されていない場合、「パスワードを入力してください」というバリデーションメッセージが表示される
     public function testPasswordNone()
     {
         $response = $this->post(route("register"));
@@ -59,7 +58,7 @@ class RegisterTest extends TestCase
         $this->assertContains('パスワードを入力してください', $errors);
     }
 
-    // 7文字以下のパスワードと他の必要項目を入力する
+    // パスワードが7文字以下の場合、「パスワードは8文字以上で入力してください」というバリデーションメッセージが表示される
     public function testPasswordMin()
     {
         $response = $this->post(route("register"));
@@ -74,7 +73,7 @@ class RegisterTest extends TestCase
         $this->assertContains('パスワードは8文字以上で入力してください', $errors);
     }
 
-    // 確認用パスワードと異なるパスワードを入力し、他の必要項目も入力する
+    // パスワードが確認用パスワードと一致しない場合、「パスワードと一致しません」というバリデーションメッセージが表示される
     public function testPasswordConfirmed()
     {
         $response = $this->post(route("register"));
@@ -88,7 +87,7 @@ class RegisterTest extends TestCase
         $errors = session('errors')->get('password');
         $this->assertContains('パスワードと一致しません', $errors);
     }
-    // 全ての必要項目を正しく入力する
+    // 全ての項目が入力されている場合、会員情報が登録され、     に遷移される
     public function testRegister()
     {
         $response = $this->post(route("register"));
@@ -98,7 +97,7 @@ class RegisterTest extends TestCase
             'password' => 'password123',
             'password_confirmation' => 'password123',
         ]);
-        // プロフを登録する
+        // プロフィールを登録する
         $response = $this->post('/', [
             'user_img' => 'test.png',
             'post_code' => '123-4567',
