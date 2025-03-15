@@ -1,29 +1,29 @@
 @extends('layouts.app')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/item_detail.css') }}">
-<script src="https://kit.fontawesome.com/d872711579.js" crossorigin="anonymous"></script>
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-<meta name="csrf-token" content="{{ csrf_token() }}">
-@if(Auth::check())
-<style>
-    .liked{
-        color: #ff5555;
-        transition:.2s;
-    }
-</style>
-@endif
+    <link rel="stylesheet" href="{{ asset('css/item_detail.css') }}">
+    <script src="https://kit.fontawesome.com/d872711579.js" crossorigin="anonymous"></script>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    @if(Auth::check())
+        <style>
+            /* いいね押下時の星の色 */
+            .liked{
+                color: #ff5555;
+                transition:.2s;
+            }
+        </style>
+    @endif
 
-<style>
-    /* いいね押下時の星の色 */
-    .like-count-num{
-        font-size: 20px;
-        margin: 0 0 0 10px;
-    }
-    .fa-star{
-        font-size: 30px;
-    }
-</style>
+    <style>
+        .like-count-num{
+            font-size: 20px;
+            margin: 0 0 0 10px;
+        }
+        .fa-star{
+            font-size: 30px;
+        }
+    </style>
 @endsection
 
 @section('content')

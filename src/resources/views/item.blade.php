@@ -41,7 +41,7 @@
             @endforeach
         </form>
         </div>
-    @else    <!--もし、パラメータがあって、emptyの時はこれとか？-->
+    @else
         <!--マイリストの表示-->
                 <div class="item-list__tab">
                     <a class="item-list__tab-no-active" href="/">おすすめ</a>

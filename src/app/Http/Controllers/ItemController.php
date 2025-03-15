@@ -15,25 +15,28 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\CommentRequest;
 use App\Http\Requests\PurchaseRequest;
 use App\Http\Requests\ExhibitionRequest;
+use phpDocumentor\Reflection\Types\Null_;
 class ItemController extends Controller
 {
     // 商品一覧画面の表示　※ユーザが出品した商品を表示しない 未承認ユーザーは
     public function index(Request $request){
         $user = Auth::user();
         $param = $request->query('id');
+        var_dump($param);
         $itemIds = Item::pluck('id')->toArray();
         $sold = Purchase::whereIn('item_id',$itemIds)->pluck('item_id');
 
-        // もし、クエリパラメータがあったら＝マイページの表示方法
-        if (empty($param)) {
+        // もし、クエリパラメータが存在し、かつ空文字なら、$items を空にする
+        if (isset($param) && $param === Null) {
             $items = collect();
-        }else{
+        }
+        // もし、クエリパラメータが存在し、かつ空文字なら、$items を空にする
+        elseif(isset($param)) {
             $likes = ItemLike::where('user_id', $param)->pluck('item_id');
             $items = Item::whereIn('id', $likes)->get();
         }
-
-        // もし、クエリパラメーターが無かったら＝おすすめの表示
-        if (!isset($param)) {
+        // もし、クエリパラメータが無かったら（NULLなら）、おすすめを表示
+        else{
             if (Auth::check()) {
                 $userItemIds = Item::where('user_id', $user->id)->pluck('id')->toArray();
                 $items = Item::whereNotIn('id', $userItemIds)->get();
@@ -41,19 +44,23 @@ class ItemController extends Controller
                 $items = Item::all();
             }
         }
-
-        // if (isset($param) && $param !== "") {
-        //     if(Auth::check()){
-        //         $likes = ItemLike::where('user_id', $user->id)->pluck('item_id');
-        //         $items = Item::whereIn('id', $likes)->get();
-        //     } else {
-        //         $items = collect();
-        //     }
-        // } elseif (Auth::check()) {
-        //         $userItemIds = Item::where('user_id', $user->id)->pluck('id')->toArray();
-        //         $items = Item::whereNotIn('id', $userItemIds)->get();
+        // // もし、クエリパラメータがあったら＝マイページの表示方法
+        // if (isset($param) && $param ==='') {
+        //     $items = collect();
+        // }else{
+        //     $likes = ItemLike::where('user_id', $param)->pluck('item_id');
+        //     $items = Item::whereIn('id', $likes)->get();
         // }
 
+        // // もし、クエリパラメーターが無かったら＝おすすめの表示
+        // if (!isset($param)) {
+        //     if (Auth::check()) {
+        //         $userItemIds = Item::where('user_id', $user->id)->pluck('id')->toArray();
+        //         $items = Item::whereNotIn('id', $userItemIds)->get();
+        //     } else {
+        //         $items = Item::all();
+        //     }
+        // }
         return view('item',compact('items','user','param','sold'));
     }
  //検索機能

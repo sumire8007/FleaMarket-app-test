@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Routing\Controller;
@@ -58,6 +59,10 @@ class LoginController extends Controller
      */
     public function store(LoginRequest $request)
     {
+        $creadentials = $request->only(["email","password"]);
+        if (!Auth::attempt($creadentials)) {
+            return back()->withErrors(["email"=> "ログイン情報が登録されていません"])->withInput();
+        }
         return $this->loginPipeline($request)->then(function ($request) {
             return app(LoginResponse::class);
         });

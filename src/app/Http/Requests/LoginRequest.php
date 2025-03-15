@@ -26,11 +26,8 @@ class LoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => ['required',
-                        'email',
-                        Rule::exists(User::class, 'email'),
-                    ],
-            'password' => ['required', 'min:8'],
+            'email' => ['required','email'],
+            'password' => ['required','min:8'],
         ];
     }
 
@@ -38,7 +35,6 @@ class LoginRequest extends FormRequest
     {
         return [
             'email.required' => 'メールアドレスを入力してください',
-            'email.exists' => 'ログイン情報が登録されていません',
             'password.required' => 'パスワードを入力してください',
             'password.min' => 'パスワードは8文字以上で入力してください',
         ];
