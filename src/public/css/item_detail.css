@@ -39,6 +39,7 @@
     cursor: pointer;
     margin-top: 20px;
     text-align: center;
+    align-items: center;
     text-decoration: none;
 }
 
@@ -54,11 +55,15 @@
 .category_box {
     display: flex;
 }
+.category_items {
+    display: flex;
+    margin-left: 20px;
+}
 .category_item {
     background-color: #d9d9d9;
     border-radius: 15px;
     padding: 0 8px;
-    margin: 0 5px;
+    margin: auto 5px;
 }
 
 .condition {

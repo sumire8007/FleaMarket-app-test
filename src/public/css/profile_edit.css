@@ -12,32 +12,29 @@
 }
 
 .img_select-button::file-selector-button {
-    /* // サイズだけ固定して透明にして見えなくする　 */
-        width: 150px;
-        height: 35px;
-        opacity: 0;
-        /* // 疑似要素をのせるためにrelative */
-        position: relative;
-        margin-left: 30px;
+    width: 150px;
+    height: 35px;
+    opacity: 0;
+    position: relative;
+    margin-left: 30px;
 }
 
 .img_select-button::before {
-    /* // 「ファイルを選択」ボタンのテキストを変更、スタイルはここに記載する */
-        position: absolute;
-        content: "画像を選択する";
-        width: 150px;
-        height: 35px;
-        margin-left: 100px;
-        font-weight: bold;
-        color: #ff5555;
-        background: white;
-        font-size: 14px;
-        border-radius: 3px;
-        border: solid 1px #ff5555;
-        text-align: center;
-        align-items: center;
-        display: grid;
-        cursor: pointer;
+    position: absolute;
+    content: "画像を選択する";
+    width: 150px;
+    height: 35px;
+    margin-left: 100px;
+    font-weight: bold;
+    color: #ff5555;
+    background: white;
+    font-size: 14px;
+    border-radius: 3px;
+    border: solid 1px #ff5555;
+    text-align: center;
+    align-items: center;
+    display: grid;
+    cursor: pointer;
 }
 .circle {
     width: 100px;
@@ -75,4 +72,5 @@
     border-radius: 3px;
     cursor: pointer;
     margin-top: 45px;
+    margin-bottom: 30px;
 }
