@@ -4,7 +4,9 @@ namespace Tests\Feature\Auth;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Log;
 use Tests\TestCase;
+use App\Models\User;
 
 class LoginOutTest extends TestCase
 {
@@ -14,10 +16,19 @@ class LoginOutTest extends TestCase
      * @return void
      */
     use RefreshDatabase;
+    public $user;
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->user = User::factory()->create([
+            'name' => 'テスト',
+            'email' => 'test123@example.com',
+            'password' => bcrypt('password123'),
+        ]);
+    }
     // メールアドレスが入力されていない場合、「メールアドレスを入力してください」というバリデーションメッセージが表示される
     public function testEmailNone()
     {
-        $response = $this->post(route("login"));
         $response = $this->post('login', [
             'email' => '',
             'password' => 'password123',
@@ -29,7 +40,6 @@ class LoginOutTest extends TestCase
     // パスワードが入力されていない場合、「パスワードを入力してください」というバリデーションメッセージが表示される
     public function testPasswordNone()
     {
-        $response = $this->post(route("login"));
         $response = $this->post('login', [
             'email' => 'test123@example.com',
             'password' => '',
@@ -60,12 +70,12 @@ class LoginOutTest extends TestCase
     // 正しい情報が入力された場合、ログイン処理が実行される
     public function testLogin()
     {
-        $response = $this->post(route("login"));
         $response = $this->post('login', [
             'email' => 'test123@example.com',
             'password' => 'password123',
         ]);
-        $response->assertRedirect('http://localhost');
+        $this->assertAuthenticatedAs($this->user);
+        $response->assertRedirect('/');
     }
     // ログアウトができる
     public function testLogout()

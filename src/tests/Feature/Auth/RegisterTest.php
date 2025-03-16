@@ -104,6 +104,6 @@ class RegisterTest extends TestCase
             'address' => '東京都渋谷区千駄ヶ谷',
             'building' => '千駄ヶ谷マンション',
         ]);
-        $response->assertRedirect('http://localhost');
+        $response->assertRedirect('/');
     }
 }
