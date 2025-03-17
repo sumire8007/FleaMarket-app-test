@@ -27,7 +27,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/purchase/address', [AuthController::class, 'addressView']);
 });
 Route::prefix('/')->group(function () {
-    Route::get('', [ItemController::class, 'index']);
+    Route::get('', [ItemController::class, 'index'])->name('item.index');
     Route::post('', [AuthController::class, 'store']);
 });
 
