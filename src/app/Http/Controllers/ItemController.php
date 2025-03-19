@@ -22,7 +22,6 @@ class ItemController extends Controller
     public function index(Request $request){
         $user = Auth::user();
         $param = $request->query('id');
-        var_dump($param);
         $itemIds = Item::pluck('id')->toArray();
         $sold = Purchase::whereIn('item_id',$itemIds)->pluck('item_id');
 
@@ -30,12 +29,12 @@ class ItemController extends Controller
         if (isset($param) && $param === Null) {
             $items = collect();
         }
-        // もし、クエリパラメータが存在し、かつ空文字なら、$items を空にする
+        // もし、クエリパラメータが存在し、値があったら$itemsにユーザーがいいねしたものを入れる
         elseif(isset($param)) {
             $likes = ItemLike::where('user_id', $param)->pluck('item_id');
             $items = Item::whereIn('id', $likes)->get();
         }
-        // もし、クエリパラメータが無かったら（NULLなら）、おすすめを表示
+        // もし、クエリパラメータが無かったら（NULLなら）、おすすめを表示（ログインしてたら、ユーザーが出品したものを表示しない）
         else{
             if (Auth::check()) {
                 $userItemIds = Item::where('user_id', $user->id)->pluck('id')->toArray();

@@ -24,13 +24,13 @@ class ProfileRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_img' => 'mimes:jpeg,png',
+            'user_img' => ['required','mimes:jpeg,png',
             function ($attribute, $value, $fail) {
                 $extension = strtolower($value->getClientOriginalExtension());
                 if (!in_array($extension, ['jpeg', 'png'])) {
                     $fail('');
                 }
-            },
+            }],
             'name' => ['required'],
             'post_code' => ['required','regex:/^\d{3}-\d{4}$/'],
             'address' => ['required'],

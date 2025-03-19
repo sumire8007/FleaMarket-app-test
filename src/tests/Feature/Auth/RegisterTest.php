@@ -17,7 +17,6 @@ class RegisterTest extends TestCase
 
     // 名前が入力されていない場合、「お名前を入力してください」というバリデーションメッセージが表示される
     public function testNameNone(){
-        $response = $this->post(route("register"));
         $response = $this->post('register',[
             'name' => '',
             'email' => 'test123@example.com',
@@ -32,7 +31,6 @@ class RegisterTest extends TestCase
     // メールアドレスが入力されていない場合、「メールアドレスを入力してください」というバリデーションメッセージが表示される
     public function testEmailNone()
     {
-        $response = $this->post(route("register"));
         $response = $this->post('register', [
             'name' => 'test123',
             'email' => '',
@@ -46,7 +44,6 @@ class RegisterTest extends TestCase
     // パスワードが入力されていない場合、「パスワードを入力してください」というバリデーションメッセージが表示される
     public function testPasswordNone()
     {
-        $response = $this->post(route("register"));
         $response = $this->post('register', [
             'name' => 'test123',
             'email' => 'test123@example.com',
@@ -61,7 +58,6 @@ class RegisterTest extends TestCase
     // パスワードが7文字以下の場合、「パスワードは8文字以上で入力してください」というバリデーションメッセージが表示される
     public function testPasswordMin()
     {
-        $response = $this->post(route("register"));
         $response = $this->post('register', [
             'name' => 'test123',
             'email' => 'test123@example.com',
@@ -72,11 +68,9 @@ class RegisterTest extends TestCase
         $errors = session('errors')->get('password');
         $this->assertContains('パスワードは8文字以上で入力してください', $errors);
     }
-
     // パスワードが確認用パスワードと一致しない場合、「パスワードと一致しません」というバリデーションメッセージが表示される
     public function testPasswordConfirmed()
     {
-        $response = $this->post(route("register"));
         $response = $this->post('register', [
             'name' => 'test123',
             'email' => 'test123@example.com',
@@ -87,23 +81,15 @@ class RegisterTest extends TestCase
         $errors = session('errors')->get('password');
         $this->assertContains('パスワードと一致しません', $errors);
     }
-    // 全ての項目が入力されている場合、会員情報が登録され、     に遷移される
+    // 全ての項目が入力されている場合、会員情報が登録され,プロフィール設定に遷移される
     public function testRegister()
     {
-        $response = $this->post(route("register"));
         $response = $this->post('register', [
             'name' => 'test123',
             'email' => 'test123@example.com',
             'password' => 'password123',
             'password_confirmation' => 'password123',
         ]);
-        // プロフィールを登録する
-        $response = $this->post('/', [
-            'user_img' => 'test.png',
-            'post_code' => '123-4567',
-            'address' => '東京都渋谷区千駄ヶ谷',
-            'building' => '千駄ヶ谷マンション',
-        ]);
-        $response->assertRedirect('/');
+        $response->assertRedirect('/mypage/profile');
     }
 }
