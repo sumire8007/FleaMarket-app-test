@@ -2,3 +2,4 @@ docker/mysql/data/*
 !.gitkeep
 .env
 .env.testing
+src/.env.testing
