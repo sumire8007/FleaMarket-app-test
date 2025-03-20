@@ -1,19 +1,31 @@
-# お問い合わせフォーム
+# coachtechフリマ
 ## 環境構築
 **Dockerビルド**
 
-1. ```git clone git@github.com:sumire8007/FleaMarket-app-test.git```
-
-3. docker-compose up -d --build
+```
+  git clone git@github.com:sumire8007/FleaMarket-app-test.git
+```
+```
+ docker-compose up -d --build
+```
    
 ＊MySQLは、OSによって起動しない場合があるのでそれぞれのPCに合わせて docker-compose.ymlファイルを編集してください。
 
-**Laravel環境構築**
-1. docker-compose exec php bash
-2. composer install
-3. .env.exampleファイルから、envを作成し、環境変数を変更 (下記に変更)
+**◽️Laravel環境構築**
 
-   【.envファイル】
+1.　PHPコンテナにアクセス
+```
+docker-compose exec php bash
+```
+2.　composerをインストール
+```
+composer install
+```
+3. .env.exampleファイルから、envを作成し、環境変数を変更 (下記に変更)
+```
+cp .env.example .env
+```
+【.envファイル 変更箇所】
 
    DB_HOST=mysql
    
@@ -23,10 +35,13 @@
    
    DB_PASSWORD=laravel_pass
    
-4. php artisan key:generate
-5. exit
+4.　KEYを与える
+  ```
+  php artisan key:generate
+  ```
+5. ```exit```
 
-**MySQL、laravel_userに権限を与えるために下記を実行**
+**◽️MySQL、laravel_userに権限を与えるために下記を実行**
 1. docker-compose exec mysql bash
 2. mysql -u root -p 　            ※パスワードは、docker-compose.ymlに記載
 3. ユーザーに権限を付与
@@ -39,26 +54,25 @@
   
 5. exit;
    
-**テーブルの作成**
+**◽️テーブルの作成**
 1. php artisan migrate
 
-**シーダデータの作成**
-1. シーディングは下記ファイルのrunメソッドを変更
+**◽️storage保存するためリンクを作成**
+```
+php artisan storage:link
+```
+   ※itemとuser画像をstorageに保存します。
 
-   ファイル：src/database/seeders/DatabaseSeeder.php）
-   
-   runメソッド内　：　$this->call(CategoriesTableSeeder::class);
-   
-2. php artisan db:seed
-
-**ファクトリによるデータ作成**
-1. ファクトリは下記ファイルのrunメソッドを変更
-
-   ファイル：src/database/seeders/DatabaseSeeder.php
-   
-   runメソッド内　：　$this->call(ContactTableSeeder::class);
-   
-2. php artisan db:seed
+   ※もし、src/storage/app/publicディレクトリに[items],[users]ディレクトリが無い場合、ディレクトリ作成します。
+   ```
+   mkdir src/storage/app/public/items
+   mkdir src/storage/app/public/users
+   ```
+  
+**◽️ダミーデータの作成**
+```
+php artisan db:seed
+```
 
 
    
