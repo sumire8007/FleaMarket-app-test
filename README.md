@@ -1,6 +1,6 @@
 # coachtechフリマ
 ## 環境構築
-**Dockerビルド**
+**◽️Dockerビルド**
 
 ```
   git clone git@github.com:sumire8007/FleaMarket-app-test.git
@@ -39,7 +39,7 @@ cp .env.example .env
   ```
   php artisan key:generate
   ```
-5. ```exit```
+5.  ```exit```
 
 **◽️MySQL、laravel_userに権限を与えるために下記を実行**
 1. docker-compose exec mysql bash
@@ -57,7 +57,7 @@ cp .env.example .env
 **◽️テーブルの作成**
 1. php artisan migrate
 
-**◽️storage保存するためリンクを作成**
+**◽️storage保存するため、リンクを作成**
 ```
 php artisan storage:link
 ```
@@ -74,7 +74,52 @@ php artisan storage:link
 php artisan db:seed
 ```
 
+## PHPUnitテストの実行
+1. MySQLコンテナにアクセス後、MySQLにログイン ※パスワードは、docker-compose.ymlに記載
+   ```
+   docker-compose exec mysql bash
+   mysql -u root -p
+   ```
+2. データベース(demo_test)の作成 
+   ```
+   CREATE DATABASE demo_test;
+   SHOW DATABASES;
+   ```
+   ※データベース(demo_test)が作成されていることが確認出来たら、MySQLコンテナから抜けてください。
+   ```exit;```
+   
+3. テスト用の.envファイル作成
+   ```
+   docker-compose exec php bash
+   cp .env .env.testing
+   ```
+4. 環境変数を変更
+   ```
+    APP_ENV=test
+    APP_KEY=
 
+    DB_DATABASE=demo_test
+    DB_USERNAME=root
+    DB_PASSWORD=root
+   ```
+5. KEYを与える
+   ```
+   php artisan key:generate --env=testing
+   ```
+6. キャッシュの削除
+   ```
+   php artisan config:clear
+   ```
+7. テスト用のテーブル作成
+   ```
+   php artisan migrate --env=testing
+   ```
+8. テストの実行
+  ```
+   vendor/bin/phpunit --testdox
+  ```
+
+   
    
 ## 使用技術
 • PHP 8.2.8
