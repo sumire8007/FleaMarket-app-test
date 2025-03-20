@@ -40,12 +40,17 @@ class SellTest extends TestCase
             'item_name' => '腕時計',
             'price' => '15000',
             'detail' => 'スタイリッシュなデザインのメンズ腕時計',
-            'item_img' => 'test.png',
+            'item_img' => new UploadedFile(
+        public_path('img/test.png'),
+        'test.png',
+        'image/png',
+        null,
+        true // テスト環境でのチェックをスキップ
+    ),
             'condition' => '良好',
             'brand'=> 'test',
             'categories' => $categories->pluck('id')->toArray(),
         ]);
-
         $this->assertDatabaseHas('items', [
             'item_name' => '腕時計',
             'price' => '15000',
