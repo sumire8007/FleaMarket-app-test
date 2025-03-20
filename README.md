@@ -8,8 +8,15 @@
 ```
  docker-compose up -d --build
 ```
-   
-＊MySQLは、OSによって起動しない場合があるのでそれぞれのPCに合わせて docker-compose.ymlファイルを編集してください。
+ > *MacのM1・M2チップのPCの場合、`no matching manifest for linux/arm64/v8 in the manifest list entries`のメッセージが表示されビルドができないことがあります。
+エラーが発生する場合は、docker-compose.ymlファイルの「mysql」内に「platform」の項目を追加で記載してください*
+``` bash
+mysql:
+    platform: linux/x86_64(この文追加)
+    image: mysql:8.0.26
+    environment:
+```
+
 
 **◽️Laravel環境構築**
 
@@ -61,9 +68,9 @@ cp .env.example .env
 ```
 php artisan storage:link
 ```
-   ※itemとuser画像をstorageに保存します。
-
-   ※もし、src/storage/app/publicディレクトリに[items],[users]ディレクトリが無い場合、ディレクトリ作成します。
+  > *itemとuser画像をstorageに保存します。
+    もし、src/storage/app/publicディレクトリに[items] ・　[users]ディレクトリが無い場合、ディレクトリを作成してください。*
+    
    ```
    mkdir src/storage/app/public/items
    mkdir src/storage/app/public/users
