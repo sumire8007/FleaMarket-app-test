@@ -18,7 +18,7 @@ class AddressFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => User::factory(),
+            // 'user_id' => User::factory(),
             'user_img' => 'test.png',
             'post_code'=> $this->faker->numberBetween(100, 999).'-'. $this->faker->numberBetween(1000, 9999),
             'address'=> $this->faker->city().$this->faker->streetAddress(),

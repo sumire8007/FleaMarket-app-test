@@ -13,7 +13,7 @@
                 </div>
                 <div class="item-detail__basic">
                     <h2>{{ $item->item_name }}</h2>
-                    <p>{{ $item->price }}(税込)</p>
+                    <p>¥{{ $item->price }}(税込)</p>
                 </div>
             </div>
 

@@ -19,9 +19,10 @@ class PurchaseTest extends TestCase
      * @return void
      */
     use RefreshDatabase;
+
     // public $item;
-    public $user;
-    public $profile;
+    protected $user;
+    protected $profile;
     public function setUp(): void
     {
         parent::setUp();
@@ -30,6 +31,7 @@ class PurchaseTest extends TestCase
             'email' => 'test123@example.com',
             'password' => bcrypt('password123'),
         ]);
+        // dump($this->user->toArray());
         $this->profile = Address::factory()->create([
             'user_id' => $this->user->id,
             'user_img' => new UploadedFile(
@@ -47,6 +49,7 @@ class PurchaseTest extends TestCase
     // 「購入する」ボタンを押下すると購入が完了する
     public function testPurchase()
     {
+        // dump($this->user->toArray());
         $item = Item::factory()->create();
         $response = $this->post('login', ['email' => 'test123@example.com', 'password' => 'password123']);
         $response->assertRedirect('/');
@@ -88,7 +91,7 @@ class PurchaseTest extends TestCase
         // $response->assertSee('sold');
     }
     // 「プロフィール/購入した商品一覧」に追加されている
-    // public function testSoldShow2()
+    // public function testSold()
     // {
 
     // }
