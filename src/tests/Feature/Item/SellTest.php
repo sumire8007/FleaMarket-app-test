@@ -3,14 +3,12 @@
 namespace Tests\Feature\Item;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Database\Seeder;
 use Database\Seeders\CategoriesTableSeeder;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Item;
-use App\Models\CategoryItem;
 use App\Models\Category;
 class SellTest extends TestCase
 {
@@ -42,11 +40,11 @@ class SellTest extends TestCase
             'detail' => 'スタイリッシュなデザインのメンズ腕時計',
             'item_img' => new UploadedFile(
         public_path('img/test.png'),
-        'test.png',
+    'test.png',
         'image/png',
-        null,
-        true // テスト環境でのチェックをスキップ
-    ),
+            null,
+            true
+                ),
             'condition' => '良好',
             'brand'=> 'test',
             'categories' => $categories->pluck('id')->toArray(),
@@ -58,8 +56,9 @@ class SellTest extends TestCase
             'condition' => '良好',
             'brand' => 'test',
         ]);
-
         $item = Item::where('item_name', '腕時計')->first();
-        $this->assertEquals(2, $item->categories()->count());
+        $savedCategoryIds = $item->categories()->pluck('categories.id')->toArray();
+        $expectedCategoryIds = $categories->pluck('id')->toArray();
+        $this->assertEqualsCanonicalizing($expectedCategoryIds, $savedCategoryIds);
     }
 }
