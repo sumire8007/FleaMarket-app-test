@@ -100,14 +100,4 @@ class PurchaseTest extends TestCase
     // {
 
     // }
-    // 送付先住所変更画面にて登録した住所が商品購入画面に反映されている
-    // public function testSippingAddress()
-    // {
-
-    // }
-    // 購入した商品に送付先住所が紐づいて登録される
-    // public function testPurchaseTable()
-    // {
-
-    // }
 }

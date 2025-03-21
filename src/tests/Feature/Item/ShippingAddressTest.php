@@ -96,13 +96,13 @@ class ShippingAddressTest extends TestCase
         ]);
         $response = $this->actingAs($user)->get(('/purchase?id=' . $item->id));
         $purchase = Purchase::create( [
-            'payment_id' => '1',
+            'payment_id' => 3,
             'user_id' => $user->id,
             'item_id' => $item->id,
             'address_id' => $profile->id,
         ]);
         $this->assertDatabaseHas('purchases', [
-            'payment_id' => '1',
+            'payment_id' => 3,
             'user_id' => $user->id,
             'item_id' => $item->id,
             'address_id' => $profile->id,
