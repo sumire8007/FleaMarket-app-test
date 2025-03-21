@@ -69,9 +69,6 @@ class MypageTest extends TestCase
             'address_id'=> $this->profile->id,
         ]);
         $soldItemName = Item::where('id',$sold->item_id)->first();
-        dump($soldItemName->item_name);
-        // dd($sell);
-        // dd($soldItemName);
         $response = $this->post('login', ['email'=> 'test123@example.com', 'password' => 'password123']);
         // ユーザーが出品した商品が表示されているか
         $response = $this->actingAs($this->user)->get('/mypage');

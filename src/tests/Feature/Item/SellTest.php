@@ -30,7 +30,8 @@ class SellTest extends TestCase
             'password' => bcrypt('password123'),
         ]);
         $categories = Category::query()->inRandomOrder()->limit(2)->get();
-        // dd($categories);
+        $response = $this->post('login', ['email' => 'test123@example.com', 'password' => 'password123']);
+        $response->assertRedirect('/');
         $response = $this->actingAs($user)->get('/sell');
         $response->assertStatus(200);
         $response = $this->actingAs($user)->post('/sell',[
