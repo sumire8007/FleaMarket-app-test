@@ -102,13 +102,17 @@
             <section>
                 <h3>コメント({{ $comments->count() }})</h3>
                 @foreach($comments as $comment)
-                    <div class="account-box">
-                        <div class="circle">
-                            <img src="{{ asset('storage/' . $profiles[$comment->user_id]->user_img) }}" alt="プロフ画像">
+                    <div class="comment-group">
+                        <div class="account-box">
+                            <div class="circle">
+                                <img src="{{ asset('storage/' . $profiles[$comment->user_id]->user_img) }}" alt="プロフ画像">
+                            </div>
+                            <p class="user_name">{{ $comment->user->name }}</p>
                         </div>
-                        <p>{{ $comment->user->name }}</p>
+                        <div class="comment-box">
+                            <p>{{ $comment['comment'] }}</p>
+                        </div>
                     </div>
-                        <p class="comment-box">{{ $comment['comment'] }}</p>
                 @endforeach
                 @if (Auth::check())
                     <div class="comment-box_input">
@@ -117,6 +121,9 @@
                         <input type="hidden" name="user_id" value="{{ $user->id }}">
                         <input type="hidden" name="item_id" value="{{ $item->id }}">
                         <h3>商品へのコメント</h3>
+                        @error('comment')
+                            <span class="error-message">{{ $message }}</span>
+                        @enderror
                         <textarea name="comment"></textarea>
                         <div class="comment_button">
                             <button>コメントを送信する</button>

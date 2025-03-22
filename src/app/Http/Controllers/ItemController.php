@@ -95,7 +95,7 @@ class ItemController extends Controller
         $comments = Comment::where('item_id',$id)->with('user')->get();
         $userIds = $comments->pluck('user_id');
         $profiles = Address::whereIn('user_id',$userIds)->get()->keyBy('user_id');
-        return view('item_detail',compact('item','user','comments','profiles'));
+        return redirect('/item?id='.$item->id);
     }
     // 商品購入画面の表示
     public function purchase(Request $request){
