@@ -95,9 +95,4 @@ class PurchaseTest extends TestCase
     // {
 
     // }
-    // 小計画面で変更が即時反映される
-    // public function testSubtotal()
-    // {
-
-    // }
 }
