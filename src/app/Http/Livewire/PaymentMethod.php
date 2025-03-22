@@ -33,8 +33,6 @@ class PaymentMethod extends Component
         } else {
             $this->selectedPayment = '未選択';
         }
-
-        // $this->selectedPayment = $payment ? $payment->content : '未選択';
     }
 
     public function render()
