@@ -30,6 +30,5 @@ class LikeController extends Controller
             'likesCount' =>  $likesCount,
         ];
         return response()->json($param);
-
     }
 }

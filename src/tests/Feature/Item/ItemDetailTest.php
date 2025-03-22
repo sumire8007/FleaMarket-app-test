@@ -16,14 +16,6 @@ class ItemDetailTest extends TestCase
      * @return void
      */
     use RefreshDatabase;
-    protected $itemLikes;
-    protected $comments;
-    protected function setUp(): void{
-        parent::setUp();
-
-        $this->itemLikes = ItemLike::factory()->create();
-        $this->comments = Comment::factory()->create();
-    }
 
     //すべての情報が商品詳細ページに表示されている
     public function testDetailAll()
