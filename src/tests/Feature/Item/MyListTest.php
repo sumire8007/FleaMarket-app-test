@@ -23,6 +23,7 @@ class MyListTest extends TestCase
      * @return void
      */
     use RefreshDatabase;
+    // いいねした商品だけが表示される
     public function testMyList()
     {
         $user = User::create([
@@ -145,8 +146,24 @@ class MyListTest extends TestCase
         $response->assertSee('HDD');
     }
     // 未認証の場合は何も表示されない
-    public function testBuy()
+    public function testNone()
     {
-        
+        Item::create([
+            'item_name' => '腕時計',
+            'price' => '15000',
+            'detail' => 'スタイリッシュなデザインのメンズ腕時計',
+            'item_img' => new UploadedFile(
+                public_path('img/test.png'),
+                'test.png',
+                'image/png',
+            ),
+            'condition' => '良好',
+            'brand' => 'test_brand',
+        ]);
+
+        $response = $this->get('/?id=');
+        $response->assertSee('マイリストはありません');
+        $response->assertDontSee('腕時計');
+        $response->assertDontSee('test.png');
     }
 }
