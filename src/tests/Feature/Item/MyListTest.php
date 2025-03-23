@@ -1,18 +1,21 @@
 <?php
 
-namespace Tests\Feature\Item;
+namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\UploadedFile;
 use Tests\TestCase;
 use App\Models\Item;
 use App\Models\User;
-use App\Models\Purchase;
+use App\Models\ItemLike;
 use App\Models\Address;
 use App\Models\Payment;
+use App\Models\Purchase;
 
-class ItemListTest extends TestCase
+
+
+class MyListTest extends TestCase
 {
     /**
      * A basic feature test example.
@@ -20,23 +23,48 @@ class ItemListTest extends TestCase
      * @return void
      */
     use RefreshDatabase;
-
-    public function setUp(): void
+    public function testMyList()
     {
-        parent::setUp();
-    }
-    // 商品一覧で全商品を取得できる
-    public function testItemAll()
-    {
-        $items = Item::factory()->count(10)->create();
-        $response = $this->get(route('item.index'));
+        $user = User::create([
+            'name' => 'テスト',
+            'email' => 'test123@example.com',
+            'password' => bcrypt('password123'),
+        ]);
+        $item = Item::create([
+            'item_name' => '腕時計',
+            'price' => '15000',
+            'detail' => 'スタイリッシュなデザインのメンズ腕時計',
+            'item_img' => new UploadedFile(
+                public_path('img/test.png'),
+            'test.png',
+                'image/png',
+            ),
+            'condition' => '良好',
+            'brand' => 'test_brand',
+        ]);
+        Item::create([
+            'item_name' => 'HDD',
+            'price' => '15000',
+            'detail' => 'スタイリッシュなデザインのメンズ腕時計',
+            'item_img' => new UploadedFile(
+                public_path('img/test.png'),
+                'test.png',
+                'image/png',
+            ),
+            'condition' => '良好',
+            'brand' => 'test_brand',
+        ]);
+        ItemLike::create([
+            'user_id' => $user->id,
+            'item_id' => $item->id,
+        ]);
+        $response = $this->get('/?id='.$user->id);
         $response->assertStatus(200);
-        foreach ($items as $item) {
-            $response->assertSee($item->item_name);
-        }
+        $response->assertSee('腕時計');
+        $response->assertDontSee('HDD');
     }
-    // 商品一覧で購入済み商品は「Sold」と表示される
-    public function testItemSold()
+    // 購入済み商品は「Sold」と表示される
+    public function testMyListSold()
     {
         $item = Item::create([
             'item_name' => '腕時計',
@@ -65,20 +93,25 @@ class ItemListTest extends TestCase
         $payment = Payment::factory()->create();
         Purchase::create([
             'payment_id' => $payment->id,
-            'user_id'=> $user->id,
-            'item_id'=> $item->id,
-            'address_id'=> $profile->id,
+            'user_id' => $user->id,
+            'item_id' => $item->id,
+            'address_id' => $profile->id,
         ]);
-        $response = $this->get(route('item.index'));
+        ItemLike::create([
+            'user_id' => $user->id,
+            'item_id' => $item->id,
+        ]);
+        $response = $this->get('/?id=' . $user->id);
         $response->assertStatus(200);
+        $response->assertSee('腕時計');
         $response->assertSee('sold');
     }
-    // 商品一覧で自分が出品した商品は表示されない
-    public function testItemUserSell()
+    // 自分が出品した商品は表示されない
+    public function testMyListItemUserSell()
     {
         $user = User::factory()->create();
         Item::create([
-            'user_id'=> $user->id,
+            'user_id' => $user->id,
             'item_name' => '腕時計',
             'price' => '15000',
             'detail' => 'スタイリッシュなデザインのメンズ腕時計',
@@ -90,7 +123,7 @@ class ItemListTest extends TestCase
             'condition' => '良好',
             'brand' => 'test_brand',
         ]);
-        Item::create([
+        $item = Item::create([
             'item_name' => 'HDD',
             'price' => '15000',
             'detail' => 'スタイリッシュなデザインのメンズ腕時計',
@@ -102,10 +135,18 @@ class ItemListTest extends TestCase
             'condition' => '良好',
             'brand' => 'test_brand',
         ]);
-        $response = $this->actingAs($user)->get(route('item.index'));
+        ItemLike::create([
+            'user_id' => $user->id,
+            'item_id' => $item->id,
+        ]);
+        $response = $this->get('/?id=' . $user->id);
         $response->assertStatus(200);
         $response->assertDontSee('腕時計');
         $response->assertSee('HDD');
     }
-
+    // 未認証の場合は何も表示されない
+    public function testBuy()
+    {
+        
+    }
 }
