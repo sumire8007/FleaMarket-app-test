@@ -19,7 +19,6 @@
                     <input type="search" name="keyword" value="{{ old('keyword') }}" placeholder="  なにをお探しですか？">
                 </form>
             </div>
-            <!-- <nav> -->
                 <ul class="header-nav">
                     @if (Auth::check())
                     <ol class="header-nav__item-logout">
@@ -43,7 +42,6 @@
                         <a class="header-nav__link-sell" href="/sell">出品</a>
                     </ol>
                 </ul>
-            <!-- </nav> -->
         </div>
     </header>
 

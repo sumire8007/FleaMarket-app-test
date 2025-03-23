@@ -20,13 +20,11 @@ class LoginOutTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        // dump('Before Creating User:', User::all()->toArray());
         $this->user = User::factory()->create([
             'name' => 'テスト',
             'email' => 'test123@example.com',
             'password' => bcrypt('password123'),
         ]);
-        // dump('After Creating User:', User::all()->toArray());
     }
     // メールアドレスが入力されていない場合、「メールアドレスを入力してください」というバリデーションメッセージが表示される
     public function testEmailNone()

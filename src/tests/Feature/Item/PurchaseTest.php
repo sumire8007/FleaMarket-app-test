@@ -3,7 +3,6 @@
 namespace Tests\Feature\Item;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Database\Seeders\PaymentsTableSeeder;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;

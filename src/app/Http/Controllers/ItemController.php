@@ -19,24 +19,25 @@ use phpDocumentor\Reflection\Types\Null_;
 class ItemController extends Controller
 {
     // 商品一覧画面の表示
-    public function index(Request $request){
+    public function index(Request $request)
+    {
         $user = Auth::user();
         $param = $request->query('id');
         $paramUrl = $request->has('id');
         // dd($paramUrl);
         $itemIds = Item::pluck('id')->toArray();
-        $sold = Purchase::whereIn('item_id',$itemIds)->pluck('item_id');
+        $sold = Purchase::whereIn('item_id', $itemIds)->pluck('item_id');
         // もし、クエリパラメータが存在し、かつ空文字なら、$items を空にする
         if ($request->has('id') && empty($param)) {
             $items = [];
         }
         // もし、クエリパラメータが存在し、値があったら$itemsにユーザーがいいねしたものを入れる
-        elseif(isset($param)) {
+        elseif (isset($param)) {
             $likes = ItemLike::where('user_id', $param)->pluck('item_id');
             $items = Item::whereIn('id', $likes)->get();
         }
         // もし、クエリパラメータが無かったら（NULLなら）、おすすめを表示（ログインしてたら、ユーザーが出品したものを表示しない）
-        else{
+        else {
             if (Auth::check()) {
                 $userItemIds = Item::where('user_id', $user->id)->pluck('id')->toArray();
                 $items = Item::whereNotIn('id', $userItemIds)->get();
@@ -44,15 +45,21 @@ class ItemController extends Controller
                 $items = Item::all();
             }
         }
-        return view('item',compact('items','user','param','sold','paramUrl'));
+        return view('item', compact('items', 'user', 'param', 'sold', 'paramUrl'));
     }
- //検索機能
-    public function search(Request $request){
+    //検索機能
+    public function search(Request $request)
+    {
+        $param = $request->query('id');
+        $paramUrl = $request->has('id');
         $items = Item::KeywordSearch($request->keyword)->get();
         $keyword = $request->keyword;
         $user = Auth::user();
+        $itemIds = Item::pluck('id')->toArray();
+        $sold = Purchase::whereIn('item_id', $itemIds)->pluck('item_id');
+
         // $request->session()->put('keyword',$keyword);
-        return view('item',compact('items','user'));
+        return view('item', compact('items', 'user','param','sold','paramUrl'));
     }
     // 商品詳細の表示 クエリパラメータを使用
     public function detail(Request $request){

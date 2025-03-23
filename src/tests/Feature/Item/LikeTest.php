@@ -58,7 +58,6 @@ class LikeTest extends TestCase
         $response->assertRedirect('/');
         $response = $this->post('/item?id=' . $item->id);
         $response = $this->postJson('/item/like', ['item_id' => $item->id]);
-        dump($response->json());
         $response->assertRedirect('/item?id=' . $item->id);
         $response->assertJson('color: #ff5555;');
     }
