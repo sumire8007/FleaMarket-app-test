@@ -25,7 +25,6 @@ class ShippingAddressTest extends TestCase
     {
         parent::setUp();
         $this->seed(PaymentsTableSeeder::class);
-        dump(Payment::all()->toArray());
     }
     // 送付先住所変更画面にて登録した住所が商品購入画面に反映されている
     public function testAddressShow()
