@@ -3,3 +3,5 @@ docker/mysql/data/*
 .env
 .env.testing
 src/.env.testing
+.env.stripe
+src/.env.stripe

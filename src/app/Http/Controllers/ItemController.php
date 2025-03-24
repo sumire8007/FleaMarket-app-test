@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Stripe\Stripe;
+use Stripe\Checkout\Session;
 use App\Models\Address;
 use App\Models\Item;
 use App\Models\Category;
@@ -99,6 +101,8 @@ class ItemController extends Controller
     }
     //　商品の購入(決済)
     public function buy(PurchaseRequest $request){
+        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
+        $item = Item::find($request->item_id);
         $purchase = $request->only([
                             'payment_id',
                             'user_id',
@@ -106,8 +110,33 @@ class ItemController extends Controller
                             'address_id',
                         ]);
         Purchase::create($purchase);
-        return redirect('/');
+        $session = \Stripe\Checkout\Session::create([
+            'payment_method_types' => ['card'],
+            'line_items' => [
+                [
+                    'price_data' => [
+                        'currency' => 'jpy',
+                        'product_data' => [
+                            'name' => $item->item_name,
+                            'images' => [asset('storage/' . $item->item_img)],
+                        ],
+                        'unit_amount' => $item->price,
+                    ],
+                    'quantity' => 1,
+                ]
+            ],
+            'mode' => 'payment',
+            'success_url' => route('payment.success', ['session_id' => '{CHECKOUT_SESSION_ID}']),
+            'cancel_url' => route('payment.cancel'),
+        ]);
+        return redirect($session->url);
     }
+
+
+
+
+
+
     // 出品画面の表示
     public function sell(){
         $user = Auth::user();

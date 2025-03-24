@@ -39,3 +39,15 @@ Route::post('/purchase', [ItemController::class, 'buy']);
 Route::patch('/mypage/profile', [AuthController::class, 'update']);
 Route::post('/search',[ItemController::class,'search']);
 Route::post('/item/like', [LikeController::class, 'likeItem']);
+
+
+
+
+
+Route::get('/payment/success', function () {
+    return "決済成功！";
+})->name('payment.success');
+
+Route::get('/payment/cancel', function () {
+    return "決済キャンセルされました";
+})->name('payment.cancel');
