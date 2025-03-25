@@ -54,18 +54,18 @@ cp .env.example .env
    docker-compose exec mysql bash
    ```
 2. MySQLにログイン　　※パスワードは、docker-compose.ymlに記載
-  ```
-  mysql -u root -p
-  ```           
+   ```
+   mysql -u root -p
+   ```           
 5. ユーザーに権限を付与
-  ```
-　GRANT ALL PRIVILEGES ON laravel_db.* TO 'laravel_user'@'%';
-  ```
+   ```
+   GRANT ALL PRIVILEGES ON laravel_db.* TO 'laravel_user'@'%';
+   ```
   
 4. 権限を反映
-  ```
-　FLUSH PRIVILEGES;
-  ```
+```
+　  FLUSH PRIVILEGES;
+   ```
   
 5. ```exit;```
    
