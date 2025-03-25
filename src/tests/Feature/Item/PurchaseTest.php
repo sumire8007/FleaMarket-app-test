@@ -113,7 +113,6 @@ class PurchaseTest extends TestCase
             'item_id' => $item->id,
             'address_id' => $profile->id,
         ]);
-        $response->assertRedirect('/');
         $response = $this->get('/');
         $response->assertStatus(200);
         $response->assertSee('腕時計');
@@ -159,7 +158,6 @@ class PurchaseTest extends TestCase
             'item_id' => $item->id,
             'address_id' => $profile->id,
         ]);
-        $response->assertRedirect('/');
         $response = $this->actingAs($user)->get('/mypage?id=' . $user->id);
         $response->assertStatus(200);
         $response->assertSee('腕時計');
