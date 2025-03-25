@@ -3,10 +3,10 @@
 **◽️Dockerビルド**
 
 ```
-  git clone git@github.com:sumire8007/FleaMarket-app-test.git
+git clone git@github.com:sumire8007/FleaMarket-app-test.git
 ```
 ```
- docker-compose up -d --build
+docker-compose up -d --build
 ```
  > *MacのM1・M2チップのPCの場合、`no matching manifest for linux/arm64/v8 in the manifest list entries`のメッセージが表示されビルドができないことがあります。
 エラーが発生する場合は、docker-compose.ymlファイルの「mysql」内に「platform」の項目を追加で記載してください*
