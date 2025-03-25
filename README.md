@@ -49,27 +49,40 @@ cp .env.example .env
 5.  ```exit```
 
 **◽️MySQL、laravel_userに権限を与えるために下記を実行**
-1. docker-compose exec mysql bash
-2. mysql -u root -p 　            ※パスワードは、docker-compose.ymlに記載
-3. ユーザーに権限を付与
-   
-　　GRANT ALL PRIVILEGES ON laravel_db.* TO 'laravel_user'@'%';
+1. MySQLコンテナにアクセス
+   ```
+   docker-compose exec mysql bash
+   ```
+2. MySQLにログイン　　※パスワードは、docker-compose.ymlに記載
+  ```
+  mysql -u root -p
+  ```           
+5. ユーザーに権限を付与
+  ```
+　GRANT ALL PRIVILEGES ON laravel_db.* TO 'laravel_user'@'%';
+  ```
   
 4. 権限を反映
-   
-　　FLUSH PRIVILEGES;
+  ```
+　FLUSH PRIVILEGES;
+  ```
   
-5. exit;
+5. ```exit;```
    
-**◽️テーブルの作成**
-1. php artisan migrate
+**◽️テーブルの作成(マイグレーション)**
+```
+docker-compose exec php bash
+```
+```
+php artisan migrate
+```
 
 **◽️storage保存するため、リンクを作成**
 ```
 php artisan storage:link
 ```
   > *itemとuser画像をstorageに保存します。
-    もし、src/storage/app/publicディレクトリに[items] ・　[users]ディレクトリが無い場合、ディレクトリを作成してください。*
+    src/storage/app/publicディレクトリ下に[items] ・　[users]ディレクトリを作成してください。*
     
    ```
    mkdir src/storage/app/public/items
@@ -80,6 +93,31 @@ php artisan storage:link
 ```
 php artisan db:seed
 ```
+**◽️stripe環境構築**
+
+1. .env ファイル内の# Stripe API keys以下にAPIキーを与える
+
+   公式DOCSを参照ください。
+   https://docs.stripe.com/keys#reveal-an-api-secret-key-for-test-mode
+   
+   > STRIPE_PUBLISHABLE_KEY=
+   > 
+   > STRIPE_SECRET_KEY=
+   >
+2. stripeをインストール
+   ```
+   composer require stripe/stripe-php
+   ```
+   
+3. キャッシュをクリアし、設定を反映する
+   ```
+   php artisan config:clear
+   php artisan cache:clear
+   ```
+4. サーバーを起動
+   ```
+   php -S localhost:4242
+   ```
 
 ## PHPUnitテストの実行
 1. MySQLコンテナにアクセス後、MySQLにログイン ※パスワードは、docker-compose.ymlに記載
