@@ -9,7 +9,9 @@
     @if($paramUrl === false)
         <div class="item-list__tab">
             <a class="item-list__tab-active" href="/">おすすめ</a>
-            @if(Auth::check())
+            @if(Auth::check() && !empty($keyword))
+                <a class="item-list__tab-no-active" href="{{ url('/') }}?id={{ $user->id }}&{{ $keyword }}">マイリスト</a>
+            @elseif(Auth::check())
                 <a class="item-list__tab-no-active" href="{{ url('/') }}?id={{ $user->id }}">マイリスト</a>
             @else
                 <a class="item-list__tab-no-active" href="{{ url('/') }}?id=">マイリスト</a>

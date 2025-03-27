@@ -79,8 +79,20 @@ class AuthController extends Controller
     }
     //配送先住所の変更
     public function addressEdit(AddressRequest $request){
-        $profiles = $request->only(['post_code','address','building']);
-        Address::find($request->id)->update($profiles);
+        $user = Auth::user();
+        $profiles = Address::where('user_id',$user->id)->first();
+        if(empty($profiles)) {
+            Address::create([
+                'user_img' => "",
+                'user_id'=> $user->id,
+                'post_code' => $request->post_code,
+                'address'=> $request->address,
+                'building' => $request->building,
+            ]);
+        } else {
+            $profiles = $request->only(['post_code', 'address', 'building']);
+            Address::find($request->id)->update($profiles);
+        }
         return redirect('/purchase/address');
     }
 

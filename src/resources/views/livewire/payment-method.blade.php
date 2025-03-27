@@ -5,7 +5,9 @@
     <div class="purchase__content-group">
         <input type="hidden" name="item_id" value="{{ $item->id }}">
         <input type="hidden" name="user_id" value="{{ $user->id }}">
+        @if(!empty($profile))
         <input type="hidden" name="address_id" value="{{ $profile->id }}">
+        @endif
         <div class="purchase__content-detail">
             <div class="purchase__content">
                 <div class="item-detail__img">
@@ -34,9 +36,13 @@
                 <a href="/purchase/address">変更する</a>
             </div>
             <div class="purchase__content-address">
+                @if(empty($profile))
+                <p>住所を設定してください</p>
+                @else
                 <p>〒{{ $profile->post_code }}</p>
                 <p>{{ $profile->address }}</p>
                 <p>{{ $profile->building }}</p>
+                @endif
             </div>
         </div>
         </div>

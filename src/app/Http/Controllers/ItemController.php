@@ -23,12 +23,20 @@ class ItemController extends Controller
     // 商品一覧画面の表示
     public function index(Request $request)
     {
+        $keyword = $request->session()->get('keyword');
         $user = Auth::user();
         $param = $request->query('id');
         $paramUrl = $request->has('id');
-        // dd($paramUrl);
         $itemIds = Item::pluck('id')->toArray();
         $sold = Purchase::whereIn('item_id', $itemIds)->pluck('item_id');
+
+        // もしキーワードが存在した時のマイページ表示
+        if(!empty($keyword)){
+            $likes = ItemLike::where('user_id', $param)->pluck('item_id');
+            $items = Item::whereIn('id', $likes)->
+            keywordSearch($keyword)->get();
+        }
+
         // もし、クエリパラメータが存在し、かつ空文字なら、$items を空にする
         if ($request->has('id') && empty($param)) {
             $items = [];
@@ -47,23 +55,23 @@ class ItemController extends Controller
                 $items = Item::all();
             }
         }
-        return view('item', compact('items', 'user', 'param', 'sold', 'paramUrl'));
+        return view('item', compact('items', 'user', 'param', 'sold', 'paramUrl','keyword'));
     }
     //検索機能
     public function search(Request $request)
     {
+        $keyword = $request->keyword;
+        $request->session()->put('keyword', $keyword);
+
         $param = $request->query('id');
         $paramUrl = $request->has('id');
         $items = Item::KeywordSearch($request->keyword)->get();
-        $keyword = $request->keyword;
         $user = Auth::user();
         $itemIds = Item::pluck('id')->toArray();
         $sold = Purchase::whereIn('item_id', $itemIds)->pluck('item_id');
-
-        // $request->session()->put('keyword',$keyword);
-        return view('item', compact('items', 'user','param','sold','paramUrl'));
+        return view('item', compact('items', 'user','param','sold','paramUrl','keyword'));
     }
-    // 商品詳細の表示 クエリパラメータを使用
+    // 商品詳細の表示
     public function detail(Request $request){
         $id = $request->query('id');
         $item = Item::with(['categories'])->find($id);
@@ -71,7 +79,6 @@ class ItemController extends Controller
         $comments = Comment::where('item_id',$id)->with('user')->get();
         $userIds = $comments->pluck('user_id');
         $profiles = Address::whereIn('user_id',$userIds)->get()->keyBy('user_id');
-        // dd($profiles);
         return view('item_detail',compact('item','user','comments','profiles'));
     }
     //コメントの作成
