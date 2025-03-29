@@ -26,7 +26,7 @@
                     @if(isset($profiles))
                         <img src="{{ asset('storage/' . $profiles->user_img) }}" alt="画像">
                     @else
-                        <img src="" alt="画像">
+                        <img src="../img/default_user_img.png" alt="">
                     @endif
                     </div>
                     @if(isset($profiles))

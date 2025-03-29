@@ -10,7 +10,7 @@
             <div class="form__group-content-img">
                 <div class="circle">
                     @if(empty($profiles->user_img))
-                    <img src="" alt="">
+                    <img src="img/default_user_img.png" alt="">
                     @else
                     <img src="{{ asset('storage/' . $profiles->user_img) }}" alt="画像">
                     @endif

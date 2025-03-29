@@ -71,16 +71,6 @@ class ItemController extends Controller
         }else{
             $items = Item::KeywordSearch($keyword)->get();
         }
-        // 工程
-        // まず、検索する→
-        // 検索するとそのitemのデータ全てが入ってくる（$searchItemId））に入る
-        // $searchItemIdの中から、idだけを取得（検索されたアイテムid）
-        // 次に、ユーザーがいいねしたアイテムのidだけを変数に収納
-        //検索といいねしたアイテムid が同じものがあれば、items変数に入れる
-        //無ければ、マイリストに.$keyword.を含む商品はありません。と表示
-
-
-        // dd($items);
         return view('item', compact('items', 'user','param','sold','paramUrl','keyword'));
     }
     // 商品詳細の表示
@@ -150,7 +140,6 @@ class ItemController extends Controller
         ]);
         return redirect($session->url);
     }
-
 
     // 出品画面の表示
     public function sell(){
