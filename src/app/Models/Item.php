@@ -34,7 +34,6 @@ class Item extends Model
         }
     }
 
-
 //いいね機能
     public function likes()
     {

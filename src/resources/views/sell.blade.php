@@ -8,9 +8,9 @@
 @section('content')
     <div class="item-detail__group">
         <h1>商品の出品</h1>
-        <div class="item-detail__img">
-            <form action = "/sell" method = "POST" enctype="multipart/form-data">
-                @csrf
+        <form action = "/sell" method = "POST" enctype="multipart/form-data">
+            @csrf
+            <div class="item-detail__img">
                 <input type="hidden" name="user_id" value="{{ $user->id }}">
                 <p>商品の画像</p>
                 <div class="item-detail__img-box">
@@ -19,7 +19,7 @@
                 @error('item_img')
                     <span class="error-message">{{ $message }}</span>
                 @enderror
-        </div>
+            </div>
             <h2>商品の詳細</h2>
             <p>カテゴリー</p>
                 <div class="category_content">
@@ -71,6 +71,6 @@
                 <div class="item-sell__button">
                     <button type="submit" class="item-sell__button-submit">出品する</button>
                 </div>
-            </form>
+        </form>
     </div>
 @endsection

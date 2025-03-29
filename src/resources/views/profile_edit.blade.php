@@ -11,23 +11,22 @@
         <div class="profile_edit-form__heading">
             <h2>プロフィール設定</h2>
         </div>
-
         <div class="profile_edit-form__input">
-        @if(isset($profiles))
-            <form class="form" action="/mypage/profile" method="POST" enctype="multipart/form-data">
-            @method('PATCH')
-        @else
-            <form class="form" action="/" method="POST" enctype="multipart/form-data">
-        @endif
-            @csrf
-            <!-- プロフ画像 -->
+            @if(isset($profiles))
+                <form class="form" action="/mypage/profile" method="POST" enctype="multipart/form-data">
+                @method('PATCH')
+            @else
+                <form class="form" action="/" method="POST" enctype="multipart/form-data">
+            @endif
+                @csrf
+                <!-- プロフ画像 -->
                 <div class="form__group-content-img">
                     <div class="circle">
-                    @if(!empty($profiles->user_img))
-                        <img src="{{ asset('storage/' . $profiles->user_img) }}" alt="">
-                    @else
-                        <img src="../img/default_user_img.png" alt="">
-                    @endif
+                        @if(!empty($profiles->user_img))
+                            <img src="{{ asset('storage/' . $profiles->user_img) }}" alt="">
+                        @else
+                            <img src="../img/default_user_img.png" alt="">
+                        @endif
                     </div>
                     @if(isset($profiles))
                         <input type="hidden" name="id" value="{{ $profiles->id }}" />
@@ -38,9 +37,9 @@
                         <input type="file" class="img_select-button" name="user_img" accept="image/*" />
                     @endif
                 </div>
-            @error('user_img')
-                {{ $message }}
-            @enderror
+                @error('user_img')
+                    {{ $message }}
+                @enderror
         </div>
             <!-- ユーザー名 -->
             <div class="form__group">
@@ -66,11 +65,11 @@
                 </div>
                 <div class="form__group-content">
                     <div class="form__input--text">
-                    @if(isset($profiles))
-                        <input type="text" name="post_code" value="{{ $profiles->post_code }}"/>
-                    @else
-                        <input type="text" name="post_code" value=""/>
-                    @endif
+                        @if(isset($profiles))
+                            <input type="text" name="post_code" value="{{ $profiles->post_code }}"/>
+                        @else
+                            <input type="text" name="post_code" value=""/>
+                        @endif
                     </div>
                     <div class="form__error">
                         @error('post_code')
@@ -86,11 +85,11 @@
                 </div>
                 <div class="form__group-content">
                     <div class="form__input--text">
-                    @if(isset($profiles))
-                        <input type="text" name="address" value="{{ $profiles->address }}"/>
-                    @else
-                        <input type="text" name="address" value=""/>
-                    @endif
+                        @if(isset($profiles))
+                            <input type="text" name="address" value="{{ $profiles->address }}"/>
+                        @else
+                            <input type="text" name="address" value=""/>
+                        @endif
                     </div>
                     <div class="form__error">
                         @error('address')
@@ -106,11 +105,11 @@
                 </div>
                 <div class="form__group-content">
                     <div class="form__input--text">
-                    @if(isset($profiles))
-                        <input type="text" name="building" value="{{ $profiles->building }}" />
-                    @else
-                        <input type="text" name="building" value="" />
-                    @endif
+                        @if(isset($profiles))
+                            <input type="text" name="building" value="{{ $profiles->building }}" />
+                        @else
+                            <input type="text" name="building" value="" />
+                        @endif
                     </div>
                 </div>
             </div>

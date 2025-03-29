@@ -31,7 +31,6 @@ Route::prefix('/')->group(function () {
     Route::post('', [AuthController::class, 'store']);
 });
 
-Route::patch('/purchase/address', [AuthController::class, 'addressEdit']);
 Route::post('register', [RegisterController::class, 'store']);
 Route::post('login', [LoginController::class, 'store']);
 Route::get('/item',[ItemController::class,'detail']);
@@ -40,8 +39,7 @@ Route::post('/purchase', [ItemController::class, 'buy']);
 Route::patch('/mypage/profile', [AuthController::class, 'update']);
 Route::get('/search',[ItemController::class,'search']);
 Route::post('/item/like', [LikeController::class, 'likeItem']);
-
-
+Route::patch('/purchase/address', [AuthController::class, 'addressEdit']);
 
 
 Route::get('/payment/success', function () {

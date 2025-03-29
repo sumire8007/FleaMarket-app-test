@@ -29,7 +29,6 @@ class AuthController extends Controller
         }
         return view('mypage',compact('user','profiles','items','param'));
     }
-
     // プロフィール設定の表示（初回含む）
     public function edit(){
         $user = Auth::user();
