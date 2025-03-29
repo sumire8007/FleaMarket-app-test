@@ -69,6 +69,21 @@ cp .env.example .env
   
 5. ```exit;```
    
+
+**◽️storage保存するため、リンクを作成**
+
+> *itemとuser画像をstorageに保存します。
+  src/storage/app/publicディレクトリ下に[items] ・　[users]ディレクトリを作成してください。*
+    
+   ```
+   mkdir src/storage/app/public/items
+   mkdir src/storage/app/public/users
+   ```
+リンクの作成
+```
+php artisan storage:link
+```
+  
 **◽️テーブルの作成(マイグレーション)**
 ```
 docker-compose exec php bash
@@ -77,18 +92,6 @@ docker-compose exec php bash
 php artisan migrate
 ```
 
-**◽️storage保存するため、リンクを作成**
-```
-php artisan storage:link
-```
-  > *itemとuser画像をstorageに保存します。
-    src/storage/app/publicディレクトリ下に[items] ・　[users]ディレクトリを作成してください。*
-    
-   ```
-   mkdir src/storage/app/public/items
-   mkdir src/storage/app/public/users
-   ```
-  
 **◽️ダミーデータの作成**
 ```
 php artisan db:seed
