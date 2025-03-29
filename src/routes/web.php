@@ -38,7 +38,7 @@ Route::get('/item',[ItemController::class,'detail']);
 Route::post('/sell',[ItemController::class,'store']);
 Route::post('/purchase', [ItemController::class, 'buy']);
 Route::patch('/mypage/profile', [AuthController::class, 'update']);
-Route::post('/search',[ItemController::class,'search']);
+Route::get('/search',[ItemController::class,'search']);
 Route::post('/item/like', [LikeController::class, 'likeItem']);
 
 

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Address extends Model
 {
     use HasFactory;
+    protected $escapeWhenCastingToString = true;
     protected $fillable = [
                             'user_id',
                             'user_img',

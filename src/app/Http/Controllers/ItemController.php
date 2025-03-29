@@ -30,13 +30,6 @@ class ItemController extends Controller
         $itemIds = Item::pluck('id')->toArray();
         $sold = Purchase::whereIn('item_id', $itemIds)->pluck('item_id');
 
-        // もしキーワードが存在した時のマイページ表示
-        if(!empty($keyword)){
-            $likes = ItemLike::where('user_id', $param)->pluck('item_id');
-            $items = Item::whereIn('id', $likes)->
-            keywordSearch($keyword)->get();
-        }
-
         // もし、クエリパラメータが存在し、かつ空文字なら、$items を空にする
         if ($request->has('id') && empty($param)) {
             $items = [];
@@ -60,15 +53,34 @@ class ItemController extends Controller
     //検索機能
     public function search(Request $request)
     {
-        $keyword = $request->keyword;
-        $request->session()->put('keyword', $keyword);
-
+        // ビューを表示する時に必要なコード
+        $user = Auth::user();
         $param = $request->query('id');
         $paramUrl = $request->has('id');
-        $items = Item::KeywordSearch($request->keyword)->get();
-        $user = Auth::user();
         $itemIds = Item::pluck('id')->toArray();
         $sold = Purchase::whereIn('item_id', $itemIds)->pluck('item_id');
+
+        // 検索機能に必要なコード
+        $keyword = $request->keyword;
+        $request->session()->put('keyword', $keyword);
+        if($paramUrl){
+            $searchItemId = Item::KeywordSearch($keyword)->pluck('id')->toArray();
+            $userLikeItemIds = ItemLike::where('user_id', $user->id)->pluck('item_id')->toArray();
+            $matchIds = array_intersect( $searchItemId, $userLikeItemIds);
+            $items = Item::whereIn('id', $matchIds)->get();
+        }else{
+            $items = Item::KeywordSearch($keyword)->get();
+        }
+        // 工程
+        // まず、検索する→
+        // 検索するとそのitemのデータ全てが入ってくる（$searchItemId））に入る
+        // $searchItemIdの中から、idだけを取得（検索されたアイテムid）
+        // 次に、ユーザーがいいねしたアイテムのidだけを変数に収納
+        //検索といいねしたアイテムid が同じものがあれば、items変数に入れる
+        //無ければ、マイリストに.$keyword.を含む商品はありません。と表示
+
+
+        // dd($items);
         return view('item', compact('items', 'user','param','sold','paramUrl','keyword'));
     }
     // 商品詳細の表示
@@ -138,10 +150,6 @@ class ItemController extends Controller
         ]);
         return redirect($session->url);
     }
-
-
-
-
 
 
     // 出品画面の表示

@@ -9,8 +9,8 @@
     @if($paramUrl === false)
         <div class="item-list__tab">
             <a class="item-list__tab-active" href="/">おすすめ</a>
-            @if(Auth::check() && !empty($keyword))
-                <a class="item-list__tab-no-active" href="{{ url('/') }}?id={{ $user->id }}&{{ $keyword }}">マイリスト</a>
+            @if(Auth::check() && request()->url() === url('/search'))
+                <a class="item-list__tab-no-active" href="{{ url('/search') }}?id={{ $user->id }}&keyword={{ session('keyword') }}">マイリスト</a>
             @elseif(Auth::check())
                 <a class="item-list__tab-no-active" href="{{ url('/') }}?id={{ $user->id }}">マイリスト</a>
             @else
@@ -21,32 +21,39 @@
         <div class="item-list__content">
             <form action="/item" method="get">
                 @csrf
-                @foreach($items as $item)
-                    <div class="item-list">
-                        <a href="{{ url('/item') }}?id={{ $item->id }}">
-                            @if(isset($sold) && in_array($item->id, $sold->toArray()))
-                                <div class="item-list__img-sold">
-                                    <img src=" {{ 'storage/' . $item->item_img }}" alt="商品画像">
-                                    <p>sold</p>
+                @if($items->isEmpty())
+                    <p>「 {{ session('keyword') }} 」を含む商品はありません。</p>
+                @else
+                    @foreach($items as $item)
+                        <div class="item-list">
+                            <a href="{{ url('/item') }}?id={{ $item->id }}">
+                                @if(isset($sold) && in_array($item->id, $sold->toArray()))
+                                    <div class="item-list__img-sold">
+                                        <img src=" {{ 'storage/' . $item->item_img }}" alt="商品画像">
+                                        <p>sold</p>
+                                    </div>
+                                @else
+                                    <div class="item-list__img">
+                                        <img src=" {{ 'storage/' . $item->item_img }}" alt="商品画像">
+                                    </div>
+                                @endif
+                                <div class="item-list__item-name">
+                                    <p>{{ $item->item_name }}</p>
                                 </div>
-                            @else
-                                <div class="item-list__img">
-                                    <img src=" {{ 'storage/' . $item->item_img }}" alt="商品画像">
-                                </div>
-                            @endif
-                            <div class="item-list__item-name">
-                                <p>{{ $item->item_name }}</p>
-                            </div>
-                        </a>
-                    </div>
-                @endforeach
+                            </a>
+                        </div>
+                    @endforeach
+                @endif
             </form>
         </div>
     @elseif(isset($param))
         <!--マイリストの表示-->
         <div class="item-list__tab">
             <a class="item-list__tab-no-active" href="/">おすすめ</a>
-            @if(Auth::check())
+            @if(Auth::check() && request()->url() === url('/search'))
+                <a class="item-list__tab-active" href="{{ url('/search') }}?id={{ $user->id }}&keyword={{ session('keyword') }}">マイリスト</a>
+                <!-- 検索のURLが/searchになっている時だけ、リンク先を変更する？ -->
+                @elseif(Auth::check())
                 <a class="item-list__tab-active" href="{{ url('/') }}?id={{ $user->id }}">マイリスト</a>
             @else
                 <a class="item-list__tab-active" href="{{ url('/') }}?id=">マイリスト</a>
@@ -56,26 +63,30 @@
         <div class="item-list__content">
             <form action="/item" method="get">
                 @csrf
-                @foreach($items as $item)
-                    <div class="item-list">
-                        <a href="{{ url('/item') }}?id={{ $item->id }}">
-                            @if(isset($sold) && in_array($item->id, $sold->toArray()))
-                                <div class="item-list__img-sold">
-                                    <img src=" {{ 'storage/' . $item->item_img }}" alt="商品画像">
-                                    <p>sold</p>
-                                </div>
-                            @else
-                                <div class="item-list__img">
-                                    <img src=" {{ 'storage/' . $item->item_img }}" alt="商品画像">
-                                </div>
-                            @endif
+                @if($items->isEmpty())
+                    <p>マイリストに「 {{ session('keyword') }} 」を含む商品はありません。</p>
+                @else
+                    @foreach($items as $item)
+                        <div class="item-list">
+                            <a href="{{ url('/item') }}?id={{ $item->id }}">
+                                @if(isset($sold) && in_array($item->id, $sold->toArray()))
+                                    <div class="item-list__img-sold">
+                                        <img src=" {{ 'storage/' . $item->item_img }}" alt="商品画像">
+                                        <p>sold</p>
+                                    </div>
+                                @else
+                                    <div class="item-list__img">
+                                        <img src=" {{ 'storage/' . $item->item_img }}" alt="商品画像">
+                                    </div>
+                                @endif
 
-                            <div class="item-list__item-name">
-                                <p>{{ $item->item_name }}</p>
-                            </div>
-                        </a>
-                    </div>
-                @endforeach
+                                <div class="item-list__item-name">
+                                    <p>{{ $item->item_name }}</p>
+                                </div>
+                            </a>
+                        </div>
+                    @endforeach
+                @endif
             </form>
         </div>
     @elseif(isset($paramUrl) && empty($param))

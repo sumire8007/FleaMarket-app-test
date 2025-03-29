@@ -14,9 +14,13 @@
         <a class="header_logo" href="/"><img  src="{{ asset('../../img/logo.png') }}" alt="coachtech"></a>
         <div class="header-content">
             <div class="header-item-search">
-                <form action="/search" method="post">
+                @if(Auth::check())
+                    <form action="/search?id={{ $user->id }}&keyword={{ session('keyword') }}" method="get">
+                @else
+                    <form action="/search?keyword={{ session('keyword') }}" method="get">
+                @endif
                 @csrf
-                    <input type="search" name="keyword" value="{{ old('keyword') }}" placeholder="  なにをお探しですか？">
+                    <input type="search" name="keyword" value="{{ session('keyword') }}" placeholder="  なにをお探しですか？">
                 </form>
             </div>
                 <ul class="header-nav">
