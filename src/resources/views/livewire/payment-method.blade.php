@@ -37,7 +37,7 @@
             </div>
             <div class="purchase__content-address">
                 @if(empty($profile))
-                <p>住所を設定してください</p>
+                <p>住所を登録してください</p>
                 @else
                 <p>〒{{ $profile->post_code }}</p>
                 <p>{{ $profile->address }}</p>

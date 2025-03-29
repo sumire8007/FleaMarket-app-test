@@ -53,14 +53,11 @@ class ItemController extends Controller
     //検索機能
     public function search(Request $request)
     {
-        // ビューを表示する時に必要なコード
         $user = Auth::user();
         $param = $request->query('id');
         $paramUrl = $request->has('id');
         $itemIds = Item::pluck('id')->toArray();
         $sold = Purchase::whereIn('item_id', $itemIds)->pluck('item_id');
-
-        // 検索機能に必要なコード
         $keyword = $request->keyword;
         $request->session()->put('keyword', $keyword);
         if($paramUrl){

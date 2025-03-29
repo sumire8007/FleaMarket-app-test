@@ -28,5 +28,12 @@ class AddressRequest extends FormRequest
             'address' => ['required'],
         ];
     }
-
+    public function messages()
+    {
+        return [
+            'post_code.required' => '郵便番号を入力してください',
+            'post_code.regex' => '例）123-4567　のように入力してください',
+            'address.required' => '住所を入力してください',
+        ];
+    }
 }

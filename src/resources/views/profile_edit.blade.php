@@ -23,8 +23,8 @@
             <!-- プロフ画像 -->
                 <div class="form__group-content-img">
                     <div class="circle">
-                    @if(isset($profiles))
-                        <img src="{{ asset('storage/' . $profiles->user_img) }}" alt="画像">
+                    @if(!empty($profiles->user_img))
+                        <img src="{{ asset('storage/' . $profiles->user_img) }}" alt="">
                     @else
                         <img src="../img/default_user_img.png" alt="">
                     @endif

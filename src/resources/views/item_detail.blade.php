@@ -105,7 +105,11 @@
                     <div class="comment-group">
                         <div class="account-box">
                             <div class="circle">
+                            @if (!empty($profiles->user_img))
                                 <img src="{{ asset('storage/' . $profiles[$comment->user_id]->user_img) }}" alt="プロフ画像">
+                            @else
+                                <img src="../img/default_user_img.png" alt="">
+                            @endif
                             </div>
                             <p class="user_name">{{ $comment->user->name }}</p>
                         </div>

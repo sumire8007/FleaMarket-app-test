@@ -75,7 +75,7 @@ class AuthController extends Controller
     public function addressView(){
         $user = Auth::user();
         $profiles = Address::where('user_id',$user->id)->first();
-        return view('address_edit',compact('profiles'));
+        return view('address_edit',compact('profiles','user'));
     }
     //配送先住所の変更
     public function addressEdit(AddressRequest $request){
