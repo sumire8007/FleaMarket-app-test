@@ -31,7 +31,7 @@ class ExhibitionRequest extends FormRequest
                 function ($attribute, $value, $fail) {
                     $extension = strtolower($value->getClientOriginalExtension());
                     if (!in_array($extension, ['jpeg', 'png'])) {
-                        $fail('');
+                        $fail('jpegもしくはpngのみアップロードできます');
                     }
                 }
             ],
@@ -46,8 +46,7 @@ class ExhibitionRequest extends FormRequest
             'item_name.required' => '商品名を入力してください',
             'detail.required' => '商品説明を入力してください',
             'detail.max' => '商品説明は255文字以内で入力してください',
-            'item_img.required' => '画像を選択してください',
-            'item_img.mimes' => 'jpegもしくはpngのみアップロードできます',
+            'item_img.required' => '画像は必ず選択してください',
             'condition.required' => '商品状態を選択してください',
             'categories.required' => 'カテゴリーを選択してください',
             'price.required' => '価格を入力してください',
