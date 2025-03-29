@@ -167,7 +167,7 @@ php artisan db:seed
    
    
 ## 使用技術
-• PHP 8.2.8
+• PHP 7.4.9
 
 • Laravel 8.83.8
 
@@ -187,3 +187,4 @@ php artisan db:seed
 
 **ER図**
 
+<img width="665" alt="ER図（COACHTECHフリマ）" src="https://github.com/user-attachments/assets/010ada28-4e20-43eb-8291-2f59cac84ec4" />
