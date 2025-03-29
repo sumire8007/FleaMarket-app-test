@@ -98,7 +98,7 @@ php artisan db:seed
    > 
    > STRIPE_SECRET_KEY=
    >
-2. stripeをインストール
+2. ライブラリをインストール
    ```
    composer require stripe/stripe-php
    ```
