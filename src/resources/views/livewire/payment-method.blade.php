@@ -59,7 +59,7 @@
             </table>
             <div>
             @error('payment_id')
-            {{ $message }}
+                {{ $message }}
             @enderror
             </div>
             <div>

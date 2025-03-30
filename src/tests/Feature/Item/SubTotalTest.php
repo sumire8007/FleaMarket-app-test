@@ -23,12 +23,6 @@ class SubTotalTest extends TestCase
      */
     use RefreshDatabase;
     // public $payments;
-    // public function setUp(): void
-    // {
-    //     parent::setUp();
-    //     $this->payment = $this->seed(PaymentsTableSeeder::class);
-    // }
-
     public function testSubTotal()
     {
         $user = User::factory()->create([

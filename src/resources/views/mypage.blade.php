@@ -43,10 +43,11 @@
             <div class="form__group-content-img">
                 <div class="circle">
                     @if(empty($profiles->user_img))
-                        <img src="img/default_user_img.png" alt="">
+                        <img src="/img/default_user_img.png" alt="">
                     @else
                         <img src="{{ asset('storage/' . $profiles->user_img) }}" alt="画像">
                     @endif
+
                 </div>
                 <div class="form__group-content-name">{{ $user->name }}</div>
                 <a href="/mypage/profile" class="profile-edit__button">プロフィールを編集</a>

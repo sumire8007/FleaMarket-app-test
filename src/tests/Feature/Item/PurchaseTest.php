@@ -20,11 +20,6 @@ class PurchaseTest extends TestCase
      */
     use RefreshDatabase;
 
-    // public $item;
-    public function setUp(): void
-    {
-        parent::setUp();
-    }
     // 「購入する」ボタンを押下すると購入が完了する
     public function testPurchase()
     {

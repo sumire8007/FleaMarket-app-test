@@ -52,7 +52,7 @@
     font-weight: bold;
 }
 
-.category_box ,.condition_box{
+.category_box ,.condition_box {
     display: flex;
 }
 .category_items {

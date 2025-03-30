@@ -102,3 +102,4 @@ class MypageTest extends TestCase
         $response->assertSee($this->profile->building);
     }
 }
+

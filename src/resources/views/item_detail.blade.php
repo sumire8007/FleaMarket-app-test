@@ -35,7 +35,6 @@
         <article class="item-detail__content">
             <h2>{{ $item->item_name }}</h2>
             <section class="item-detail__basic">
-
                 @if($item->brand)
                     <p>ブランド名：{{ $item->brand }}</p>
                 @else
