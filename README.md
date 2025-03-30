@@ -24,20 +24,23 @@ composer install
 cp .env.example .env
 ```
 【.envファイル 変更箇所】
-
+```
    DB_HOST=mysql
+   
+   DB_PORT=3306
    
    DB_DATABASE=laravel_db
    
    DB_USERNAME=laravel_user
    
    DB_PASSWORD=laravel_pass
-   
+   ```
 4.　KEYを与える
   ```
   php artisan key:generate
   ```
-5.  ```exit```
+5.　PHPコンテナから抜ける
+   ```exit```
 
 **◽️MySQL、laravel_userに権限を与えるために下記を実行**
 1. MySQLコンテナにアクセス
@@ -58,7 +61,8 @@ cp .env.example .env
 　  FLUSH PRIVILEGES;
    ```
   
-5. ```exit;```
+5. MySQLコンテナから抜ける
+   ```exit;```
    
 
 **◽️storage保存するため、リンクを作成**
@@ -72,6 +76,7 @@ cp .env.example .env
    ```
 リンクの作成
 ```
+docker-compose exec php bash
 php artisan storage:link
 ```
   
@@ -92,23 +97,24 @@ php artisan db:seed
 1. .env ファイル内の# Stripe API keys以下にAPIキーを与える
 
    公式DOCSを参照ください。
+   
    https://docs.stripe.com/keys#reveal-an-api-secret-key-for-test-mode
    
    > STRIPE_PUBLISHABLE_KEY=
    > 
    > STRIPE_SECRET_KEY=
    >
-2. ライブラリをインストール
+3. ライブラリをインストール
    ```
    composer require stripe/stripe-php
    ```
    
-3. キャッシュをクリアし、設定を反映する
+4. キャッシュをクリアし、設定を反映する
    ```
    php artisan config:clear
    php artisan cache:clear
    ```
-4. サーバーを起動
+5. サーバーを起動
    ```
    php -S localhost:4242
    ```
