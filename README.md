@@ -82,9 +82,6 @@ php artisan storage:link
   
 **◽️テーブルの作成(マイグレーション)**
 ```
-docker-compose exec php bash
-```
-```
 php artisan migrate
 ```
 
