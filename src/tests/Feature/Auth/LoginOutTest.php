@@ -33,9 +33,9 @@ class LoginOutTest extends TestCase
             'email' => '',
             'password' => 'password123',
         ]);
-        $response->assertSessionHasErrors(['email']);
-        $errors = session('errors')->get('email');
-        $this->assertContains('メールアドレスを入力してください', $errors);
+        $response = $this->get('/login');
+        $response->assertSee('メールアドレスを入力してください');
+
     }
     // パスワードが入力されていない場合、「パスワードを入力してください」というバリデーションメッセージが表示される
     public function testPasswordNone()
@@ -44,9 +44,8 @@ class LoginOutTest extends TestCase
             'email' => 'test123@example.com',
             'password' => '',
         ]);
-        $response->assertSessionHasErrors(['password']);
-        $errors = session('errors')->get('password');
-        $this->assertContains('パスワードを入力してください', $errors);
+        $response = $this->get('/login');
+        $response->assertSee('パスワードを入力してください');
     }
     // 入力情報が間違っている場合、「ログイン情報が登録されていません」というバリデーションメッセージが表示される
     public function testLoginCheck()
@@ -56,16 +55,18 @@ class LoginOutTest extends TestCase
             'email' => 'test123@example.com',
             'password' => 'password456'
         ]);
-        $errors = session('errors')->getBag('default')->get('email');
-        $this->assertContains('ログイン情報が登録されていません', $errors);
+        $response = $this->get('/login');
+        $response->assertSee('ログイン情報が登録されていません');
+
 
         // もしメールアドレスが間違っていた場合
         $response = $this->post('login', [
             'email' => 'test@example.com',
             'password' => 'password123'
         ]);
-        $errors = session('errors')->getBag('default')->get('email');
-        $this->assertContains('ログイン情報が登録されていません', $errors);
+        $response = $this->get('/login');
+        $response->assertSee('ログイン情報が登録されていません');
+
     }
     // 正しい情報が入力された場合、ログイン処理が実行される
     public function testLogin()

@@ -35,7 +35,12 @@
         <article class="item-detail__content">
             <h2>{{ $item->item_name }}</h2>
             <section class="item-detail__basic">
-                <p>{{ $item->brand }}</p>
+
+                @if($item->brand)
+                    <p>ブランド名：{{ $item->brand }}</p>
+                @else
+                    <p>ブランド名：なし</p>
+                @endif
                 <p>¥{{ $item->price }}(税込)</p>
                 <div class="like-comment-content">
                     <div class="like-content">
@@ -94,9 +99,9 @@
                         @endforeach
                     </div>
                 </div>
-                <div>
+                <div class="condition_box">
                     <p class="condition_title">商品の状態</p>
-                    <p>{{ $item->condition }}</p>
+                    <p class="condition_item">{{ $item->condition }}</p>
                 </div>
             </section>
             <section>

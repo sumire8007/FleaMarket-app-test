@@ -57,9 +57,16 @@
                     <td>{{ $selectedPayment }}</td>
                 </tr>
             </table>
+            <div>
             @error('payment_id')
             {{ $message }}
             @enderror
+            </div>
+            <div>
+            @error('address_id')
+                {{ $message }}
+            @enderror
+            </div>
             <button type="submit" class="buy_button">購入する</button>
         </div>
     </div>

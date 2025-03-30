@@ -21,11 +21,6 @@ class ShippingAddressTest extends TestCase
      * @return void
      */
     use RefreshDatabase;
-    public function setUp(): void
-    {
-        parent::setUp();
-        $this->seed(PaymentsTableSeeder::class);
-    }
     // 送付先住所変更画面にて登録した住所が商品購入画面に反映されている
     public function testAddressShow()
     {
@@ -81,6 +76,9 @@ class ShippingAddressTest extends TestCase
             'address' => '東京都渋谷区千駄ヶ谷',
             'building' => '千駄ヶ谷マンション',
         ]);
+        $payment = Payment::create([
+            'content' => 'コンビニ払い'
+        ]);
         $item = Item::factory()->create();
         $response = $this->post('login', ['email' => 'test123@example.com', 'password' => 'password123']);
         $response->assertRedirect('/');
@@ -95,13 +93,13 @@ class ShippingAddressTest extends TestCase
         ]);
         $response = $this->actingAs($user)->get(('/purchase?id=' . $item->id));
         $purchase = Purchase::create( [
-            'payment_id' => 3,
+            'payment_id' => $payment->id,
             'user_id' => $user->id,
             'item_id' => $item->id,
             'address_id' => $profile->id,
         ]);
         $this->assertDatabaseHas('purchases', [
-            'payment_id' => 3,
+            'payment_id' => $payment->id,
             'user_id' => $user->id,
             'item_id' => $item->id,
             'address_id' => $profile->id,

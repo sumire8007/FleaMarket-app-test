@@ -23,11 +23,11 @@ class SubTotalTest extends TestCase
      */
     use RefreshDatabase;
     // public $payments;
-    public function setUp(): void
-    {
-        parent::setUp();
-        $this->payment = $this->seed(PaymentsTableSeeder::class);
-    }
+    // public function setUp(): void
+    // {
+    //     parent::setUp();
+    //     $this->payment = $this->seed(PaymentsTableSeeder::class);
+    // }
 
     public function testSubTotal()
     {
@@ -48,7 +48,7 @@ class SubTotalTest extends TestCase
             'building' => '千駄ヶ谷マンション',
         ]);
         $item = Item::factory()->create();
-        $payment = Payment::factory()->create([
+        $payment = Payment::create([
             'content' => 'コンビニ払い']);
         $response = $this->post('login', ['email' => 'test123@example.com', 'password' => 'password123']);
         $response->assertRedirect('/');

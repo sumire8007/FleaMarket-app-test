@@ -3,7 +3,6 @@
 namespace Tests\Feature\Mypage;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Database\Seeders\PaymentsTableSeeder;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Tests\TestCase;
@@ -11,6 +10,7 @@ use App\Models\User;
 use App\Models\Item;
 use App\Models\Address;
 use App\Models\Purchase;
+use App\Models\Payment;
 
 
 class MypageTest extends TestCase
@@ -41,11 +41,14 @@ class MypageTest extends TestCase
             'address' => '東京都渋谷区千駄ヶ谷',
             'building' => '千駄ヶ谷マンション',
         ]);
-        $this->seed(PaymentsTableSeeder::class);
     }
     // 必要な情報が取得できる（プロフィール画像、ユーザー名、出品した商品一覧、購入した商品一覧）
     public function testMypageShow(){
         $items = Item::factory()->count(5)->create();
+        $payment = Payment::create([
+            'content' => 'コンビニ払い'
+        ]);
+
         $itemNoUser = Item::where('user_id', '!=', $this->user->id)->get();
         $sell = Item::factory()->create([
             'user_id'=> $this->user->id,
@@ -63,7 +66,7 @@ class MypageTest extends TestCase
             ),
         ]);
         $sold = Purchase::factory()->create([
-            'payment_id' => '1',
+            'payment_id' => $payment->id,
             'user_id'=> $this->user->id,
             'item_id'=> $itemNoUser->random(1)->first()->id,
             'address_id'=> $this->profile->id,
@@ -85,7 +88,7 @@ class MypageTest extends TestCase
         $response->assertSee($soldItemName->item_name);
         $response->assertSee($soldItemName->item_img);
     }
-    // }
+
     //変更項目が初期値として過去設定されていること（プロフィール画像、ユーザー名、郵便番号、住所）
     public function testProfileShow()
     {

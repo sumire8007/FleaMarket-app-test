@@ -89,8 +89,13 @@ class AuthController extends Controller
                 'building' => $request->building,
             ]);
         } else {
-            $profiles = $request->only(['post_code', 'address', 'building']);
-            Address::find($request->id)->update($profiles);
+            // $profiles = $request->only(['post_code', 'address', 'building']);
+            // Address::find($request->id)->update($profiles);
+            $profiles->update([
+                'post_code' => $request->post_code,
+                'address' => $request->address,
+                'building' => $request->building,
+            ]);
         }
         return redirect('/purchase/address');
     }

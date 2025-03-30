@@ -52,7 +52,7 @@
     font-weight: bold;
 }
 
-.category_box {
+.category_box ,.condition_box{
     display: flex;
 }
 .category_items {
@@ -68,6 +68,9 @@
 
 .condition {
     border: none;
+}
+.condition_item {
+    margin-left: 20px;
 }
 .comment-group {
     margin-top: 10px;

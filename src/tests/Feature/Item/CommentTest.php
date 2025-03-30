@@ -88,14 +88,27 @@ class CommentTest extends TestCase
             'email' => 'test123@example.com',
             'password' => bcrypt('password123'),
         ]);
+        $item = Item::factory()->create([
+            'item_name' => 'テスト',
+            'price' => '15000',
+            'detail' => 'スタイリッシュなデザインのメンズ腕時計',
+            'condition' => '良好',
+            'brand' => 'test',
+            'item_img' => new UploadedFile(
+                public_path('img/test.png'),
+                'test.png',
+                'image/png',
+                null,
+                true
+            ),
+        ]);
         $response = $this->actingAs($user)->post('/item', [
             'user_id' => $user->id,
-            'item_id' => 1,
+            'item_id' => $item->id,
             'comment' => '',
         ]);
-        $response->assertSessionHasErrors(['comment']);
-        $errors = session('errors')->get('comment');
-        $this->assertContains('コメントを入力してください', $errors);
+        $response = $this->get('/item?id='. $item->id);
+        $response->assertSee('コメントを入力してください');
     }
     public function testComment256()
     {
@@ -104,13 +117,27 @@ class CommentTest extends TestCase
             'email' => 'test123@example.com',
             'password' => bcrypt('password123'),
         ]);
+        $item = Item::factory()->create([
+            'item_name' => 'テスト',
+            'price' => '15000',
+            'detail' => 'スタイリッシュなデザインのメンズ腕時計',
+            'condition' => '良好',
+            'brand' => 'test',
+            'item_img' => new UploadedFile(
+                public_path('img/test.png'),
+                'test.png',
+                'image/png',
+                null,
+                true
+            ),
+        ]);
         $response = $this->actingAs($user)->post('/item', [
             'user_id' => $user->id,
             'item_id' => 1,
             'comment' => 'この商品を購入してから数週間が経ちましたが、非常に満足しています。デザインが洗練されており、どんなインテリアにも馴染みます。特に使い心地が素晴らしく、長時間使用しても疲れにくい点が気に入りました。素材もしっかりしており、耐久性が高いと感じます。また、機能性も優れており、操作が簡単で直感的に使えます。コストパフォーマンスも高く、この価格でこれほどの品質を得られるのは驚きです。配送も迅速で、梱包も丁寧だったため、安心して受け取ることができました。総合的に見て非常に満足度の高い商品、自信を持っておすすめできます。',
         ]);
-        $response->assertSessionHasErrors(['comment']);
-        $errors = session('errors')->get('comment');
-        $this->assertContains('コメントは255文字以内で入力してください', $errors);
+        $response = $this->get('/item?id=' . $item->id);
+        $response->assertSee('コメントは255文字以内で入力してください');
+
     }
 }
