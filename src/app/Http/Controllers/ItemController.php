@@ -117,7 +117,7 @@ class ItemController extends Controller
                         ]);
         Purchase::create($purchase);
         $session = \Stripe\Checkout\Session::create([
-            'payment_method_types' => ['card'],
+            'payment_method_types' => ['card','konbini'],
             'line_items' => [
                 [
                     'price_data' => [
