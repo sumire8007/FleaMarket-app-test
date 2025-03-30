@@ -135,7 +135,7 @@ php artisan db:seed
    docker-compose exec php bash
    cp .env .env.testing
    ```
-4. 環境変数を変更
+4. .env.testingの環境変数を変更
    ```
     APP_ENV=test
     APP_KEY=
