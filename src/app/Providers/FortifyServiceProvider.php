@@ -13,6 +13,11 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Laravel\Fortify\Fortify;
 use Laravel\Fortify\Contracts\LoginResponse;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -56,6 +61,20 @@ class FortifyServiceProvider extends ServiceProvider
         // RateLimiter::for('two-factor', function (Request $request) {
         //     return Limit::perMinute(5)->by($request->session()->get('login.id'));
         // });
+
+        Fortify::authenticateUsing(function (Request $request) {
+            $user = User::where('email', $request->email)->first();
+
+            if ($user && Hash::check($request->password, $user->password)) {
+                if (!$user->hasVerifiedEmail()) {
+                    throw ValidationException::withMessages([
+                        'email' => ['メールアドレスが認証されていません。'],
+                    ]);
+                }
+
+                return $user;
+            }
+        });
 
         Fortify::registerView(function (){
             return view('auth.register');

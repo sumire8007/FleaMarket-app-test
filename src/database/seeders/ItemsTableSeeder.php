@@ -36,49 +36,49 @@ class ItemsTableSeeder extends Seeder
 
         $items = [
             [
-                'item_name' => '腕時計',
+                'item_name' => '腕時計', //ファッション、メンズ、スポーツ　ブランド；Rolax
                 'price' => '15000',
                 'detail' => 'スタイリッシュなデザインのメンズ腕時計',
                 'item_img' => 'items/watch.jpg',
                 'condition' => '良好',
             ],
             [
-                'item_name' => 'HDD',
+                'item_name' => 'HDD', //ファッション、レディース　ブランド：西芝
                 'price' => '5000',
                 'detail' => '高速で信頼性の高いハードディスク',
                 'item_img' => 'items/hdd.jpg',
                 'condition' => '目立った傷や汚れなし',
             ],
             [
-                'item_name' => '玉ねぎ3束',
+                'item_name' => '玉ねぎ3束',//ファッション、アクセサリ　ブランド：未入力
                 'price' => '300',
                 'detail' => '新鮮な玉ねぎ3束のセット',
                 'item_img' => 'items/onion.jpg',
                 'condition' => 'やや傷や汚れあり',
             ],
             [
-                'item_name' => '革靴',
+                'item_name' => '革靴',//家電、インテリア　ブランド：未入力
                 'price' => '4000',
                 'detail' => 'クラシックなデザインの革靴',
                 'item_img' => 'items/shoes.jpg',
                 'condition' => '状態が悪い',
             ],
             [
-                'item_name' => 'ノートPC',
+                'item_name' => 'ノートPC',//ファッション、メンズ　ブランド：未入力
                 'price' => '45000',
                 'detail' => '高性能なノートパソコン',
                 'item_img' => 'items/notePc.jpg',
                 'condition' => '良好',
             ],
             [
-                'item_name' => 'マイク',
+                'item_name' => 'マイク',//ファッション、レディース、アクセサリ　ブランド；未入力
                 'price' => '8000',
                 'detail' => '高音質のレコーディング用マイク',
                 'item_img' => 'items/mic.jpg',
                 'condition' => '目立った傷や汚れなし',
             ],
             [
-                'item_name' => 'ショルダーバッグ',
+                'item_name' => 'ショルダーバッグ',//カテゴリ　なし　ブランド：未入力
                 'price' => '3500',
                 'detail' => 'おしゃれなショルダーバッグ',
                 'item_img' => 'items/bag.jpg',
@@ -86,21 +86,21 @@ class ItemsTableSeeder extends Seeder
 
             ],
             [
-                'item_name' => 'タンブラー',
+                'item_name' => 'タンブラー',//カテゴリ　なし　ブランド：未入力
                 'price' => '500',
                 'detail' => '使いやすいタンブラー',
                 'item_img' => 'items/tumbler.jpg',
                 'condition' => '状態が悪い',
             ],
             [
-                'item_name' => 'コーヒーミル',
+                'item_name' => 'コーヒーミル',//カテゴリ　なし　ブランド：Starbacks
                 'price' => '4000',
                 'detail' => '手動のコーヒーミル',
                 'item_img' => 'items/coffeeMill.jpg',
                 'condition' => '良好',
             ],
             [
-                'item_name' => 'メイクセット',
+                'item_name' => 'メイクセット',//カテゴリ　なし　ブランド：未入力
                 'price' => '2500',
                 'detail' => '便利なメイクアップセット',
                 'item_img' => 'items/makeupSet.jpg',

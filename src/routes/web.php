@@ -6,7 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LoginController;
-
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,7 +17,24 @@ use App\Http\Controllers\LoginController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+// メール認証
+Route::get('/email', [AuthController::class, 'email']);
 
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+    return redirect('/mypage/profile');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+Route::post('/email/resend', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+    return back()->with('message', '認証メールを再送しました。');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+//ユーザー機能
 Route::middleware('auth')->group(function () {
     Route::get('/purchase', [ItemController::class, 'purchase']);
     Route::get('/sell', [ItemController::class, 'sell']);
@@ -41,7 +58,7 @@ Route::patch('/mypage/profile', [AuthController::class, 'update']);
 Route::get('/search',[ItemController::class,'search']);
 Route::post('/item/like', [LikeController::class, 'likeItem']);
 
-
+//Stripe決済
 Route::get('/payment/success', function () {
     return "決済成功！";
 })->name('payment.success');
