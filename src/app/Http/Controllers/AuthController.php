@@ -97,13 +97,4 @@ class AuthController extends Controller
         }
         return redirect('/purchase/address');
     }
-
-
-
-
-
-    public function email()
-    {
-        return view('email');
-    }
 }

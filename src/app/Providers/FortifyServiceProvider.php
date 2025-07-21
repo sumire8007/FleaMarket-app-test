@@ -29,7 +29,7 @@ class FortifyServiceProvider extends ServiceProvider
         $this->app->instance(LoginResponse::class, new class implements LoginResponse {
         public function toResponse($request)
             {
-                return redirect('/');
+                return redirect('/email/verify');
             }
         });
     }
@@ -70,7 +70,6 @@ class FortifyServiceProvider extends ServiceProvider
                         'email' => ['メールアドレスが認証されていません。'],
                     ]);
                 }
-
                 return $user;
             }
         });

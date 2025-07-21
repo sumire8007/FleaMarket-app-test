@@ -18,10 +18,8 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 |
 */
 // メール認証
-Route::get('/email', [AuthController::class, 'email']);
-
 Route::get('/email/verify', function () {
-    return view('auth.verify-email');
+    return view('auth.email');
 })->middleware('auth')->name('verification.notice');
 
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
@@ -30,7 +28,7 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
 })->middleware(['auth', 'signed'])->name('verification.verify');
 
 Route::post('/email/resend', function (Request $request) {
-    $request->user()->sendEmailVerificationNotification();
+    Auth::user()->sendEmailVerificationNotification();
     return back()->with('message', '認証メールを再送しました。');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 

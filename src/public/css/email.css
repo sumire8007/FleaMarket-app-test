@@ -1,0 +1,44 @@
+header {
+    background-color: black;
+}
+
+img {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+}
+
+.email-form__content {
+    margin: 0 auto;
+    width: 500px;
+    text-align: center;
+    padding-top: 150px;
+}
+
+.email-form__content p {
+    font-weight: bold;
+}
+
+.email-form__button {
+    height: 35px;
+    width: 150px;
+    background-color: #d9d9d9;
+    border: 1px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 45px;
+}
+
+.email-form__button a {
+    color: black;
+    font-weight: bold;
+    text-decoration-line: none;
+}
+
+.resend-link {
+    margin-top: 20px;
+    text-decoration-line: none;
+    color: #0173cc;
+    border: none;
+    background-color: white;
+}
