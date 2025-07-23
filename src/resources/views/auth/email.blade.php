@@ -18,11 +18,9 @@
         <div class="email-form__content">
             <p>登録していただいたメールアドレスに認証メールを送信しました。</p>
             <p>メール認証を完了してください</p>
-            
                 <button class="email-form__button">
                     <a href="http://localhost:8025">認証はこちらから</a>
                 </button>
-            
             <form action="/email/resend" method="post">
                 @csrf
                 <button class="resend-link">認証メールを再送する</button>

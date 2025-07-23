@@ -29,7 +29,12 @@ class FortifyServiceProvider extends ServiceProvider
         $this->app->instance(LoginResponse::class, new class implements LoginResponse {
         public function toResponse($request)
             {
-                return redirect('/email/verify');
+                $loginUser = Auth::user();
+                if($loginUser->email_verified_at == null){
+                    return redirect('/email/verify');
+                }else{
+                    return redirect('/');
+                }
             }
         });
     }
