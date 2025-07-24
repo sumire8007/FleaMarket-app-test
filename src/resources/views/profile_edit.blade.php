@@ -49,7 +49,7 @@
                 <div class="form__group-content">
                     <div class="form__input--text">
                         <input type="hidden" name="user_id" value="{{ $user->id }}" />
-                        <input type="text" name="name" value="{{ $user->name }}" />
+                        <input type="text" name="name" value="{{ old('name',$user->name) }}" />
                     </div>
                     <div class="form__error">
                         @error('name')
@@ -66,9 +66,9 @@
                 <div class="form__group-content">
                     <div class="form__input--text">
                         @if(isset($profiles))
-                            <input type="text" name="post_code" value="{{ $profiles->post_code }}"/>
+                            <input type="text" name="post_code" value="{{ old('post_code',$profiles->post_code) }}"/>
                         @else
-                            <input type="text" name="post_code" value=""/>
+                            <input type="text" name="post_code" value="{{ old('post_code') }}"/>
                         @endif
                     </div>
                     <div class="form__error">
@@ -86,9 +86,9 @@
                 <div class="form__group-content">
                     <div class="form__input--text">
                         @if(isset($profiles))
-                            <input type="text" name="address" value="{{ $profiles->address }}"/>
+                            <input type="text" name="address" value="{{ old('address',$profiles->address) }}"/>
                         @else
-                            <input type="text" name="address" value=""/>
+                            <input type="text" name="address" value="{{ old('address') }}"/>
                         @endif
                     </div>
                     <div class="form__error">
@@ -106,9 +106,9 @@
                 <div class="form__group-content">
                     <div class="form__input--text">
                         @if(isset($profiles))
-                            <input type="text" name="building" value="{{ $profiles->building }}" />
+                            <input type="text" name="building" value="{{ old('building',$profiles->building) }}" />
                         @else
-                            <input type="text" name="building" value="" />
+                            <input type="text" name="building" value="{{ old('building') }}" />
                         @endif
                     </div>
                 </div>

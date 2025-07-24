@@ -23,7 +23,7 @@
                             </div>
                             <div class="form__group-content">
                                 <div class="form__input--text">
-                                    <input type="text" name="post_code" value="{{ $profiles->post_code }}"/>
+                                    <input type="text" name="post_code" value="{{ old('post_code',$profiles->post_code) }}"/>
                                 </div>
                                 <div class="form__error">
                                     @error('post_code')
@@ -39,7 +39,7 @@
                             </div>
                             <div class="form__group-content">
                                 <div class="form__input--text">
-                                    <input type="text" name="address" value="{{ $profiles->address }}"/>
+                                    <input type="text" name="address" value="{{ old('address',$profiles->address) }}"/>
                                 </div>
                                 <div class="form__error">
                                     @error('address')
@@ -55,7 +55,7 @@
                             </div>
                             <div class="form__group-content">
                                 <div class="form__input--text">
-                                    <input type="text" name="building" value="{{ $profiles->building }}" />
+                                    <input type="text" name="building" value="{{ old('building',$profiles->building) }}" />
                                 </div>
                             </div>
                         </div>
@@ -74,7 +74,7 @@
                             </div>
                             <div class="form__group-content">
                                 <div class="form__input--text">
-                                    <input type="text" name="post_code" value=""/>
+                                    <input type="text" name="post_code" value="{{ old('post_code') }}"/>
                                 </div>
                                 <div class="form__error">
                                     @error('post_code')
@@ -90,7 +90,7 @@
                             </div>
                             <div class="form__group-content">
                                 <div class="form__input--text">
-                                    <input type="text" name="address" value=""/>
+                                    <input type="text" name="address" value="{{ old('address') }}"/>
                                 </div>
                                 <div class="form__error">
                                     @error('address')
@@ -106,7 +106,7 @@
                             </div>
                             <div class="form__group-content">
                                 <div class="form__input--text">
-                                    <input type="text" name="building" value="" />
+                                    <input type="text" name="building" value="{{ old('building') }}" />
                                 </div>
                             </div>
                         </div>
