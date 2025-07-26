@@ -14,11 +14,15 @@
                 <input type="hidden" name="user_id" value="{{ $user->id }}">
                 <p>商品の画像</p>
                 <div class="item-detail__img-box">
-                    <input class="img_select-button"  type="file" accept="image/*" name="item_img" value="画像を選択する" >
+                    <input id="imageUploader"  class="img_select-button"  type="file" accept="image/*" name="item_img" value="画像を選択する">
                 </div>
+                <img id="previewImage">
+
                 @error('item_img')
                     <span class="error-message">{{ $message }}</span>
                 @enderror
+                <script src="{{ asset('js/profile_image.js') }}"></script>
+
             </div>
             <h2>商品の詳細</h2>
             <p>カテゴリー</p>
