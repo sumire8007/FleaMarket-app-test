@@ -38,13 +38,6 @@ class FortifyServiceProvider extends ServiceProvider
             }
         });
     }
-    //     $this->app->instance(LogoutResponse::class, new class implements LogoutResponse {
-    //     public function toResponse($request)
-    //     {
-    //         return redirect('/');
-    //     }
-    // });
-
 
     /**
      * Bootstrap any application services.
@@ -52,20 +45,7 @@ class FortifyServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Fortify::createUsersUsing(CreateNewUser::class);
-        // Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
-        // Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
-        // Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
-
-        // RateLimiter::for('login', function (Request $request) {
-        //     $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())).'|'.$request->ip());
-
-        //     return Limit::perMinute(5)->by($throttleKey);
-        // });
-
-        // RateLimiter::for('two-factor', function (Request $request) {
-        //     return Limit::perMinute(5)->by($request->session()->get('login.id'));
-        // });
-
+        //ログイン処理
         Fortify::authenticateUsing(function (Request $request) {
             $user = User::where('email', $request->email)->first();
 
@@ -78,13 +58,14 @@ class FortifyServiceProvider extends ServiceProvider
                 return $user;
             }
         });
-
+        //ビュー画面の表示
         Fortify::registerView(function (){
             return view('auth.register');
         });
         Fortify::loginView(function (){
             return view('auth.login');
         });
+        //回数制限
         RateLimiter::for('login',function(Request $request){
             $email = (string) $request->email;
             return Limit::perMinute(10)->by($email . $request->ip());
