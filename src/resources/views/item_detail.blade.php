@@ -40,7 +40,7 @@
                 @else
                     <p>ブランド名：なし</p>
                 @endif
-                <p>¥{{ $item->price }}(税込)</p>
+                <p>¥{{ number_format($item->price) }}(税込)</p>
                 <div class="like-comment-content">
                     <div class="like-content">
                     @if($item->isLikedByAuthUser())

@@ -67,7 +67,7 @@
                     @enderror
 
                     <p>販売価格</p>
-                        <input class="price" type="text" name="price" value="{{ old('price') }}"/>
+                        <input class="price" type="text" name="price" value="{{ number_format(old('price')) }}"/>
                         @error('price')
                             <span class="error-message">{{ $message }}</span>
                         @enderror
