@@ -53,10 +53,10 @@
                     <script>
                             const likeBtn = document.querySelector('.like-btn');
                             likeBtn.addEventListener('click',async(e)=>{
-                                const clickedEl = e.target
+                                const clickedEl = e.target.
                                 clickedEl.classList.toggle('liked')
                                 const itemId = e.target.id
-                                const res = await fetch('/item/like',{
+                                const res = await fetch('/item/like'{
                                     method: 'POST',
                                     headers: {
                                         'Content-Type': 'application/json',

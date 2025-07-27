@@ -10,17 +10,18 @@
         <h1>商品の出品</h1>
         <form action = "/sell" method = "POST" enctype="multipart/form-data">
             @csrf
+            <input type="hidden" name="user_id" value="{{ $user->id }}">
             <div class="item-detail__img">
-                <input type="hidden" name="user_id" value="{{ $user->id }}">
                 <p>商品の画像</p>
                 <div class="item-detail__img-box">
                     <input id="imageUploader"  class="img_select-button"  type="file" accept="image/*" name="item_img" value="画像を選択する">
                 </div>
-                <img id="previewImage">
-
                 @error('item_img')
                     <span class="error-message">{{ $message }}</span>
                 @enderror
+                <div>
+                    <img id="previewImage">
+                </div>
                 <script src="{{ asset('js/profile_image.js') }}"></script>
 
             </div>
@@ -28,10 +29,10 @@
             <p>カテゴリー</p>
                 <div class="category_content">
                     @foreach($categories as $category)
-                    <input type="checkbox" id="check_input{{ $category['id'] }}" name="categories[]" value="{{ $category['id'] }}">
-                    <label class="check_btn" for="check_input{{ $category['id'] }}">
-                        {{ $category['content'] }}
-                    </label>
+                        <input type="checkbox" id="check_input{{ $category['id'] }}" name="categories[]" value="{{ $category['id'] }}" {{ in_array($category['id'], old('categories', [])) ? 'checked' : '' }}>
+                        <label class="check_btn" for="check_input{{ $category['id'] }}">
+                            {{ $category['content'] }}
+                        </label>
                     @endforeach
                 </div>
                 @error('categories')
@@ -41,10 +42,10 @@
             <p>商品の状態</p>
                 <select class="item-condition" name="condition">
                     <option value="">選択してください</option>
-                    <option value="良好">良好</option>
-                    <option value="目立った傷や汚れなし">目立った傷や汚れなし</option>
-                    <option value="やや傷や汚れあり">やや傷や汚れあり</option>
-                    <option value="状態が悪い">状態が悪い</option>
+                    <option value="良好"{{ old('condition') == '良好' ? 'selected' : '' }}>良好</option>
+                    <option value="目立った傷や汚れなし"{{ old('condition') == '目立った傷や汚れなし' ? 'selected' : '' }}>目立った傷や汚れなし</option>
+                    <option value="やや傷や汚れあり"{{ old('condition') == 'やや傷や汚れあり' ? 'selected' : '' }}>やや傷や汚れあり</option>
+                    <option value="状態が悪い"{{ old('condition') == '状態が悪い' ? 'selected' : '' }}>状態が悪い</option>
                 </select>
                 @error('condition')
                     <span class="error-message">{{ $message }}</span>
@@ -60,7 +61,7 @@
                     <p>ブランド名</p>
                         <input type="text" name="brand" value="{{ old('brand') }}">
                     <p>商品の説明</p>
-                        <textarea name="detail" value="{{ old('detail') }}"></textarea>
+                        <textarea name="detail">{{ old('detail') }}</textarea>
                     @error('detail')
                         <span class="error-message">{{ $message }}</span>
                     @enderror
