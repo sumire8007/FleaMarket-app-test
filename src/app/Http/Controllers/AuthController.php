@@ -60,7 +60,7 @@ class AuthController extends Controller
                                 'building'
                             ]);
         $userName = $request->only(['name']);
-        $use = User::find($request->user_id)->update($userName);
+        User::find($request->user_id)->update($userName);
         if($request->hasFile('user_img')){
             $image = $request->file('user_img');
             $image_url = Storage::disk('public')->put('users', $image);

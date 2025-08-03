@@ -15,7 +15,7 @@
         <div class="header-content">
             <div class="header-item-search">
                 @if(Auth::check())
-                    <form action="/search?id={{ $user->id }}&keyword={{ session('keyword') }}" method="get">
+                    <form action="/search?user_id={{ $user->id }}&keyword={{ session('keyword') }}" method="get">
                 @else
                     <form action="/search?keyword={{ session('keyword') }}" method="get">
                 @endif

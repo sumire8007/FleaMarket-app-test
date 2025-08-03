@@ -15,7 +15,7 @@
                 </div>
                 <div class="item-detail__basic">
                     <h2>{{ $item->item_name }}</h2>
-                    <p>¥{{ $item->price }}(税込)</p>
+                    <p>¥{{ number_format($item->price) }}(税込)</p>
                 </div>
             </div>
 
@@ -50,7 +50,7 @@
             <table>
                 <tr>
                     <th>商品代金</th>
-                    <td>¥{{ $item->price }}</td>
+                    <td>¥{{ number_format($item->price) }}</td>
                 </tr>
                 <tr>
                     <th>支払い方法</th>

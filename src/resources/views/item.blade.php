@@ -10,11 +10,11 @@
         <div class="item-list__tab">
             <a class="item-list__tab-active" href="/">おすすめ</a>
             @if(Auth::check() && request()->url() === url('/search'))
-                <a class="item-list__tab-no-active" href="{{ url('/search') }}?id={{ $user->id }}&keyword={{ session('keyword') }}">マイリスト</a>
+                <a class="item-list__tab-no-active" href="{{ url('/search') }}?user_id={{ $user->id }}&keyword={{ session('keyword') }}">マイリスト</a>
             @elseif(Auth::check())
-                <a class="item-list__tab-no-active" href="{{ url('/') }}?id={{ $user->id }}">マイリスト</a>
+                <a class="item-list__tab-no-active" href="{{ url('/') }}?user_id={{ $user->id }}">マイリスト</a>
             @else
-                <a class="item-list__tab-no-active" href="{{ url('/') }}?id=">マイリスト</a>
+                <a class="item-list__tab-no-active" href="{{ url('/') }}?user_id=">マイリスト</a>
             @endif
         </div>
 
@@ -47,11 +47,11 @@
         <div class="item-list__tab">
             <a class="item-list__tab-no-active" href="/">おすすめ</a>
             @if(Auth::check() && request()->url() === url('/search'))
-                <a class="item-list__tab-active" href="{{ url('/search') }}?id={{ $user->id }}&keyword={{ session('keyword') }}">マイリスト</a>
+                <a class="item-list__tab-active" href="{{ url('/search') }}?user_id={{ $user->id }}&keyword={{ session('keyword') }}">マイリスト</a>
                 @elseif(Auth::check())
-                <a class="item-list__tab-active" href="{{ url('/') }}?id={{ $user->id }}">マイリスト</a>
+                <a class="item-list__tab-active" href="{{ url('/') }}?user_id={{ $user->id }}">マイリスト</a>
             @else
-                <a class="item-list__tab-active" href="{{ url('/') }}?id=">マイリスト</a>
+                <a class="item-list__tab-active" href="{{ url('/') }}?user_id=">マイリスト</a>
             @endif
         </div>
 
@@ -89,7 +89,7 @@
     @elseif(isset($paramUrl) && empty($param))
         <div class="item-list__tab">
             <a class="item-list__tab-no-active" href="/">おすすめ</a>
-            <a class="item-list__tab-active" href="{{ url('/') }}?id=">マイリスト</a>
+            <a class="item-list__tab-active" href="{{ url('/') }}?user_id=">マイリスト</a>
         </div>
         <div class="item-nonelist">
             <p>マイリストはありません</p>

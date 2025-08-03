@@ -87,7 +87,7 @@
                 </div>
                 <!-- 登録するをクリックするとプロフィール設定画面に遷移 -->
                 <div class="form__button">
-                    <button class="form__button-submit" type="submit" onclick="location.href='http://localhost/mypage/profile'">登録する</button>
+                    <button class="form__button-submit" type="submit">登録する</button>
                 </div>
                 <a class="transition" href="/login">ログインはこちら</a>
             </form>

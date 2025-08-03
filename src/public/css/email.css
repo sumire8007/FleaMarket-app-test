@@ -8,11 +8,22 @@ img {
     padding-left: 20px;
 }
 
+.resend-message {
+    background-color: #d9d9d9;
+    color: black;
+    border-radius: 8px;
+    font-size: 15px;
+    text-align: center;
+    margin: 70px auto 0;
+    padding: 10px 10px;
+    width: 250px;
+}
+
 .email-form__content {
     margin: 0 auto;
     width: 500px;
     text-align: center;
-    padding-top: 150px;
+    padding-top: 100px;
 }
 
 .email-form__content p {
@@ -20,17 +31,17 @@ img {
 }
 
 .email-form__button {
-    height: 35px;
+    height: 50px;
     width: 150px;
-    background-color: #d9d9d9;
-    border: 1px solid black;
-    border-radius: 5px;
+    background-color: #56B4A2;
+    border: none;
+    border-radius: 10px;
     cursor: pointer;
     margin-top: 45px;
 }
 
 .email-form__button a {
-    color: black;
+    color: white;
     font-weight: bold;
     text-decoration-line: none;
 }

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Stripe\Stripe;
-use Stripe\Checkout\Session;
 use App\Models\Address;
 use App\Models\Item;
 use App\Models\Category;
@@ -17,7 +16,8 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\CommentRequest;
 use App\Http\Requests\PurchaseRequest;
 use App\Http\Requests\ExhibitionRequest;
-use phpDocumentor\Reflection\Types\Null_;
+
+
 class ItemController extends Controller
 {
     // 商品一覧画面の表示
@@ -25,21 +25,20 @@ class ItemController extends Controller
     {
         $keyword = $request->session()->get('keyword');
         $user = Auth::user();
-        $param = $request->query('id');
-        $paramUrl = $request->has('id');
+        $param = $request->query('user_id');
+        $paramUrl = $request->has('user_id');
         $itemIds = Item::pluck('id')->toArray();
         $sold = Purchase::whereIn('item_id', $itemIds)->pluck('item_id');
-
-        // もし、クエリパラメータが存在し、かつ空文字なら、$items を空にする
-        if ($request->has('id') && empty($param)) {
+        // もし、[?=user_id]がURlに含まれていて、かつ空文字なら、$items を空にする
+        if ($request->has('user_id') && empty($param)) {
             $items = [];
         }
-        // もし、クエリパラメータが存在し、値があったら$itemsにユーザーがいいねしたものを入れる
+        // もし、[?=user_id]がURlに含まれていて、値(user_id)があったら$itemsにユーザーがいいねしたものを入れる
         elseif (isset($param)) {
             $likes = ItemLike::where('user_id', $param)->pluck('item_id');
             $items = Item::whereIn('id', $likes)->get();
         }
-        // もし、クエリパラメータが無かったら（NULLなら）、おすすめを表示（ログインしてたら、ユーザーが出品したものを表示しない）
+        // もし、[?=user_id]がURlに含まれていなかったら、おすすめを表示（ログインしてたら、ユーザーが出品したものを表示しない）
         else {
             if (Auth::check()) {
                 $userItemIds = Item::where('user_id', $user->id)->pluck('id')->toArray();
@@ -54,8 +53,8 @@ class ItemController extends Controller
     public function search(Request $request)
     {
         $user = Auth::user();
-        $param = $request->query('id');
-        $paramUrl = $request->has('id');
+        $param = $request->query('user_id');
+        $paramUrl = $request->has('user_id');
         $itemIds = Item::pluck('id')->toArray();
         $sold = Purchase::whereIn('item_id', $itemIds)->pluck('item_id');
         $keyword = $request->keyword;
@@ -89,12 +88,7 @@ class ItemController extends Controller
                         ]);
         Comment::create($comment);
         $id = $request->item_id;
-        $item = Item::with(['categories'])->find($id);
-        $user = Auth::user();
-        $comments = Comment::where('item_id',$id)->with('user')->get();
-        $userIds = $comments->pluck('user_id');
-        $profiles = Address::whereIn('user_id',$userIds)->get()->keyBy('user_id');
-        return redirect('/item?id='.$item->id);
+        return redirect('/item?id='.$id);
     }
     // 商品購入画面の表示
     public function purchase(Request $request){
@@ -105,7 +99,7 @@ class ItemController extends Controller
         $payments = Payment::all();
         return view('purchase',compact('item','profiles','payments','user'));
     }
-    //　商品の購入(決済)
+    //商品の購入(決済)
     public function buy(PurchaseRequest $request){
         \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
         $item = Item::find($request->item_id);

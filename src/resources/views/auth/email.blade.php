@@ -15,6 +15,9 @@
     </header>
 
     <main>
+        @if(session('message'))
+            <div class="resend-message">{{ session('message') }}</div>
+        @endif
         <div class="email-form__content">
             <p>登録していただいたメールアドレスに認証メールを送信しました。</p>
             <p>メール認証を完了してください</p>

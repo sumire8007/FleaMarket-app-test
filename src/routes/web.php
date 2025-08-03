@@ -41,6 +41,7 @@ Route::middleware(['auth','verified'])->group(function () {
     Route::get('/mypage/profile', [AuthController::class, 'edit']);
     Route::get('/purchase/address', [AuthController::class, 'addressView']);
 });
+
 Route::prefix('/')->group(function () {
     Route::get('', [ItemController::class, 'index'])->name('item.index');
     Route::post('', [AuthController::class, 'store']);

@@ -44,19 +44,19 @@
                 <div class="like-comment-content">
                     <div class="like-content">
                     @if($item->isLikedByAuthUser())
-                        <i class="fa-regular fa-star like-btn liked" id="{{$item->id}}"></i>
+                        <i class="fa-regular fa-star like-btn liked" id="{{ $item->id }}"></i>
                     @else
-                        <i class="fa-regular fa-star like-btn" id="{{$item->id}}"></i>
+                        <i class="fa-regular fa-star like-btn" id="{{ $item->id }}"></i>
                     @endif
                         <p class="like-count-num">{{ $item->likes->count() }}</p>
                     </div>
                     <script>
                             const likeBtn = document.querySelector('.like-btn');
                             likeBtn.addEventListener('click',async(e)=>{
-                                const clickedEl = e.target.
+                                const clickedEl = e.target;
                                 clickedEl.classList.toggle('liked')
-                                const itemId = e.target.id
-                                const res = await fetch('/item/like'{
+                                const itemId = e.target.id;
+                                const res = await fetch('/item/like',{
                                     method: 'POST',
                                     headers: {
                                         'Content-Type': 'application/json',

@@ -39,10 +39,6 @@ class RegisterController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Laravel\Fortify\Contracts\RegisterViewResponse
      */
-    // public function create(Request $request): RegisterViewResponse
-    // {
-    //     return app(RegisterViewResponse::class);
-    // }
 
     /**
      * Create a new registered user.
@@ -55,11 +51,6 @@ class RegisterController extends Controller
         RegisterRequest $request,
         CreatesNewUsers $creator
     ): RegisterResponse {
-        if (config('fortify.lowercase_usernames')) {
-            $request->merge([
-                Fortify::username() => Str::lower($request->{Fortify::username()}),
-            ]);
-        }
 
         event(new Registered($user = $creator->create($request->all())));
 
