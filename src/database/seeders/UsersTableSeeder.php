@@ -16,15 +16,21 @@ class UsersTableSeeder extends Seeder
     {
         $users = [
             [
-                'name' => 'ユーザー1',
-                'email' => 'user1@gmail.com',
+                'name' => 'demo1',
+                'email' => 'demo1@example.com',
                 'password' => Hash::make('password')
             ],
             [
                 'name' => 'ユーザー2',
-                'email' => 'user2@gmail.com',
+                'email' => 'demo2@example.com',
+                'password' => Hash::make('password')
+            ],
+            [
+                'name' => 'ユーザー3',
+                'email' => 'demo3@example.com',
                 'password' => Hash::make('password')
             ]
+
         ];
         DB::table('users')->insert($users);
     }
