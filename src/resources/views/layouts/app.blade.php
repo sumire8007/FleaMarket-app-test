@@ -14,7 +14,7 @@
         <a class="header_logo" href="/"><img  src="{{ asset('../../img/logo.png') }}" alt="coachtech"></a>
         <div class="header-content">
             <div class="header-item-search">
-                @if(Auth::check())
+                @if(Illuminate\Support\Facades\Auth::check())
                     <form action="/search?user_id={{ $user->id }}&keyword={{ session('keyword') }}" method="get">
                 @else
                     <form action="/search?keyword={{ session('keyword') }}" method="get">
@@ -24,7 +24,7 @@
                 </form>
             </div>
                 <ul class="header-nav">
-                    @if (Auth::check())
+                    @if (Illuminate\Support\Facades\Auth::check())
                     <ol class="header-nav__item-logout">
                         <form action="/logout" method="post">
                             @csrf

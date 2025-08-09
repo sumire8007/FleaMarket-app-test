@@ -5,7 +5,7 @@
     <script src="https://kit.fontawesome.com/d872711579.js" crossorigin="anonymous"></script>
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    @if(Auth::check())
+    @if(Illuminate\Support\Facades\Auth::check())
         <style>
             /* いいね押下時の星の色 */
             .liked{
@@ -125,7 +125,7 @@
                     <div class="comment-box_input">
                     <form action="/item" method="post">
                     @csrf
-                        @if(Auth::check())
+                        @if(Illuminate\Support\Facades\Auth::check())
                         <input type="hidden" name="user_id" value="{{ $user->id }}">
                         @endif
                         <input type="hidden" name="item_id" value="{{ $item->id }}">

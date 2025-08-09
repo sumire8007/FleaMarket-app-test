@@ -98,7 +98,7 @@
                     @csrf
                     <textarea class ="message-box" name="keyword" value="{{ session('keyword') }}" placeholder="  取引メッセージを記入してください"></textarea>
                     <div class="item-detail__img-box">
-                        <input id="imageUploader"  class="img_select-button"  type="file" accept="image/*" name="item_img" value="">
+                        <input id="imageUploader"  class="img_select-button" type="file" accept="image/*" name="item_img" value="">
                     </div>
                     @error('item_img')
                         <span class="error-message">{{ $message }}</span>

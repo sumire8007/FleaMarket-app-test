@@ -9,9 +9,9 @@
     @if($paramUrl === false)
         <div class="item-list__tab">
             <a class="item-list__tab-active" href="/">おすすめ</a>
-            @if(Auth::check() && request()->url() === url('/search'))
+            @if(Illuminate\Support\Facades\Auth::check() && request()->url() === url('/search'))
                 <a class="item-list__tab-no-active" href="{{ url('/search') }}?user_id={{ $user->id }}&keyword={{ session('keyword') }}">マイリスト</a>
-            @elseif(Auth::check())
+            @elseif(Illuminate\Support\Facades\Auth::check())
                 <a class="item-list__tab-no-active" href="{{ url('/') }}?user_id={{ $user->id }}">マイリスト</a>
             @else
                 <a class="item-list__tab-no-active" href="{{ url('/') }}?user_id=">マイリスト</a>
@@ -46,9 +46,9 @@
         <!--マイリストの表示-->
         <div class="item-list__tab">
             <a class="item-list__tab-no-active" href="/">おすすめ</a>
-            @if(Auth::check() && request()->url() === url('/search'))
+            @if(Illuminate\Support\Facades\Auth::check() && request()->url() === url('/search'))
                 <a class="item-list__tab-active" href="{{ url('/search') }}?user_id={{ $user->id }}&keyword={{ session('keyword') }}">マイリスト</a>
-                @elseif(Auth::check())
+                @elseif(Illuminate\Support\Facades\Auth::check())
                 <a class="item-list__tab-active" href="{{ url('/') }}?user_id={{ $user->id }}">マイリスト</a>
             @else
                 <a class="item-list__tab-active" href="{{ url('/') }}?user_id=">マイリスト</a>
@@ -60,7 +60,7 @@
                 @csrf
                 @if($items->isEmpty() && request()->url() === url('/search'))
                     <p>マイリストに「 {{ session('keyword') }} 」を含む商品はありません。</p>
-                @elseif($items->isEmpty() && Auth::check())
+                @elseif($items->isEmpty() && Illuminate\Support\Facades\Auth::check())
                     <p>マイリストはありません</p>
                 @else
                     @foreach($items as $item)
