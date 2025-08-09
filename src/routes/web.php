@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ChatController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\AuthController;
@@ -32,14 +33,14 @@ Route::post('/email/resend', function (Request $request) {
     return back()->with('message', '認証メールを再送しました。');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
-//ユーザー機能
+//決済・出品・マイページ・住所画面の表示、コメントの送信
 Route::middleware(['auth','verified'])->group(function () {
     Route::get('/purchase', [ItemController::class, 'purchase']);
     Route::get('/sell', [ItemController::class, 'sell']);
-    Route::post('/item', [ItemController::class, 'commentStore']);
     Route::get('/mypage', [AuthController::class, 'mypage']);
     Route::get('/mypage/profile', [AuthController::class, 'edit']);
     Route::get('/purchase/address', [AuthController::class, 'addressView']);
+    Route::post('/item', [ItemController::class, 'commentStore']);
 });
 
 Route::prefix('/')->group(function () {
@@ -47,9 +48,10 @@ Route::prefix('/')->group(function () {
     Route::post('', [AuthController::class, 'store']);
 });
 
-Route::patch('/purchase/address', [AuthController::class, 'addressEdit']);
+//各機能
 Route::post('register', [RegisterController::class, 'store']);
 Route::post('login', [LoginController::class, 'store']);
+Route::patch('/purchase/address', [AuthController::class, 'addressEdit']);
 Route::get('/item',[ItemController::class,'detail']);
 Route::post('/sell',[ItemController::class,'store']);
 Route::post('/purchase', [ItemController::class, 'buy']);
@@ -57,11 +59,14 @@ Route::patch('/mypage/profile', [AuthController::class, 'update']);
 Route::get('/search',[ItemController::class,'search']);
 Route::post('/item/like', [LikeController::class, 'likeItem']);
 
+//Chat機能
+Route::get('chat', [ChatController::class, 'chatView']);
+
+
 //Stripe決済
 Route::get('/payment/success', function () {
     return "決済成功！";
 })->name('payment.success');
-
 Route::get('/payment/cancel', function () {
     return "決済キャンセルされました";
 })->name('payment.cancel');
