@@ -27,6 +27,19 @@ body, main{
     padding: 10px;
 }
 
+.other-chat {
+    background-color: white;
+    color: black;
+    border-radius: 3px;
+    padding: 5px 0;
+    margin: 20px 0;
+    cursor: pointer;
+    text-decoration-line: none;
+}
+.side a {
+    text-decoration-line: none;
+}
+
 .deal_user{
     display: flex;
     border-bottom: black solid 1px;
@@ -77,6 +90,7 @@ body, main{
     display: flex;
     margin: 10px;
     width: 80%;
+    position: sticky;
 }
 
 .item_img {
@@ -89,30 +103,37 @@ body, main{
     width: 100%;
     height: 100%;
 }
+
 .item_detail {
     display: flex;
     align-items: center;
     margin-left: 30px;
 }
+
 .item_name {
     font-weight: bold;
     font-size: 30px;
     margin-bottom: 20px;
 }
+
 .item_price {
     font-size: 20px;
 }
+
 .chat_content {
     border-top: black solid 1px;
 }
+
 .user_detail__img-name, .user_content__img-name {
     display: flex;
     align-items: center;
 }
+
 .user_content__img-name ,.user_content__user_message {
     display: flex;
     justify-content: right;
 }
+
 .user_name {
     font-weight: bold;
 }
@@ -124,6 +145,7 @@ body, main{
     display: flex;
     align-items: center;
 }
+
 .user_message p {
     padding: 0px 20px;
 }
@@ -133,16 +155,19 @@ body, main{
     justify-content: flex-end;
     width: 100%;
 }
+
 .edit_action form {
     margin: 0 10px;
     color: #868686;
     cursor: pointer;
 }
+
 .send_message form{
     display: flex;
     align-items: flex-end;
     margin: 10px 20px;
 }
+
 .message-box {
     width: 90%;
     height: 30px;
@@ -152,12 +177,14 @@ body, main{
 .img_select-button{
     width: 130px;
 }
+
 .img_select-button::file-selector-button {
     width: 10px;
     height: 30px;
     opacity: 0;
     position: relative;
 }
+
 .img_select-button::before {
     position: absolute;
     content: "画像を追加";
@@ -196,10 +223,12 @@ body, main{
     background-color: white;
     cursor: pointer;
 }
+
 .send-btm__img {
     width: 40px;
     height: 40px;
 }
+
 .send-btm__img img {
     width: 100%;
     height: 100%;

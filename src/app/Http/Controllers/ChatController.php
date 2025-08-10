@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use AddressInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Chat;
 use App\Models\User;
 use App\Models\Item;
+use App\Models\Address;
+
 
 
 
@@ -19,16 +22,38 @@ class ChatController extends Controller
         $userId = Auth::user()->id;
         $loginUser = User::where('id', $userId)->with('address')->first();
         $chatFlag = $request->input('chat_flag');
-        $messages = Chat::where('chat_flag', $chatFlag)->get();
+
+        //自分が出品したもので、取引メッセージが来ているもの
+        $sellItems = Item::where('user_id', $userId)->pluck('id');
+        $sellChats = Chat::whereIn('item_id', $sellItems)
+            ->where('completed_at', NULL)
+            ->with('item')
+            ->get();
+        //自分がメッセージを送ってまだ完了していないもの
+        $dealChats = Chat::where('user_id', $userId)
+            ->where('completed_at', NULL)
+            ->with('item')
+            ->get();
+        //「取引中の商品」に表示させるもの（自分が出品したアイテムのチャットと自分がメッセージを送ったもの）
+        $allChats = $sellChats->merge($dealChats)->sortByDesc('created_at')->unique('chat_flag')->values();
 
         list($firstPart, $secondPart) = explode('_', $chatFlag);
-        $dealUserId = $firstPart;
-        $dealUser = User::where('id', $dealUserId)->with('address')->first();
 
+        $messages = Chat::where('chat_flag', $chatFlag)->get();
         $dealItemId = $secondPart;
         $dealItem = Item::where('id', $dealItemId)->first();
 
-        return view('chat',compact('loginUser','messages','dealUser','dealItem','chatFlag'));
+        if($firstPart === $loginUser->id){
+            $dealItemId = $secondPart;
+            $dealUser = Item::where('id', $dealItemId)->with('user')->first();
+            $profiles = Address::where('id',$dealUser->user_id)->first();
+            return view('chat', compact('loginUser', 'messages', 'dealUser', 'dealItem', 'profiles', 'chatFlag', 'firstPart','allChats'));
+
+        }elseif($firstPart !== $loginUser->id){
+            $dealUserId = $firstPart;
+            $dealUser = User::where('id', $dealUserId)->with('address')->first();
+            return view('chat', compact('loginUser', 'messages', 'dealUser', 'dealItem', 'chatFlag', 'firstPart', 'allChats'));
+        }
     }
     //メッセージの送信
     public function sendMessage(Request $request){

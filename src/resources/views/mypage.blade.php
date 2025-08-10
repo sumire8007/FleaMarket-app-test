@@ -62,7 +62,7 @@
         <div class="mypage__content">
             @foreach($items as $item)
                 <div class="mypage-item-box">
-                    <a href="{{ url('/item') }}?id={{ $item->id }}">
+                    <a href="{{ url('/chat') }}?chat_flag={{ $user->id.'_'.$item->id }}">
                         <div class="mypage-item-box__img">
                             <img src=" {{ asset('storage/' . $item->item_img) }}" alt="商品画像">
                         </div>
