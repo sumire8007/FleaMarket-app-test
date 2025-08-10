@@ -191,5 +191,6 @@ php artisan db:seed
 
 **ER図**
 
-<img width="665" alt="ER図（COACHTECHフリマ）" src="https://github.com/user-attachments/assets/244fcc7e-962f-4a3e-951b-c4806770173d" />
+<img width="870" height="634" alt="ER" src="https://github.com/user-attachments/assets/4a4f02bc-8ff1-4c45-8683-07e05a4c2438" />
+
 
