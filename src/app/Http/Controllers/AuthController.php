@@ -9,25 +9,39 @@ use App\Models\Item;
 use App\Models\Address;
 use App\Models\User;
 use App\Models\Purchase;
+use App\Models\Chat;
 use App\Http\Requests\AddressRequest;
 use App\Http\Requests\ProfileRequest;
-
 
 
 class AuthController extends Controller
 {
     // マイページの表示
-    public function mypage(Request $request){
-        $param = $request->query('id');
+    public function mypage(){
         $user = Auth::user();
         $profiles = Address::where('user_id',$user->id)->first();
-        if(isset($param)){
-            $purchases = Purchase::where('user_id',$user->id)->pluck('item_id');
-            $items = Item::whereIn('id',$purchases)->get();
-        } else {
-            $items = Item::where('user_id',$user->id)->get();
+
+        //自分が出品したもので、取引メッセージが来ているもの
+        $sellItems = Item::where('user_id',$user->id)->pluck('id');
+        $sellChats = Chat::whereIn('item_id', $sellItems)
+            ->where('completed_at', NULL)
+            ->get();
+        //自分がメッセージを送ってまだ完了していないもの
+        $dealChats = Chat::where('user_id', $user->id)
+            ->where('completed_at', NULL)
+            ->get();
+        //「取引中の商品」に表示させるもの（自分が出品したアイテムのチャットと自分がメッセージを送ったもの）
+        $allChats = $sellChats->merge($dealChats)->sortByDesc('created_at')->unique('chat_flag')->values();
+
+        if (request()->routeIs('mypage.buy')) {
+            $purchases = Purchase::where('user_id', $user->id)->pluck('item_id');//購入した商品
+            $items = Item::whereIn('id', $purchases)->get();
+        } elseif (request()->routeIs('mypage')) {
+            $items = Item::where('user_id', $user->id)->get(); //出品した商品
+        } elseif (request()->routeIs('mypage.deal')) {
+            $items = $allChats;//取引中の商品
         }
-        return view('mypage',compact('user','profiles','items','param'));
+        return view('mypage',compact('user','profiles','items'));
     }
     // プロフィール設定の表示（初回含む）
     public function edit(){

@@ -17,7 +17,9 @@ class CreateChatsTable extends Migration
             $table->id();
             $table->foreignID('user_id')->constrained();
             $table->foreignID('item_id')->constrained();
+            $table->string('chat_flag');
             $table->text('message');
+            $table->string('chat_img')->nullable();
             $table->timestamp('completed_at')->nullable();
             $table->timestamps();
         });

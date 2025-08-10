@@ -82,3 +82,6 @@
     border: none;
     cursor: pointer;
 }
+.mypage-item-box__item-name p {
+    color: black;
+}

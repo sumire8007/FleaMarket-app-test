@@ -40,7 +40,9 @@ Route::post('/email/resend', function (Request $request) {
 Route::middleware(['auth','verified'])->group(function () {
     Route::get('/purchase', [ItemController::class, 'purchase']);
     Route::get('/sell', [ItemController::class, 'sell']);
-    Route::get('/mypage', [AuthController::class, 'mypage']);
+    Route::get('/mypage', [AuthController::class, 'mypage'])->name('mypage');
+    Route::get('/mypage/buy', [AuthController::class, 'mypage'])->name('mypage.buy');
+    Route::get('/mypage/deal', [AuthController::class, 'mypage'])->name('mypage.deal');
     Route::get('/mypage/profile', [AuthController::class, 'edit']);
     Route::get('/purchase/address', [AuthController::class, 'addressView']);
     Route::post('/item', [ItemController::class, 'commentStore']);
@@ -63,7 +65,7 @@ Route::get('/search',[ItemController::class,'search']);
 Route::post('/item/like', [LikeController::class, 'likeItem']);
 
 //Chat機能
-Route::get('chat', [ChatController::class, 'chatView']);
+Route::get('/chat', [ChatController::class, 'chatView']);
 
 
 //Stripe決済
