@@ -1,4 +1,11 @@
 # coachtechフリマ
+## デモユーザー
+ mail : demo1@example.com  /  password : password
+ 
+ mail : demo2@example.com  /  password : password
+ 
+ mail : demo3@example.com  /  password : password
+
 ## 環境構築
 **◽️Dockerビルド**
 
@@ -184,5 +191,5 @@ php artisan db:seed
 
 **ER図**
 
-<img width="665" alt="ER図（COACHTECHフリマ）" src="<img width="556" height="387" alt="ER図" src="https://github.com/user-attachments/assets/244fcc7e-962f-4a3e-951b-c4806770173d" />
-" />
+<img width="665" alt="ER図（COACHTECHフリマ）" src="https://github.com/user-attachments/assets/244fcc7e-962f-4a3e-951b-c4806770173d" />
+
