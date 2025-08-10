@@ -23,6 +23,7 @@
             <div class="mypage__tab">
                 <a href="/mypage" class="mypage__tab-active">出品した商品</a>
                 <a href="{{ url('/mypage') }}?id={{ $user->id }}" class="mypage__tab-no-active">購入した商品</a>
+                <a href="{{ url('/mypage') }}?id={{ $user->id }}" class="mypage__tab-no-active">取引中の商品</a>
             </div>
         <div class="mypage__content">
             @foreach($items as $item)
@@ -57,6 +58,7 @@
             <div class="mypage__tab">
                 <a href="/mypage" class="mypage__tab-no-active">出品した商品</a>
                 <a href="{{ url('/mypage') }}?id={{ $user->id }}" class="mypage__tab-active">購入した商品</a>
+                <a href="{{ url('/mypage') }}?id={{ $user->id }}" class="mypage__tab-no-active">取引中の商品</a>
             </div>
         <div class="mypage__content">
             @foreach($items as $item)
