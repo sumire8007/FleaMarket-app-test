@@ -6,12 +6,12 @@
     <title>FleaMarket</title>
     <link rel="stylesheet" href="{{ asset('css/sanitize.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/chat.css') }}"/>
-    <script src="https://kit.fontawesome.com/d872711579.js" crossorigin="anonymous"></script>
-
 </head>
 <body>
     <header class="logo">
+        <a href="/mypage/deal">
         <img src="{{ asset('../../img/logo.png') }}" alt="coachtech">
+        </a>
     </header>
     <div class="content">
         <aside>
@@ -23,15 +23,15 @@
             <!-- チャットのタイトル　取引相手の名 と　取引相手のプロフ画像-->
             <div class="deal_user">
                 <div class="circle">
-                    @if (!empty($profiles->user_img))
-                        <img src="{{ asset('storage/' . $profiles[$comment->user_id]->user_img) }}" alt="プロフ画像">
+                    @if (!empty($dealUser->address->user_img))
+                        <img src="{{ asset('storage/' . $dealUser->address->user_img) }}" alt="プロフ画像">
                     @else
                         <img src="../img/default_user_img.png" alt="">
                     @endif
                 </div>
                 <div class="title_content">
                     <div class="title">
-                        「ユーザー名」さんとの取引画面
+                        <p>{{ $dealUser->name }} さんとの取引画面</p>
                     </div>
                     <form action="">
                         @csrf
@@ -41,12 +41,17 @@
             </div>
             <!-- 商品の詳細 -->
             <div class="item_content">
-                <div class="item_img"><img src="" alt="商品画像"></div>
+                <div class="item_img">
+                    <img src="{{ asset('storage/' . $dealItem->item_img) }}" alt="商品画像">
+                </div>
                 <div class="item_detail">
                     <div>
-                    <div class="item_name">商品名</div>
-                    <div class="item_price">商品価格</div>
-
+                        <div class="item_name">
+                            <p>{{ $dealItem->item_name }}</p>
+                        </div>
+                        <div class="item_price">
+                            <p>¥{{ number_format($dealItem->price) }}</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -54,49 +59,72 @@
             <!-- メッセージの画面 -->
             <div class="chat_content">
                 <!-- メッセージ相手 -->
-                <div class="client_content">
-                    <div class="user_detail">
-                        <div class="circle">
-                            @if (!empty($profiles->user_img))
-                                <img src="{{ asset('storage/' . $profiles[$comment->user_id]->user_img) }}" alt="プロフ画像">
-                            @else
-                                <img src="../img/default_user_img.png" alt="">
-                            @endif
-                        </div>
-                        <div class="user_name">ユーザー名</div>
-                    </div>
-                    <div class="user_message">
-                        <p>ここにメッセージ入る</p>
-                    </div>
-                </div>
-                <!-- 自分側 -->
-                <div class="user_content">
-                    <div class="circle">
-                        @if (!empty($profiles->user_img))
-                            <img src="{{ asset('storage/' . $profiles[$comment->user_id]->user_img) }}" alt="プロフ画像">
-                        @else
-                            <img src="../img/default_user_img.png" alt="">
-                        @endif
-                    </div>
-                    <div class="user_name">ユーザー名</div>
-                    <div class="user_message">
-                        <p>ここにメッセージが入る</p>
-                    </div>
-                    <div class="edit_action">
-                    <form action="/message_edit">編集</form>
-                    <form action="/message_delete">削除</form>
+                @foreach($messages as $message)
+                    @if($message->user_id !== $loginUser->id)
+                        <div class="client_content">
+                            <div>
+                                <div class="user_detail">
+                                    <div class="user_detail__img-name">
+                                        <div class="circle">
+                                            @if (!empty($dealUser->user_img))
+                                                <img src="{{ asset('storage/' . $dealUser->address->user_img) }}" alt="プロフ画像">
+                                            @else
+                                                <img src="../img/default_user_img.png" alt="">
+                                            @endif
+                                        </div>
+                                        <div class="user_name">{{ $dealUser->name }}</div>
+                                    </div>
 
-                    </div>
-                </div>
+                                    <div class="user_message">
+                                        <p>{{ $message->message }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @elseif($message->user_id === $loginUser->id)
+                        <!-- 自分側 -->
+                        <div class="user_content">
+                            <div class="user_content__img-name">
+                                <div class="user_name">{{ $loginUser->name }}</div>
+                                <div class="circle">
+                                    @if (!empty($loginUser->address->user_img))
+                                        <img src="{{ asset('storage/' . $loginUser->address->user_img) }}" alt="プロフ画像">
+                                    @else
+                                        <img src="../img/default_user_img.png" alt="">
+                                    @endif
+                                </div>
+
+                            </div>
+                            <div class="user_content__user_message">
+                                <div class="user_message ">
+                                    <p>{{ $message->message }}</p>
+                                </div>
+                            </div>
+                            <div class="edit_action">
+                                <form action="/message_edit">
+                                    @csrf
+                                    編集
+                                </form>
+                                <form action="/message_delete">
+                                    @csrf
+                                    削除
+                                </form>
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
             </div>
-                <div class="previewImage">
-                    <img id="previewImage">
-                </div>
             <!-- メッセージ入力・送信欄 -->
+            <div class="previewImage">
+                <img id="previewImage">
+            </div>
             <div class="send_message">
-                <form action="/send_message" method="post">
+                <form action="/send/message" method="post">
                     @csrf
-                    <textarea class ="message-box" name="keyword" value="{{ session('keyword') }}" placeholder="  取引メッセージを記入してください"></textarea>
+                    <input type="hidden" name="user_id" value="{{ $loginUser->id }}">
+                    <input type="hidden" name="item_id" value="{{ $dealItem->id }}">
+                    <input type="hidden" name="chat_flag" value="{{ $chatFlag }}">
+                    <textarea class ="message-box" name="message"  placeholder="  取引メッセージを記入してください"></textarea>
                     <div class="item-detail__img-box">
                         <input id="imageUploader"  class="img_select-button" type="file" accept="image/*" name="item_img" value="">
                     </div>

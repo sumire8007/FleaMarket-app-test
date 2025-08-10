@@ -66,7 +66,7 @@ Route::post('/item/like', [LikeController::class, 'likeItem']);
 
 //Chat機能
 Route::get('/chat', [ChatController::class, 'chatView']);
-
+Route::post('/send/message', [ChatController::class, 'sendMessage']);
 
 //Stripe決済
 Route::get('/payment/success', function () {

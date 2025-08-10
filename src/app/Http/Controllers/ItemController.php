@@ -29,16 +29,13 @@ class ItemController extends Controller
         $paramUrl = $request->has('user_id');
         $itemIds = Item::pluck('id')->toArray();
         $sold = Purchase::whereIn('item_id', $itemIds)->pluck('item_id');
-        // もし、[?=user_id]がURlに含まれていて、かつ空文字なら、$items を空にする
         if ($request->has('user_id') && empty($param)) {
             $items = [];
         }
-        // もし、[?=user_id]がURlに含まれていて、値(user_id)があったら$itemsにユーザーがいいねしたものを入れる
         elseif (isset($param)) {
             $likes = ItemLike::where('user_id', $param)->pluck('item_id');
             $items = Item::whereIn('id', $likes)->get();
         }
-        // もし、[?=user_id]がURlに含まれていなかったら、おすすめを表示（ログインしてたら、ユーザーが出品したものを表示しない）
         else {
             if (Auth::check()) {
                 $userItemIds = Item::where('user_id', $user->id)->pluck('id')->toArray();
@@ -101,6 +98,7 @@ class ItemController extends Controller
     }
     //商品の購入(決済)
     public function buy(PurchaseRequest $request){
+        $chatFlag = $request->user_id . '_' . $request->item_id;
         \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
         $item = Item::find($request->item_id);
         $purchase = $request->only([
@@ -126,7 +124,7 @@ class ItemController extends Controller
                 ]
             ],
             'mode' => 'payment',
-            'success_url' => route('payment.success', ['session_id' => '{CHECKOUT_SESSION_ID}']),
+            'success_url' => url('/chat') . '?chat_flag=' . $chatFlag,
             'cancel_url' => route('payment.cancel'),
         ]);
         return redirect($session->url);

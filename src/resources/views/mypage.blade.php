@@ -19,7 +19,6 @@
                 <a href="/mypage/profile" class="profile-edit__button">プロフィールを編集</a>
             </div>
         </div>
-
             <div class="mypage__tab">
                 <a href="/mypage" class="mypage__tab-active">出品した商品</a>
                 <a href="/mypage/buy" class="mypage__tab-no-active">購入した商品</a>

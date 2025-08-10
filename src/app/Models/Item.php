@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Item extends Model
 {
@@ -41,7 +42,7 @@ class Item extends Model
     }
     public function isLikedByAuthUser() :bool
     {
-        $authUserId = \Auth::id();
+        $authUserId = Auth::id();
         $likersArr = array();
         foreach($this->likes as $itemLike){
             array_push($likersArr,$itemLike->user_id);

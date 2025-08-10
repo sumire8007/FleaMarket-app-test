@@ -85,11 +85,10 @@ body, main{
     background-color: #d9d9d9;
 }
 
-/* .item_img img{
+.item_img img{
     width: 100%;
     height: 100%;
 }
- */
 .item_detail {
     display: flex;
     align-items: center;
@@ -104,17 +103,20 @@ body, main{
     font-size: 20px;
 }
 .chat_content {
-    display: flex;
-    justify-content: space-between;
     border-top: black solid 1px;
 }
-.user_detail {
+.user_detail__img-name, .user_content__img-name {
     display: flex;
     align-items: center;
+}
+.user_content__img-name ,.user_content__user_message {
+    display: flex;
+    justify-content: right;
 }
 .user_name {
     font-weight: bold;
 }
+
 .user_message {
     width: 300px;
     background-color: #D9D9D9;
