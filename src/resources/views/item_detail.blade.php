@@ -78,11 +78,15 @@
                     </div>
                 </div>
             </section>
+        @if(isset($soldOut))
+            <div class="sold-out">売り切れました</div>
+        @else
             <form action="/purchase" method="get">
             @csrf
                 <input type="hidden" name="id" value="{{ $item->id }}">
                 <a class="buy_button" href="{{ url('/purchase') }}?id={{ $item['id'] }}">購入手続きへ</a>
             </form>
+        @endif
             <section class="item-detail__explanation">
                 <h3>商品説明</h3>
                 <p>{{ $item->detail }}</p>
