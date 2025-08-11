@@ -30,7 +30,7 @@
         <main>
             <!-- チャットのタイトル　取引相手の名 と　取引相手のプロフ画像-->
             <div class="deal_user">
-                @if($firstPart === $loginUser->id) <!--出品者へメッセージ-->
+                @if($firstPart == $loginUser->id) <!--出品者へメッセージ-->
                     <div class="circle">
                         @if (!empty($profiles->user_img))
                             <img src="{{ asset('storage/' . $profiles->user_img) }}" alt="プロフ画像">
@@ -83,9 +83,8 @@
                     </div>
                 </div>
             </div>
-    <!-- ここでウィンドウ固定を入れる -->
             <!-- メッセージの画面 -->
-            @if($firstPart === $loginUser->id) <!--出品者へメッセージ-->
+            @if($firstPart == $loginUser->id) <!--出品者へメッセージ-->
             <div class="chat_content">
                 <!-- メッセージ相手 -->
                 @foreach($messages as $message)

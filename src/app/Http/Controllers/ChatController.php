@@ -43,7 +43,7 @@ class ChatController extends Controller
         $dealItemId = $secondPart;
         $dealItem = Item::where('id', $dealItemId)->first();
 
-        if($firstPart === $loginUser->id){
+        if($firstPart == $loginUser->id){
             $dealItemId = $secondPart;
             $dealUser = Item::where('id', $dealItemId)->with('user')->first();
             $profiles = Address::where('id',$dealUser->user_id)->first();

@@ -1,5 +1,7 @@
 header {
     background-color: black;
+    width: 100vw;
+    position: fixed;
 }
 
 .logo img {
@@ -11,7 +13,10 @@ header {
 body, main{
     width: 100%;
 }
-
+main {
+    margin-top: 52px;
+    margin-left: 200px;
+}
 .content{
     display: flex;
     width: 100%;
@@ -25,6 +30,8 @@ body, main{
     font-weight: bold;
     text-align: center;
     padding: 10px;
+    position: fixed;
+    top: 52px;
 }
 
 .other-chat {
@@ -39,10 +46,14 @@ body, main{
 .side a {
     text-decoration-line: none;
 }
-
 .deal_user{
     display: flex;
-    border-bottom: black solid 1px;
+    padding: 5px;
+    background-color: white;
+    position: fixed;
+    top: 52px;
+    left: 200px;
+    right: 0;
 }
 
 .title_content {
@@ -88,9 +99,14 @@ body, main{
 
 .item_content{
     display: flex;
-    margin: 10px;
-    width: 80%;
-    position: sticky;
+    padding: 10px;
+    width: 100%;
+    border-top: black solid 1px;
+    border-bottom: black solid 1px;
+    background-color: white;
+    position: fixed;
+    top: 130px;
+    left: 200px;
 }
 
 .item_img {
@@ -121,9 +137,10 @@ body, main{
 }
 
 .chat_content {
-    border-top: black solid 1px;
+    height: 100%;
+    margin-top: 250px;
+    left: 200px;
 }
-
 .user_detail__img-name, .user_content__img-name {
     display: flex;
     align-items: center;
@@ -161,7 +178,13 @@ body, main{
     color: #868686;
     cursor: pointer;
 }
-
+.send_message {
+    position: fixed;
+    background-color: white;
+    bottom: 0;
+    left: 200px;
+    right: 0;
+}
 .send_message form{
     display: flex;
     align-items: flex-end;

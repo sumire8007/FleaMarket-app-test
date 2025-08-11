@@ -19,6 +19,7 @@ class AuthController extends Controller
     public function mypage(){
         $user = Auth::user();
         $profiles = Address::where('user_id',$user->id)->first();
+        //自分が購入したアイテムの出品者情報
 
         //自分が出品したもので、取引メッセージが来ているもの
         $sellItems = Item::where('user_id',$user->id)->pluck('id');
@@ -33,7 +34,7 @@ class AuthController extends Controller
         $allChats = $sellChats->merge($dealChats)->sortByDesc('created_at')->unique('chat_flag')->values();
 
         if (request()->routeIs('mypage.buy')) {
-            $purchases = Purchase::where('user_id', $user->id)->pluck('item_id');//購入した商品
+            $purchases = Purchase::where('user_id', $user->id)->pluck('item_id');//購入した商品&商品の出品者情報
             $items = Item::whereIn('id', $purchases)->get();
         } elseif (request()->routeIs('mypage')) {
             $items = Item::where('user_id', $user->id)->get(); //出品した商品
