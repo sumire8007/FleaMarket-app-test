@@ -14,6 +14,7 @@ class Chat extends Model
         'chat_flag',
         'message',
         'chat_img',
+        'is_read',
         'completed_at'
     ];
     public function user()

@@ -20,6 +20,7 @@ class CreateChatsTable extends Migration
             $table->string('chat_flag');
             $table->text('message');
             $table->string('chat_img')->nullable();
+            $table->string('is_read')->default('unread');
             $table->timestamp('completed_at')->nullable();
             $table->timestamps();
         });

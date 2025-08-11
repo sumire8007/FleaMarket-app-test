@@ -23,6 +23,9 @@
                 <a href="/mypage" class="mypage__tab-active">出品した商品</a>
                 <a href="/mypage/buy" class="mypage__tab-no-active">購入した商品</a>
                 <a href="/mypage/deal" class="mypage__tab-no-active">取引中の商品</a>
+                @if($badge > 0)
+                    <span class="badge">{{ $badge }}</span>
+                @endif
             </div>
         <div class="mypage__content">
             @foreach($items as $item)
@@ -58,11 +61,14 @@
                 <a href="/mypage" class="mypage__tab-no-active">出品した商品</a>
                 <a href="/mypage/buy" class="mypage__tab-active">購入した商品</a>
                 <a href="/mypage/deal" class="mypage__tab-no-active">取引中の商品</a>
+                @if($badge > 0)
+                    <span class="badge">{{ $badge }}</span>
+                @endif
             </div>
         <div class="mypage__content">
             @foreach($items as $item)
                 <div class="mypage-item-box">
-                    <a href="{{ url('/chat') }}?chat_flag={{ $user->id.'_'.$item->id }}">
+                    <a href="{{ url('/chat') }}?chat_flag={{ $user->id . '_' . $item->id }}">
                         <div class="mypage-item-box__img">
                             <img src=" {{ asset('storage/' . $item->item_img) }}" alt="商品画像">
                         </div>
@@ -74,7 +80,7 @@
                 </div>
             @endforeach
         </div>
-        @elseif(request()->routeIs('mypage.deal')) <!--取引中の商品-->
+    @elseif(request()->routeIs('mypage.deal')) <!--取引中の商品-->
             <div class="form__group-img">
                 <div class="form__group-content-img">
                     <div class="circle">
@@ -93,13 +99,24 @@
                 <a href="/mypage" class="mypage__tab-no-active">出品した商品</a>
                 <a href="/mypage/buy" class="mypage__tab-no-active">購入した商品</a>
                 <a href="/mypage/deal" class="mypage__tab-active">取引中の商品</a>
+                @if($badge > 0)
+                    <span class="badge">{{ $badge }}</span>
+                @endif
             </div>
             <div class="mypage__content">
                 @foreach($items as $item)
+                    @php
+                        $itemBadge = App\Models\Chat::where('chat_flag', $item->chat_flag)
+                        ->where('user_id', '!=', $user->id)
+                        ->count();
+                    @endphp
+
+
                     <div class="mypage-item-box">
                         <a href="{{ url('/chat') }}?chat_flag={{ $item->chat_flag }}">
                             <div class="mypage-item-box__img">
                                 <img src=" {{ asset('storage/' . $item->item->item_img) }}" alt="商品画像">
+                                <span class="item-badge">{{ $itemBadge }}</span>
                             </div>
                             <div class="mypage-item-box__item-name">
                                 <p>{{ $item->item->item_name }}</p>
@@ -108,6 +125,5 @@
                     </div>
                 @endforeach
             </div>
-
         @endif
 @endsection

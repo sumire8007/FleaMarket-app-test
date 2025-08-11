@@ -22,6 +22,12 @@ class ChatController extends Controller
         $userId = Auth::user()->id;
         $loginUser = User::where('id', $userId)->with('address')->first();
         $chatFlag = $request->input('chat_flag');
+        // 未読を既読に更新（チャットページを開いた時点で’is_read’カラムが空のものを更新update）
+        // Chat::whereIn('chat_flag',$chatFlag)
+        // ->whereIn('is_read',false)
+        // ->update(['is_read' => true]);
+
+
 
         //自分が出品したもので、取引メッセージが来ているもの
         $sellItems = Item::where('user_id', $userId)->pluck('id');
@@ -48,7 +54,6 @@ class ChatController extends Controller
             $dealUser = Item::where('id', $dealItemId)->with('user')->first();
             $profiles = Address::where('id',$dealUser->user_id)->first();
             return view('chat', compact('loginUser', 'messages', 'dealUser', 'dealItem', 'profiles', 'chatFlag', 'firstPart','allChats'));
-
         }elseif($firstPart !== $loginUser->id){
             $dealUserId = $firstPart;
             $dealUser = User::where('id', $dealUserId)->with('address')->first();

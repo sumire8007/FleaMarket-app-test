@@ -31,17 +31,24 @@ class AuthController extends Controller
             ->where('completed_at', NULL)
             ->get();
         //「取引中の商品」に表示させるもの（自分が出品したアイテムのチャットと自分がメッセージを送ったもの）
-        $allChats = $sellChats->merge($dealChats)->sortByDesc('created_at')->unique('chat_flag')->values();
+        $allChats = $sellChats->merge($dealChats)->values();
+        $viewChats = $sellChats->merge($dealChats)->sortByDesc('created_at')->unique('chat_flag')->values();
+        // dd($viewChats->count('chat_flag'));
+        $badge = Chat::whereIn('chat_flag', $allChats->pluck('chat_flag'))
+            ->where('user_id', '!=', $user->id)
+            ->count();
 
         if (request()->routeIs('mypage.buy')) {
-            $purchases = Purchase::where('user_id', $user->id)->pluck('item_id');//購入した商品&商品の出品者情報
+            $purchases = Purchase::where('user_id', $user->id)->pluck('item_id');//購入した商品
             $items = Item::whereIn('id', $purchases)->get();
+
         } elseif (request()->routeIs('mypage')) {
             $items = Item::where('user_id', $user->id)->get(); //出品した商品
+
         } elseif (request()->routeIs('mypage.deal')) {
-            $items = $allChats;//取引中の商品
+            $items = $viewChats;//取引中の商品
         }
-        return view('mypage',compact('user','profiles','items'));
+        return view('mypage',compact('user','profiles','items','badge'));
     }
     // プロフィール設定の表示（初回含む）
     public function edit(){
