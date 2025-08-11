@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use AddressInfo;
+use App\Http\Requests\ChatRequest;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -10,8 +11,7 @@ use App\Models\Chat;
 use App\Models\User;
 use App\Models\Item;
 use App\Models\Address;
-
-
+use App\Models\Rating;
 
 
 
@@ -28,7 +28,6 @@ class ChatController extends Controller
             ->where('is_read', 'unread')
             ->update(['is_read' => 'reade']);
 
-
         //自分が出品したもので、取引メッセージが来ているもの
         $sellItems = Item::where('user_id', $userId)->pluck('id');
         $sellChats = Chat::whereIn('item_id', $sellItems)
@@ -40,11 +39,10 @@ class ChatController extends Controller
             ->where('completed_at', NULL)
             ->with('item')
             ->get();
-        //「取引中の商品」に表示させるもの（自分が出品したアイテムのチャットと自分がメッセージを送ったもの）
+        //「取引中の商品」に表示させるもの（合算、自分が出品したアイテムのチャットと自分がメッセージを送ったもの）
         $allChats = $sellChats->merge($dealChats)->sortByDesc('created_at')->unique('chat_flag')->values();
 
         list($firstPart, $secondPart) = explode('_', $chatFlag);
-
         $messages = Chat::where('chat_flag', $chatFlag)->get();
         $dealItemId = $secondPart;
         $dealItem = Item::where('id', $dealItemId)->first();
@@ -61,7 +59,7 @@ class ChatController extends Controller
         }
     }
     //メッセージの送信
-    public function sendMessage(Request $request){
+    public function sendMessage(ChatRequest $request){
         $chatFlag = $request->input('chat_flag');
         $message = $request->only([
             'user_id',
@@ -78,4 +76,26 @@ class ChatController extends Controller
         return (redirect('chat?chat_flag='.$chatFlag));
     }
 
+    //取引完了
+    public function completed(Request $request)
+    {
+        $loginUser = Auth::user();
+        $chatFlag = $request->input('chat_flag');
+        Chat::where('chat_flag', $chatFlag)
+        ->update(['completed_at'=>Carbon::now()]);
+        return back();
+    }
+
+    //評価送信
+    public function store(Request $request)
+    {
+        $loginUser = Auth::user();
+        Rating::create([
+            'from_user_id' => $loginUser,
+            'to_user_id' => $request->to_user_id,
+            'item_id' => $request->item_id,
+            'stars' => $request->stars
+        ]);
+        return redirect('/')->with('success','評価を送信しました');
+    }
 }

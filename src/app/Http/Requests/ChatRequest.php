@@ -24,7 +24,24 @@ class ChatRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'message' => ['required', 'max:400',],
+            'item_img' => [
+                'nullable',
+                'mimes:jpeg,png',
+                function ($attribute, $value, $fail) {
+                    $extension = strtolower($value->getClientOriginalExtension());
+                    if (!in_array($extension, ['jpeg', 'png'])) {
+                        $fail('「.png」または「.jpeg」形式でアップロードしてください');
+                    }
+                }
+            ],
+        ];
+    }
+    public function messages()
+    {
+        return [
+            'message.required' => '本文を入力してください',
+            'message.max' => '本文は400文字以内で入力してください',
         ];
     }
 }
