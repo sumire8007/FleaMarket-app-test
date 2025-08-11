@@ -23,10 +23,10 @@ class ChatController extends Controller
         $loginUser = User::where('id', $userId)->with('address')->first();
         $chatFlag = $request->input('chat_flag');
         // 未読を既読に更新（チャットページを開いた時点で’is_read’カラムが空のものを更新update）
-        // Chat::whereIn('chat_flag',$chatFlag)
-        // ->whereIn('is_read',false)
-        // ->update(['is_read' => true]);
-
+        $read = Chat::where('chat_flag', $chatFlag)
+            ->where('user_id','!=', $userId)
+            ->where('is_read', 'unread')
+            ->update(['is_read' => 'reade']);
 
 
         //自分が出品したもので、取引メッセージが来ているもの

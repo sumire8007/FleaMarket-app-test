@@ -169,90 +169,92 @@
                 </form>
             </div>
             @elseif($firstPart !== $loginUser->id)<!--購入者へメッセージ-->
-            <div class="chat_content">
-                <!-- メッセージ相手 -->
-                @foreach($messages as $message)
-                    @if($message->user_id !== $loginUser->id)
-                        <div class="client_content">
-                            <div>
-                                <div class="user_detail">
-                                    <div class="user_detail__img-name">
-                                        <div class="circle">
-                                            @if (!empty($dealUser->address->user_img))
-                                                <img src="{{ asset('storage/' . $dealUser->address->user_img) }}" alt="プロフ画像">
-                                            @else
-                                                <img src="../img/default_user_img.png" alt="">
-                                            @endif
+                <div class="chat_content">
+                    <!-- メッセージ相手 -->
+                    @foreach($messages as $message)
+                        @if($message->user_id !== $loginUser->id)
+                            <div class="client_content">
+                                <div>
+                                    <div class="user_detail">
+                                        <div class="user_detail__img-name">
+                                            <div class="circle">
+                                                @if (!empty($dealUser->address->user_img))
+                                                    <img src="{{ asset('storage/' . $dealUser->address->user_img) }}" alt="プロフ画像">
+                                                @else
+                                                    <img src="../img/default_user_img.png" alt="">
+                                                @endif
+                                            </div>
+                                            <div class="user_name">{{ $dealUser->name }}</div>
                                         </div>
-                                        <div class="user_name">{{ $dealUser->name }}</div>
-                                    </div>
 
-                                    <div class="user_message">
+                                        <div class="user_message">
+                                            <p>{{ $message->message }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @elseif($message->user_id === $loginUser->id)
+                            <!-- 自分側 -->
+                            <div class="user_content">
+                                <div class="user_content__img-name">
+                                    <div class="user_name">{{ $loginUser->name }}</div>
+                                    <div class="circle">
+                                        @if (!empty($loginUser->address->user_img))
+                                            <img src="{{ asset('storage/' . $loginUser->address->user_img) }}" alt="プロフ画像">
+                                        @else
+                                            <img src="../img/default_user_img.png" alt="">
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="user_content__user_message">
+                                    <div class="user_message ">
                                         <p>{{ $message->message }}</p>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    @elseif($message->user_id === $loginUser->id)
-                        <!-- 自分側 -->
-                        <div class="user_content">
-                            <div class="user_content__img-name">
-                                <div class="user_name">{{ $loginUser->name }}</div>
-                                <div class="circle">
-                                    @if (!empty($loginUser->address->user_img))
-                                        <img src="{{ asset('storage/' . $loginUser->address->user_img) }}" alt="プロフ画像">
-                                    @else
-                                        <img src="../img/default_user_img.png" alt="">
-                                    @endif
+                                <div class="edit_action">
+                                    <form action="/message_edit">
+                                        @csrf
+                                        編集
+                                    </form>
+                                    <form action="/message_delete">
+                                        @csrf
+                                        削除
+                                    </form>
                                 </div>
                             </div>
-                            <div class="user_content__user_message">
-                                <div class="user_message ">
-                                    <p>{{ $message->message }}</p>
-                                </div>
-                            </div>
-                            <div class="edit_action">
-                                <form action="/message_edit">
-                                    @csrf
-                                    編集
-                                </form>
-                                <form action="/message_delete">
-                                    @csrf
-                                    削除
-                                </form>
-                            </div>
+                        @endif
+                    @endforeach
+                </div>
+                <!-- メッセージ入力・送信欄 -->
+                <div class="previewImage">
+                    <img id="previewImage" class="preview">
+                </div>
+
+                <div class="send_message">
+
+                    <form action="/send/message" method="post">
+                        @csrf
+                        <input type="hidden" name="user_id" value="{{ $loginUser->id }}">
+                        <input type="hidden" name="item_id" value="{{ $dealItem->id }}">
+                        <input type="hidden" name="chat_flag" value="{{ $chatFlag }}">
+                        <textarea class ="message-box" name="message"  placeholder="  取引メッセージを記入してください"></textarea>
+                        <div class="item-detail__img-box">
+                            <input id="imageUploader"  class="img_select-button" type="file" accept="image/*" name="item_img" value="">
                         </div>
-                    @endif
-                @endforeach
-            </div>
-            <!-- メッセージ入力・送信欄 -->
-            <div class="previewImage">
-                <img id="previewImage">
-            </div>
-            <div class="send_message">
-                <form action="/send/message" method="post">
-                    @csrf
-                    <input type="hidden" name="user_id" value="{{ $loginUser->id }}">
-                    <input type="hidden" name="item_id" value="{{ $dealItem->id }}">
-                    <input type="hidden" name="chat_flag" value="{{ $chatFlag }}">
-                    <textarea class ="message-box" name="message"  placeholder="  取引メッセージを記入してください"></textarea>
-                    <div class="item-detail__img-box">
-                        <input id="imageUploader"  class="img_select-button" type="file" accept="image/*" name="item_img" value="">
-                    </div>
-                    @error('item_img')
-                        <span class="error-message">{{ $message }}</span>
-                    @enderror
-                    <script src="{{ asset('js/profile_image.js') }}"></script>
-                    <div class="send-btm__group">
-                        <button class="send-btm__button">
-                            <div class="send-btm__img">
-                            <img src="{{ asset('../../img/send_button.jpg') }}" alt="送信ボタン">
-                            </div>
-                        </button>
-                    </div>
-                </form>
-            </div>
-        @endif
+                        @error('item_img')
+                            <span class="error-message">{{ $message }}</span>
+                        @enderror
+                        <script src="{{ asset('js/profile_image.js') }}"></script>
+                        <div class="send-btm__group">
+                            <button class="send-btm__button">
+                                <div class="send-btm__img">
+                                <img src="{{ asset('../../img/send_button.jpg') }}" alt="送信ボタン">
+                                </div>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            @endif
         </main>
     </div>
 </body>

@@ -7,6 +7,7 @@ uploader.addEventListener("change",(event) => {
         const reader = new FileReader();
         reader.onload = () => {
             preview.src = reader.result;
+            preview.classList.add('selected');
         };
         reader.readAsDataURL(file);
     }

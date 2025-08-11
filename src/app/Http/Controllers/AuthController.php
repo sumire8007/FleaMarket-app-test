@@ -36,6 +36,7 @@ class AuthController extends Controller
         // dd($viewChats->count('chat_flag'));
         $badge = Chat::whereIn('chat_flag', $allChats->pluck('chat_flag'))
             ->where('user_id', '!=', $user->id)
+            ->where('is_read','unread')
             ->count();
 
         if (request()->routeIs('mypage.buy')) {
