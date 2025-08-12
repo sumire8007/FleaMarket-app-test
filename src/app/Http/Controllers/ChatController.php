@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Models\Item;
 use App\Models\Address;
 use App\Models\Rating;
+use Illuminate\Support\Facades\Mail;
 
 
 
@@ -87,7 +88,7 @@ class ChatController extends Controller
             'to_user_id' => 'required|exists:users,id',
             'item_id' => 'required|exists:items,id'
         ]);
-
+        //評価を作成
         $loginUser = Auth::user();
         Rating::create([
             'from_user_id' => $loginUser->id,
@@ -95,9 +96,26 @@ class ChatController extends Controller
             'item_id' => $request->item_id,
             'stars' => $request->stars
         ]);
+        //取引を完了にする
         $chatFlag = $request->input('chat_flag');
         Chat::where('chat_flag', $chatFlag)
         ->update(['completed_at'=>Carbon::now()]);
+
+        // メール通知（商品出品者へ）
+        $item = Item::with('user')->find($request->item_id);
+
+        if($request->to_user_id == $item->user_id){
+            $toMailAddress = $item->user->email;
+            $toMailUserName = $item->user->name;
+            $data = [
+                'loginUser' => $loginUser,
+                'item' => $item,
+            ];
+            Mail::send('email.test', $data, function ($message)use($toMailAddress, $toMailUserName) {
+                $message->to($toMailAddress, $toMailUserName.'さん')
+                ->subject('This is a test mail');
+            });
+        }
         return redirect('/')->with('success','評価を送信しました');
     }
 }
