@@ -44,7 +44,7 @@ class AuthController extends Controller
             $items = Item::whereIn('id', $purchases)->get();
 
         } elseif (request()->routeIs('mypage')) {
-            $items = Item::where('user_id', $user->id)->get(); //出品した商品
+            $items = Item::where('user_id', $user->id)->with('purchase')->get(); //出品した商品
 
         } elseif (request()->routeIs('mypage.deal')) {
             $items = $viewChats;//取引中の商品

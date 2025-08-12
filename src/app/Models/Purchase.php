@@ -18,5 +18,4 @@ class Purchase extends Model
     public function purchase(){
     return $this->belongsTo(Payment::class);
     }
-
 }

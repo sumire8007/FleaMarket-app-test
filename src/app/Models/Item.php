@@ -26,7 +26,9 @@ class Item extends Model
     public function categories(){
         return $this->belongsToMany(Category::class, 'category_items');
     }
-
+    public function purchase(){
+        return $this->hasOne(Purchase::class);
+    }
 //検索機能
     public function scopeKeywordSearch($query, $keyword)
     {
