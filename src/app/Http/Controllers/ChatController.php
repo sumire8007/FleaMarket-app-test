@@ -79,19 +79,15 @@ class ChatController extends Controller
         return (redirect('chat?chat_flag='.$chatFlag));
     }
 
-    //取引完了
-    // public function completed(Request $request)
-    // {
-    //     $loginUser = Auth::user();
-    //     $chatFlag = $request->input('chat_flag');
-    //     Chat::where('chat_flag', $chatFlag)
-    //     ->update(['completed_at'=>Carbon::now()]);
-    //     return back()->with('showModal', true);
-    // }
-
     //評価送信
     public function store(Request $request)
     {
+        $request->validate([
+            'stars' => 'required|integer|min:1|max:5',
+            'to_user_id' => 'required|exists:users,id',
+            'item_id' => 'required|exists:items,id'
+        ]);
+
         $loginUser = Auth::user();
         Rating::create([
             'from_user_id' => $loginUser->id,

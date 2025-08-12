@@ -55,7 +55,7 @@
                                 <p>取引が完了しました。</p>
                             </div>
                             <div class="rating-star">
-                                <form action="{{ route('rating.store') }}" method="POST">
+                                <form id="ratingForm" action="{{ route('rating.store') }}" method="POST">
                                     @csrf
                                         <input type="hidden" name="chat_flag" value="{{ $chatFlag }}">
                                         <input type="hidden" name="to_user_id" value="{{ $dealUser->user->id }}">
@@ -90,6 +90,13 @@
                                             });
                                         });
                                     });
+                                    document.getElementById('ratingForm').addEventListener('submit', function (e) {
+                                            const stars = document.getElementById('stars').value;
+                                            if (!stars || stars < 1) {
+                                                e.preventDefault();
+                                                alert('星1つ以上で評価してください');
+                                            }
+                                        });
                                 </script>
                             </div>
                         </div>

@@ -18,9 +18,22 @@
 }
 
 .form__group-content-name {
-    margin: 40px 30px;
+    margin: 20px 40px;
     font-weight: bold;
 }
+.star-rating{
+    display: inline-block;
+    margin: 0 30px;
+    font-size: 20px;
+}
+.star {
+    color: lightgray;
+}
+
+.star-selected {
+    color: gold;
+}
+
 .profile-edit__button {
     display: inline-block;
     height: 30px;
