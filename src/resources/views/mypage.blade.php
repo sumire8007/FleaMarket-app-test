@@ -105,14 +105,20 @@
         </div>
         <div class="mypage__content">
             @foreach($items as $item)
-                @php
+                        <!--既読か未読かで通知バッチ処理 -->
+                        @php
                 $itemBadge = App\Models\Chat::where('chat_flag', $item->chat_flag)
                     ->where('user_id', '!=', $user->id)
-                    ->where('is_read','unread')
+                    ->where('is_read', 'unread')
                     ->count();
-                @endphp
-
-
+                        @endphp
+                        <!--評価が完了していれば、表示させないのでチェック-->
+                        @php
+                        $rating = App\Models\Rating::where('item_id', $item->item_id)
+                        ->where('from_user_id', $user->id)
+                        ->first();
+                        @endphp
+                        @if (empty($rating)) <!--評価がまだだったら(評価したデータが見つからなければ)表示-->
                             <div class="mypage-item-box">
                                 <a href="{{ url('/chat') }}?chat_flag={{ $item->chat_flag }}">
                                     <div class="mypage-item-box__img">
@@ -126,6 +132,7 @@
                                     </div>
                                 </a>
                             </div>
+                        @endif
             @endforeach
         </div>
     @endif

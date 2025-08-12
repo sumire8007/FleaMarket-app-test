@@ -264,6 +264,19 @@ main {
     bottom: 60px;
 }
 
+.no-active-modal {
+    padding:  10px;
+    top: 50%;
+    left: 50%;
+    width: 150px;
+    height: 40px;
+    font-size: 15px;
+    font-weight: bold;
+    color: #fff;
+    background: #868686;
+    border-radius: 50px;
+    text-align: center;
+}
 .open-modal {
     padding: 5px 10px;
     top: 50%;
@@ -279,7 +292,7 @@ main {
     cursor: pointer;
 }
 
-/* モーダルウィンドウの基本スタイル */
+/* モーダルウィンドウの基本スタイル(取引完了のボタンを押すとき) */
 .modal {
     display: none;
     position: fixed;
@@ -287,8 +300,15 @@ main {
     left: 0; */
     width: 100%;
     height: 100%;
-    /* z-index: 2000; */
-    /* background-color: rgba(0, 0, 0, 0.4); */
+}
+/* モーダルウィンドウのスタイル(出品者が評価する時　※始めから開いておく) */
+.modal-open {
+    display: block;
+    position: fixed;
+    /* top: 500px;
+    left: 0; */
+    width: 100%;
+    height: 100%;
 }
 
 .modal-content {
@@ -301,7 +321,6 @@ main {
     background-color: #fdfce6;
     border: 1px solid #888;
     border-radius: 10px;
-    /* z-index: 2001; */
 }
 
 #closeModal {

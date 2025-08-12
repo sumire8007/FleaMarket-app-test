@@ -29,7 +29,7 @@
         <main>
             <!-- チャットのタイトル　取引相手の名 と　取引相手のプロフ画像-->
             <div class="deal_user">
-                @if($firstPart == $loginUser->id) <!--出品者へメッセージ-->
+                @if($firstPart == $loginUser->id) <!--出品者へメッセージタイトル-->
                     <div class="circle">
                         @if (!empty($profiles->user_img))
                             <img src="{{ asset('storage/' . $profiles->user_img) }}" alt="プロフ画像">
@@ -41,15 +41,13 @@
                         <div class="title">
                             <p>{{ $dealUser->user->name }} さんとの取引画面</p>
                         </div>
-                        <form action="/completed" method="post">
-                            @csrf
-                            <input type="hidden" name="chat_flag" value="{{ $chatFlag }}">
-                            <button id="openModal" class="open-modal">取引を完了する</button>
-
-                        </form>
-
-                    <!-- モーダルの内容 -->
+                            @if(isset($rating))
+                                <div class="no-active-modal">取引完了済み</div>
+                            @else
+                                <button id="openModal" class="open-modal">取引を完了する</button>
+                            @endif
                     </div>
+                    <!-- モーダルの内容 -->
                     <div id="myModal" class="modal">
                         <div class="modal-content">
                             <span id="closeModal">&times;</span>
@@ -59,6 +57,7 @@
                             <div class="rating-star">
                                 <form action="{{ route('rating.store') }}" method="POST">
                                     @csrf
+                                        <input type="hidden" name="chat_flag" value="{{ $chatFlag }}">
                                         <input type="hidden" name="to_user_id" value="{{ $dealUser->user->id }}">
                                         <input type="hidden" name="item_id" value="{{ $dealItem->id }}">
                                         <p>今回の取引相手はどうでしたか？</p>
@@ -86,7 +85,6 @@
                                         star.addEventListener('click', function () {
                                             const value = this.getAttribute('data-value');
                                             document.getElementById('stars').value = value;
-
                                             document.querySelectorAll('.star').forEach(s => {
                                                 s.classList.toggle('selected', s.getAttribute('data-value') <= value);
                                             });
@@ -98,7 +96,7 @@
                     </div>
                     <script src="{{ asset('js/modal.js') }}"></script>
 
-                @elseif($firstPart !== $loginUser->id)<!--購入者へメッセージ-->
+                @elseif($firstPart !== $loginUser->id)<!--購入者へメッセージタイトル-->
                     <div class="circle">
                         @if (!empty($dealUser->address->user_img))
                             <img src="{{ asset('storage/' . $dealUser->address->user_img) }}" alt="プロフ画像">
@@ -111,10 +109,69 @@
                             <p>{{ $dealUser->name }} さんとの取引画面</p>
                         </div>
                     </div>
-                @endif
 
+                    <!-- モーダルの内容 (購入者の評価が済んでいる　&&　購入者へ評価がまだの時)-->
+                    @php
+    $buyersRating = App\Models\Rating::where('item_id', $dealItem->id)
+        ->where('from_user_id', $dealUser->id)
+        ->first();
+    $sellerRating = App\Models\Rating::where('item_id', $dealItem->id)
+        ->where('from_user_id', $loginUser->id)
+        ->first();
+                    @endphp
+                    @if(isset($buyersRating) && empty($sellerRating))
+                    <div id="myModal" class="modal-open">
+                        <div class="modal-content">
+                            <span id="closeModal">&times;</span>
+                            <div class="modal-title">
+                                <p>取引が完了しました。</p>
+                            </div>
+                            <div class="rating-star">
+                                <form action="{{ route('rating.store') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="chat_flag" value="{{ $chatFlag }}">
+                                    <input type="hidden" name="to_user_id" value="{{ $dealUser->id }}">
+                                    <input type="hidden" name="item_id" value="{{ $dealItem->id }}">
+                                    <p>今回の取引相手はどうでしたか？</p>
+                                    <div class="star-rating">
+                                        @for ($i = 1; $i <= 5; $i++)
+                                            <span class="star" data-value="{{ $i }}">★</span>
+                                        @endfor
+                                    </div>
+                                    <input type="hidden" name="stars" id="stars">
+                                    <div class="rating-star__button">
+                                        <button type="submit">送信する</button>
+                                    </div>
+                                </form>
+                                <style>
+                                    .star {
+                                        cursor: pointer;
+                                        color: lightgray;
+                                    }
+
+                                    .star.selected {
+                                        color: gold;
+                                    }
+                                </style>
+                                <script>
+                                    document.querySelectorAll('.star').forEach(star => {
+                                        star.addEventListener('click', function () {
+                                            const value = this.getAttribute('data-value');
+                                            document.getElementById('stars').value = value;
+                                            document.querySelectorAll('.star').forEach(s => {
+                                                s.classList.toggle('selected', s.getAttribute('data-value') <= value);
+                                            });
+                                        });
+                                    });
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
+                @endif
             </div>
-            <!-- 商品の詳細 -->
+
+            <!-- 商品の詳細 （共通部分）-->
             <div id="itemContent" class="item_content">
                 <div class="item_img">
                     <img src="{{ asset('storage/' . $dealItem->item_img) }}" alt="商品画像">
@@ -131,60 +188,59 @@
                 </div>
             </div>
             <!-- メッセージの画面 -->
-            @if($firstPart == $loginUser->id) <!--出品者へメッセージ-->
+            @if($firstPart == $loginUser->id) <!--購入者から出品者へメッセージ-->
                 <div class="chat_content">
                     <!-- メッセージ相手 -->
                     @foreach($messages as $message)
-                        @if($message->user_id !== $loginUser->id)
-                            <div class="client_content">
-                                <div>
-                                    <div class="user_detail">
-                                        <div class="user_detail__img-name">
-                                            <div class="circle">
-                                                @if (!empty($profiles->user_img))
-                                                    <img src="{{ asset('storage/' . $profiles->user_img) }}" alt="プロフ画像">
-                                                @else
-                                                    <img src="../img/default_user_img.png" alt="">
-                                                @endif
+                        @if($message->user_id !== $loginUser->id) <!--相手（出品者のメッセージ）-->
+                                <div class="client_content">
+                                    <div>
+                                        <div class="user_detail">
+                                            <div class="user_detail__img-name">
+                                                <div class="circle">
+                                                    @if (!empty($profiles->user_img))
+                                                        <img src="{{ asset('storage/' . $profiles->user_img) }}" alt="プロフ画像">
+                                                    @else
+                                                        <img src="../img/default_user_img.png" alt="">
+                                                    @endif
+                                                </div>
+                                                <div class="user_name">{{ $dealUser->user->name }}</div>
                                             </div>
-                                            <div class="user_name">{{ $dealUser->user->name }}</div>
-                                        </div>
 
-                                        <div class="user_message">
+                                            <div class="user_message">
+                                                <p>{{ $message->message }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @elseif($message->user_id === $loginUser->id)<!-- 自分側（購入者のメッセージ） -->
+                                <div class="user_content">
+                                    <div class="user_content__img-name">
+                                        <div class="user_name">{{ $loginUser->name }}</div>
+                                        <div class="circle">
+                                            @if (!empty($loginUser->address->user_img))
+                                                <img src="{{ asset('storage/' . $loginUser->address->user_img) }}" alt="プロフ画像">
+                                            @else
+                                                <img src="../img/default_user_img.png" alt="">
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="user_content__user_message">
+                                        <div class="user_message ">
                                             <p>{{ $message->message }}</p>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        @elseif($message->user_id === $loginUser->id)
-                            <!-- 自分側 -->
-                            <div class="user_content">
-                                <div class="user_content__img-name">
-                                    <div class="user_name">{{ $loginUser->name }}</div>
-                                    <div class="circle">
-                                        @if (!empty($loginUser->address->user_img))
-                                            <img src="{{ asset('storage/' . $loginUser->address->user_img) }}" alt="プロフ画像">
-                                        @else
-                                            <img src="../img/default_user_img.png" alt="">
-                                        @endif
+                                    <div class="edit_action">
+                                        <form action="/message_edit">
+                                            @csrf
+                                            編集
+                                        </form>
+                                        <form action="/message_delete">
+                                            @csrf
+                                            削除
+                                        </form>
                                     </div>
                                 </div>
-                                <div class="user_content__user_message">
-                                    <div class="user_message ">
-                                        <p>{{ $message->message }}</p>
-                                    </div>
-                                </div>
-                                <div class="edit_action">
-                                    <form action="/message_edit">
-                                        @csrf
-                                        編集
-                                    </form>
-                                    <form action="/message_delete">
-                                        @csrf
-                                        削除
-                                    </form>
-                                </div>
-                            </div>
                         @endif
                     @endforeach
                 </div>
@@ -192,7 +248,6 @@
                 <div class="previewImage">
                     <img id="previewImage">
                 </div>
-
                 <div class="send_message">
                         <div class="form__error">
                             @error('message')
@@ -222,11 +277,11 @@
                         </div>
                     </form>
                 </div>
-            @elseif($firstPart !== $loginUser->id)<!--購入者へメッセージ-->
+            @elseif($firstPart !== $loginUser->id)<!--出品者から購入者へメッセージ-->
                 <div class="chat_content">
                     <!-- メッセージ相手 -->
                     @foreach($messages as $message)
-                        @if($message->user_id !== $loginUser->id)
+                        @if($message->user_id !== $loginUser->id)<!--相手（購入者のメッセージ）-->
                             <div class="client_content">
                                 <div>
                                     <div class="user_detail">
@@ -246,8 +301,7 @@
                                     </div>
                                 </div>
                             </div>
-                        @elseif($message->user_id === $loginUser->id)
-                            <!-- 自分側 -->
+                        @elseif($message->user_id === $loginUser->id)<!--相手（出品者のメッセージ）-->
                             <div class="user_content">
                                 <div class="user_content__img-name">
                                     <div class="user_name">{{ $loginUser->name }}</div>

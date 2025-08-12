@@ -22,16 +22,18 @@ class ChatController extends Controller
         $userId = Auth::user()->id;
         $loginUser = User::where('id', $userId)->with('address')->first();
         $chatFlag = $request->input('chat_flag');
-        // 未読を既読に更新（チャットページを開いた時点で’is_read’カラムが空のものを更新update）
+        // 未読を既読に更新（チャットページを開いた時点で’is_read’カラムが空のものを更新）
         $read = Chat::where('chat_flag', $chatFlag)
             ->where('user_id','!=', $userId)
             ->where('is_read', 'unread')
             ->update(['is_read' => 'reade']);
 
-        //自分が出品したもので、取引メッセージが来ているもの
+        //自分が出品したもので、取引メッセージが来ているもの && 評価が済んでいないもの
         $sellItems = Item::where('user_id', $userId)->pluck('id');
-        $sellChats = Chat::whereIn('item_id', $sellItems)
-            ->where('completed_at', NULL)
+        $sellChatUnRating = Rating::where('from_user_id',$userId)
+        ->pluck('item_id');
+        $sellChats = Chat::whereIn('item_id',$sellItems)
+            ->whereNotIn('item_id',$sellChatUnRating)
             ->with('item')
             ->get();
         //自分がメッセージを送ってまだ完了していないもの
@@ -39,7 +41,7 @@ class ChatController extends Controller
             ->where('completed_at', NULL)
             ->with('item')
             ->get();
-        //「取引中の商品」に表示させるもの（合算、自分が出品したアイテムのチャットと自分がメッセージを送ったもの）
+        //サイドバー「その他の取引」に表示させるもの（合算、自分が出品したアイテムのチャットと自分がメッセージを送ったもの）
         $allChats = $sellChats->merge($dealChats)->sortByDesc('created_at')->unique('chat_flag')->values();
 
         list($firstPart, $secondPart) = explode('_', $chatFlag);
@@ -48,10 +50,11 @@ class ChatController extends Controller
         $dealItem = Item::where('id', $dealItemId)->first();
 
         if($firstPart == $loginUser->id){
-            $dealItemId = $secondPart;
             $dealUser = Item::where('id', $dealItemId)->with('user')->first();
             $profiles = Address::where('id',$dealUser->user_id)->first();
-            return view('chat', compact('loginUser', 'messages', 'dealUser', 'dealItem', 'profiles', 'chatFlag', 'firstPart','allChats'));
+            $rating = Rating::where('item_id', $dealItemId)
+                ->where('from_user_id', $loginUser->id)->first();
+            return view('chat', compact('loginUser', 'messages', 'dealUser', 'dealItem', 'profiles', 'chatFlag', 'firstPart','allChats','rating'));
         }elseif($firstPart !== $loginUser->id){
             $dealUserId = $firstPart;
             $dealUser = User::where('id', $dealUserId)->with('address')->first();
@@ -77,25 +80,28 @@ class ChatController extends Controller
     }
 
     //取引完了
-    public function completed(Request $request)
-    {
-        $loginUser = Auth::user();
-        $chatFlag = $request->input('chat_flag');
-        Chat::where('chat_flag', $chatFlag)
-        ->update(['completed_at'=>Carbon::now()]);
-        return back();
-    }
+    // public function completed(Request $request)
+    // {
+    //     $loginUser = Auth::user();
+    //     $chatFlag = $request->input('chat_flag');
+    //     Chat::where('chat_flag', $chatFlag)
+    //     ->update(['completed_at'=>Carbon::now()]);
+    //     return back()->with('showModal', true);
+    // }
 
     //評価送信
     public function store(Request $request)
     {
         $loginUser = Auth::user();
         Rating::create([
-            'from_user_id' => $loginUser,
+            'from_user_id' => $loginUser->id,
             'to_user_id' => $request->to_user_id,
             'item_id' => $request->item_id,
             'stars' => $request->stars
         ]);
+        $chatFlag = $request->input('chat_flag');
+        Chat::where('chat_flag', $chatFlag)
+        ->update(['completed_at'=>Carbon::now()]);
         return redirect('/')->with('success','評価を送信しました');
     }
 }
