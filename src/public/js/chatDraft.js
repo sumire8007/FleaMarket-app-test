@@ -29,4 +29,25 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         }, 500);
     });
+
+    // 送信したら保存内容をNULLに更新
+    const sendButton = document.querySelector("#sendButton");
+    sendButton.addEventListener("click", () => {
+            fetch ("/chat-draft/delete", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
+                },
+                body: JSON.stringify({
+                    item_id: itemId,
+                })
+            })
+        .then(response => response.json())
+        .then(data => {
+        if (data.status === 'NULL_OK') {
+            textarea.value = ""; // 入力欄を空にする
+        }
+    });
+    });
 });

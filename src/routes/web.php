@@ -67,10 +67,13 @@ Route::middleware(['auth','verified'])->group(function () {
     Route::post('/rating', [ChatController::class, 'store'])->name('rating.store');
     Route::post('/message/edit', [ChatController::class, 'edit'])->name('message.edit');
     Route::post('/message/delete', [ChatController::class, 'delete'])->name('message.delete');
+    //チャットメッセージの入力値保持
+    Route::post('/chat-draft/save', [ChatDraftController::class, 'save']);
+    Route::get('/chat-draft/{itemId}', [ChatDraftController::class, 'get']);
+    Route::post('/chat-draft/delete', [ChatDraftController::class, 'delete']);
 });
 Route::get('/', [ItemController::class, 'index'])->name('item.index');
 Route::get('/item', [ItemController::class, 'detail']);
-
 
 //Stripe決済
 Route::get('/payment/success', function () {
@@ -80,7 +83,3 @@ Route::get('/payment/cancel', function () {
     return "決済キャンセルされました";
 })->name('payment.cancel');
 
-Route::middleware('auth')->group(function () {
-    Route::post('/chat-draft/save', [ChatDraftController::class, 'save']);
-    Route::get('/chat-draft/{itemId}', [ChatDraftController::class, 'get']);
-});

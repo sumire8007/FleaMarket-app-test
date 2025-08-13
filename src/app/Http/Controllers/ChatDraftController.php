@@ -24,6 +24,15 @@ class ChatDraftController extends Controller
         ]);
         return response()->json(['status' => 'OK']);
     }
+    // 入力値が送信されたら、空にする
+    public function delete(Request $request)
+    {
+        ChatDraft::where('user_id', Auth::id())
+            ->where('item_id', $request->item_id)
+            ->update(['message' => NULL]);
+        return response()->json(['status' => 'NULL_OK']);
+    }
+
     //保存されている入力値を取得
     public function get(Request $request,$itemId)
     {

@@ -326,7 +326,7 @@
                         </div>
                         <script src="{{ asset('js/profile_image.js') }}"></script>
                         <div class="send-btm__group">
-                            <button class="send-btm__button">
+                            <button id="sendButton" class="send-btm__button">
                                 <div class="send-btm__img">
                                 <img src="{{ asset('../../img/send_button.jpg') }}" alt="送信ボタン">
                                 </div>
