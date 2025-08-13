@@ -36,8 +36,11 @@ Route::post('/email/resend', function (Request $request) {
     return back()->with('message', '認証メールを再送しました。');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
-//決済・出品・マイページ・住所画面の表示、コメントの送信
+Route::post('register', [RegisterController::class, 'store']);
+Route::post('login', [LoginController::class, 'store']);
+
 Route::middleware(['auth','verified'])->group(function () {
+    //ビューの表示
     Route::get('/purchase', [ItemController::class, 'purchase']);
     Route::get('/sell', [ItemController::class, 'sell']);
     Route::get('/mypage', [AuthController::class, 'mypage'])->name('mypage');
@@ -45,30 +48,27 @@ Route::middleware(['auth','verified'])->group(function () {
     Route::get('/mypage/deal', [AuthController::class, 'mypage'])->name('mypage.deal');
     Route::get('/mypage/profile', [AuthController::class, 'edit']);
     Route::get('/purchase/address', [AuthController::class, 'addressView']);
+    Route::get('/', [ItemController::class, 'index'])->name('item.index');
+    Route::get('/item', [ItemController::class, 'detail']);
+
+    //各機能
+    Route::get('/search', [ItemController::class, 'search']);
+    Route::post('/', [AuthController::class, 'store']);
     Route::post('/item', [ItemController::class, 'commentStore']);
+    Route::post('/sell', [ItemController::class, 'store']);
+    Route::post('/purchase', [ItemController::class, 'buy']);
+    Route::post('/item/like', [LikeController::class, 'likeItem']);
+    Route::patch('/mypage/profile', [AuthController::class, 'update']);
+    Route::patch('/purchase/address', [AuthController::class, 'addressEdit']);
+
+    //Chat機能
+    Route::get('/chat', [ChatController::class, 'chatView']);
+    Route::post('/send/message', [ChatController::class, 'sendMessage']);
+    Route::post('/completed', [ChatController::class, 'completed']);
+    Route::post('/rating', [ChatController::class, 'store'])->name('rating.store');
+    Route::post('/message/edit', [ChatController::class, 'edit'])->name('message.edit');
+    Route::post('/message/delete', [ChatController::class, 'delete'])->name('message.delete');
 });
-
-Route::prefix('/')->group(function () {
-    Route::get('', [ItemController::class, 'index'])->name('item.index');
-    Route::post('', [AuthController::class, 'store']);
-});
-
-//各機能
-Route::post('register', [RegisterController::class, 'store']);
-Route::post('login', [LoginController::class, 'store']);
-Route::patch('/purchase/address', [AuthController::class, 'addressEdit']);
-Route::get('/item',[ItemController::class,'detail']);
-Route::post('/sell',[ItemController::class,'store']);
-Route::post('/purchase', [ItemController::class, 'buy']);
-Route::patch('/mypage/profile', [AuthController::class, 'update']);
-Route::get('/search',[ItemController::class,'search']);
-Route::post('/item/like', [LikeController::class, 'likeItem']);
-
-//Chat機能
-Route::get('/chat', [ChatController::class, 'chatView']);
-Route::post('/send/message', [ChatController::class, 'sendMessage']);
-Route::post('/completed', [ChatController::class, 'completed']);
-Route::post('/rating', [ChatController::class, 'store'])->name('rating.store');
 
 //Stripe決済
 Route::get('/payment/success', function () {

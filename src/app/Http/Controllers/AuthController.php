@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Rating;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Item;

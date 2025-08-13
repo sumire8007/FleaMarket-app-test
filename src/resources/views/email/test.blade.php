@@ -27,10 +27,10 @@
     }
   </style>
   <body>
-    <h1>「{{ $item->item_name }}」が取引評価がされました!</h1>
+    <h1>「{{ $item->item_name }}」が取引評価されました!</h1>
     <p>{{ $loginUser->name }}さんを評価して、取引を完了させてください。</p>
     <p id="button">
-      <a href="https://localhost/mypage/deal">今すぐ確認する</a>
+      <a href="https://localhost/">今すぐ確認する</a>
     </p>
   </body>
 </html>

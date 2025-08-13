@@ -153,6 +153,7 @@ main {
     margin: 10px;
     display: flex;
     align-items: center;
+    border-radius: 5px;
 }
 
 .user_message p {
@@ -163,13 +164,9 @@ main {
     display: flex;
     justify-content: flex-end;
     width: 100%;
+    padding-right: 10px;
 }
 
-.edit_action form {
-    margin: 0 10px;
-    color: #868686;
-    cursor: pointer;
-}
 .send_message {
     position: fixed;
     background-color: white;
@@ -177,6 +174,7 @@ main {
     left: 200px;
     right: 0;
 }
+
 .send_message form{
     display: flex;
     align-items: flex-end;
@@ -264,6 +262,14 @@ main {
     bottom: 60px;
 }
 
+#openEditModal,
+#openDeleteModal {
+    color: #868686;
+    border: none;
+    cursor: pointer;
+    background-color: white;
+}
+
 .no-active-modal {
     padding:  10px;
     top: 50%;
@@ -277,6 +283,7 @@ main {
     border-radius: 50px;
     text-align: center;
 }
+
 .open-modal {
     padding: 5px 10px;
     top: 50%;
@@ -296,8 +303,6 @@ main {
 .modal {
     display: none;
     position: fixed;
-    /* top: 500px;
-    left: 0; */
     width: 100%;
     height: 100%;
 }
@@ -305,8 +310,6 @@ main {
 .modal-open {
     display: block;
     position: fixed;
-    /* top: 500px;
-    left: 0; */
     width: 100%;
     height: 100%;
 }
@@ -323,7 +326,7 @@ main {
     border-radius: 10px;
 }
 
-#closeModal {
+#closeModal,#closeEditModal,#closeDeleteModal {
     position: absolute;
     display: flex;
     align-items: center;
@@ -338,29 +341,35 @@ main {
     height: 40px;
     border-radius: 50%;
 }
+
 .modal-title {
     border-bottom: black solid 1px;
     padding-left: 20px;
     font-size: 20px;
 }
+
 .rating-star p {
     color: #868686;
     padding-left: 20px;
 }
-.star-rating {
+
+.star-rating,.edit-message__textbox, .delete-message__textbox {
     border-bottom: black solid 1px;
 }
+
 .star-rating {
     font-size: 60px;
     display: flex;
     justify-content: space-between;
     padding: 0 50px 20px ;
 }
-.rating-star__button {
+
+.rating-star__button, .edit-message__button, .delete-message__button {
     display: flex;
     justify-content: flex-end;
 }
-.rating-star button {
+
+.rating-star button ,.edit-message__button button {
     font-size: 15px;
     font-weight: bold;
     color: #fff;
@@ -372,3 +381,32 @@ main {
     height: 40px;
     margin: 10px 10px 0;
 }
+
+.delete-message__button button {
+    font-size: 15px;
+    font-weight: bold;
+    color: #fff;
+    background: #868686;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 90px;
+    height: 40px;
+    margin: 10px 10px 0;
+}
+
+.edit-message__textbox, .delete-message__textbox {
+    padding: 10px 20px;
+    width: 500px;
+    height: 150px;
+}
+
+.edit-message__textbox textarea, .delete-message__textbox textarea{
+    border: none ;
+    font-size: 15px;
+    background-color: #fdfce6;
+    width: 100%;
+    height: 100%;
+}
+
+

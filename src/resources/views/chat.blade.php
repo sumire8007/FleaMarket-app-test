@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>FleaMarket</title>
     <link rel="stylesheet" href="{{ asset('css/sanitize.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/chat.css') }}"/>
@@ -47,7 +48,7 @@
                                 <button id="openModal" class="open-modal">取引を完了する</button>
                             @endif
                     </div>
-                    <!-- モーダルの内容 -->
+                    <!-- 取引完了モーダルの内容 -->
                     <div id="myModal" class="modal">
                         <div class="modal-content">
                             <span id="closeModal">&times;</span>
@@ -117,7 +118,7 @@
                         </div>
                     </div>
 
-                    <!-- モーダルの内容 (購入者の評価が済んでいる　&&　購入者へ評価がまだの時)-->
+                    <!-- 取引完了モーダルの内容 (購入者の評価が済んでいる　&&　購入者へ評価がまだの時)-->
                     @php
     $buyersRating = App\Models\Rating::where('item_id', $dealItem->id)
         ->where('from_user_id', $dealUser->id)
@@ -232,23 +233,63 @@
                                             @endif
                                         </div>
                                     </div>
-                                    <div class="user_content__user_message">
+                                    <div data-message-id="{{ $message->id }}" class="user_content__user_message">
                                         <div class="user_message ">
-                                            <p>{{ $message->message }}</p>
+                                            <p class="message-text">{{ $message->message }}</p>
                                         </div>
                                     </div>
                                     <div class="edit_action">
-                                        <form action="/message_edit">
-                                            @csrf
-                                            編集
-                                        </form>
-                                        <form action="/message_delete">
-                                            @csrf
-                                            削除
-                                        </form>
+                                        <button type="submit" id="openEditModal" class="edit-btn">編集</button>
+                                        <button type="submit" id="openDeleteModal" class="delete-btn">削除</button>
                                     </div>
                                 </div>
-                        @endif
+                                <!-- 編集モーダルの内容 -->
+                                <div id="myEditModal" class="modal">
+                                    <div class="modal-content">
+                                        <span id="closeEditModal">&times;</span>
+                                        <div class="modal-title">
+                                            <p>メッセージの編集</p>
+                                        </div>
+                                        <div class="edit-message">
+                                            <form id="editForm" action="{{ route('message.edit') }}" method="POST">
+                                                @csrf
+                                                <input type="hidden" name="chat_flag" value="{{ $chatFlag }}">
+                                                <input type="hidden" name="id" value="{{ $message->id }}">
+                                                <div class="edit-message__textbox">
+                                                    <textarea name="message" value="">{{ $message->message }}</textarea>
+                                                </div>
+                                                <div class="edit-message__button">
+                                                    <button type="submit">保存</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- 削除モーダルの内容 -->
+                                <div id="myDeleteModal" class="modal">
+                                    <div class="modal-content">
+                                        <span id="closeDeleteModal">&times;</span>
+                                        <div class="modal-title">
+                                            <p>このメッセージを削除してもよろしいですか？</p>
+                                        </div>
+                                        <div class="delete-message">
+                                            <form id="deleteForm" action="{{ route('message.delete') }}" method="POST">
+                                                @csrf
+                                                <input type="hidden" name="chat_flag" value="{{ $chatFlag }}">
+                                                <input type="hidden" name="id" value="{{ $message->id }}">
+                                                <div class="delete-message__textbox">
+                                                    <textarea>{{ $message->message }}</textarea>
+                                                </div>
+                                                <div class="delete-message__button">
+                                                    <button type="submit">削除</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <script src="{{ asset('js/chat.js') }}"></script>
+
+                            @endif
                     @endforeach
                 </div>
                 <!-- メッセージ入力・送信欄 -->
@@ -309,33 +350,73 @@
                                 </div>
                             </div>
                         @elseif($message->user_id === $loginUser->id)<!--相手（出品者のメッセージ）-->
-                            <div class="user_content">
-                                <div class="user_content__img-name">
-                                    <div class="user_name">{{ $loginUser->name }}</div>
-                                    <div class="circle">
-                                        @if (!empty($loginUser->address->user_img))
-                                            <img src="{{ asset('storage/' . $loginUser->address->user_img) }}" alt="プロフ画像">
-                                        @else
-                                            <img src="../img/default_user_img.png" alt="">
-                                        @endif
+                                <div class="user_content">
+                                    <div class="user_content__img-name">
+                                        <div class="user_name">{{ $loginUser->name }}</div>
+                                        <div class="circle">
+                                            @if (!empty($loginUser->address->user_img))
+                                                <img src="{{ asset('storage/' . $loginUser->address->user_img) }}" alt="プロフ画像">
+                                            @else
+                                                <img src="../img/default_user_img.png" alt="">
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="user_content__user_message">
+                                        <div class="user_message ">
+                                            <p>{{ $message->message }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="edit_action">
+                                        <button id="openEditModal" type="submit">編集</button>
+                                        <button id="openDeleteModal" type="submit">削除</button>
                                     </div>
                                 </div>
-                                <div class="user_content__user_message">
-                                    <div class="user_message ">
-                                        <p>{{ $message->message }}</p>
+                                <!-- 編集モーダルの内容 -->
+                                <div id="myEditModal" class="modal">
+                                    <div class="modal-content">
+                                        <span id="closeEditModal">&times;</span>
+                                        <div class="modal-title">
+                                            <p>メッセージの編集</p>
+                                        </div>
+                                        <div class="edit-message">
+                                            <form id="editForm" action="{{ route('message.edit') }}" method="POST">
+                                                @csrf
+                                                <input type="hidden" name="chat_flag" value="{{ $chatFlag }}">
+                                                <input type="hidden" name="id" value="{{ $message->id }}">
+                                                <div class="edit-message__textbox">
+                                                    <textarea name="message" value="">{{ $message->message }}</textarea>
+                                                </div>
+                                                <div class="edit-message__button">
+                                                    <button type="submit">保存</button>
+                                                </div>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="edit_action">
-                                    <form action="/message_edit">
-                                        @csrf
-                                        編集
-                                    </form>
-                                    <form action="/message_delete">
-                                        @csrf
-                                        削除
-                                    </form>
+                            <!-- 削除モーダルの内容 -->
+                            <div id="myDeleteModal" class="modal">
+                                <div class="modal-content">
+                                    <span id="closeDeleteModal">&times;</span>
+                                    <div class="modal-title">
+                                        <p>このメッセージを削除してもよろしいですか？</p>
+                                    </div>
+                                    <div class="delete-message">
+                                        <form id="deleteForm" action="{{ route('message.delete') }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="chat_flag" value="{{ $chatFlag }}">
+                                            <input type="hidden" name="id" value="{{ $message->id }}">
+                                            <div class="delete-message__textbox">
+                                                <textarea>{{ $message->message }}</textarea>
+                                            </div>
+                                            <div class="delete-message__button">
+                                                <button type="submit">削除</button>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
+                            <script src="{{ asset('js/chat.js') }}"></script>
+
                         @endif
                     @endforeach
                 </div>
