@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\ChatDraftController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\AuthController;
@@ -48,8 +49,6 @@ Route::middleware(['auth','verified'])->group(function () {
     Route::get('/mypage/deal', [AuthController::class, 'mypage'])->name('mypage.deal');
     Route::get('/mypage/profile', [AuthController::class, 'edit']);
     Route::get('/purchase/address', [AuthController::class, 'addressView']);
-    Route::get('/', [ItemController::class, 'index'])->name('item.index');
-    Route::get('/item', [ItemController::class, 'detail']);
 
     //各機能
     Route::get('/search', [ItemController::class, 'search']);
@@ -69,6 +68,9 @@ Route::middleware(['auth','verified'])->group(function () {
     Route::post('/message/edit', [ChatController::class, 'edit'])->name('message.edit');
     Route::post('/message/delete', [ChatController::class, 'delete'])->name('message.delete');
 });
+Route::get('/', [ItemController::class, 'index'])->name('item.index');
+Route::get('/item', [ItemController::class, 'detail']);
+
 
 //Stripe決済
 Route::get('/payment/success', function () {
@@ -77,3 +79,8 @@ Route::get('/payment/success', function () {
 Route::get('/payment/cancel', function () {
     return "決済キャンセルされました";
 })->name('payment.cancel');
+
+Route::middleware('auth')->group(function () {
+    Route::post('/chat-draft/save', [ChatDraftController::class, 'save']);
+    Route::get('/chat-draft/{itemId}', [ChatDraftController::class, 'get']);
+});

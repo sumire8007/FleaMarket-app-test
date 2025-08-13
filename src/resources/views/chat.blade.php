@@ -28,7 +28,7 @@
             </div>
         </aside>
         <main>
-            <!-- チャットのタイトル　取引相手の名 と　取引相手のプロフ画像-->
+            <!-- チャットのタイトル　取引相手の名と取引相手のプロフ画像-->
             <div class="deal_user">
                 @if($firstPart == $loginUser->id) <!--出品者へメッセージタイトル-->
                     <div class="circle">
@@ -135,7 +135,7 @@
                                 <p>取引が完了しました。</p>
                             </div>
                             <div class="rating-star">
-                                <form action="{{ route('rating.store') }}" method="POST">
+                                <form action="{{ route('rating.store') }}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     <input type="hidden" name="chat_flag" value="{{ $chatFlag }}">
                                     <input type="hidden" name="to_user_id" value="{{ $dealUser->id }}">
@@ -218,6 +218,9 @@
                                             <div class="user_message">
                                                 <p>{{ $message->message }}</p>
                                             </div>
+                                            <div class="client_img">
+                                                <img src="{{ asset('storage/' . $message->chat_img) }}" alt="">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -236,6 +239,9 @@
                                     <div data-message-id="{{ $message->id }}" class="user_content__user_message">
                                         <div class="user_message ">
                                             <p class="message-text">{{ $message->message }}</p>
+                                        </div>
+                                        <div class="user_img">
+                                            <img src="{{ asset('storage/' . $message->chat_img) }}" alt="">
                                         </div>
                                     </div>
                                     <div class="edit_action">
@@ -306,14 +312,17 @@
                                 {{ $message }}
                             @enderror
                         </div>
-                    <form action="/send/message" method="post" enctype="multipart/form-data" >
+                    <form action="/send/message" method="post" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" name="user_id" value="{{ $loginUser->id }}">
                         <input type="hidden" name="item_id" value="{{ $dealItem->id }}">
                         <input type="hidden" name="chat_flag" value="{{ $chatFlag }}">
-                        <textarea class ="message-box" name="message"  placeholder="  取引メッセージを記入してください"></textarea>
-                        <div class="item-detail__img-box">
-                            <input id="imageUploader"  class="img_select-button" type="file" accept="image/*" name="item_img" value="">
+
+                        <textarea class ="message-box" name="message"  placeholder="  取引メッセージを記入してください" data-item-id="{{ $dealItem->id }}"></textarea>
+                        <script src="/js/chatDraft.js"></script>
+
+                        <div class="chat__img-box">
+                            <input id="imageUploader"  class="img_select-button" type="file" accept="image/*" name="chat_img" value="">
                         </div>
                         <script src="{{ asset('js/profile_image.js') }}"></script>
                         <div class="send-btm__group">
@@ -346,6 +355,9 @@
                                         <div class="user_message">
                                             <p>{{ $message->message }}</p>
                                         </div>
+                                        <div class="client_img">
+                                            <img src="{{ asset('storage/' . $message->chat_img) }}" alt="">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -364,6 +376,9 @@
                                     <div class="user_content__user_message">
                                         <div class="user_message ">
                                             <p>{{ $message->message }}</p>
+                                        </div>
+                                        <div class="user_img">
+                                            <img src="{{ asset('storage/' . $message->chat_img) }}" alt="">
                                         </div>
                                     </div>
                                     <div class="edit_action">
@@ -416,7 +431,6 @@
                                 </div>
                             </div>
                             <script src="{{ asset('js/chat.js') }}"></script>
-
                         @endif
                     @endforeach
                 </div>
@@ -440,11 +454,15 @@
                         <input type="hidden" name="user_id" value="{{ $loginUser->id }}">
                         <input type="hidden" name="item_id" value="{{ $dealItem->id }}">
                         <input type="hidden" name="chat_flag" value="{{ $chatFlag }}">
-                        <textarea class ="message-box" name="message"  placeholder="  取引メッセージを記入してください"></textarea>
-                        <div class="item-detail__img-box">
-                            <input id="imageUploader"  class="img_select-button" type="file" accept="image/*" name="item_img" value="">
+
+                        <textarea class ="message-box" name="message"  placeholder="  取引メッセージを記入してください" data-item-id="{{ $dealItem->id }}"></textarea>
+                        <script src="/js/chatDraft.js"></script>
+
+                        <div class="chat__img-box">
+                            <input id="imageUploader" class="img_select-button" type="file" accept="image/*" name="chat_img" value="">
                         </div>
                         <script src="{{ asset('js/profile_image.js') }}"></script>
+
                         <div class="send-btm__group">
                             <button class="send-btm__button">
                                 <div class="send-btm__img">

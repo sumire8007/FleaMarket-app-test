@@ -51,13 +51,15 @@ class ChatController extends Controller
         $dealItem = Item::where('id', $dealItemId)->first();
 
         if($firstPart == $loginUser->id){
-            $dealUser = Item::where('id', $dealItemId)->with('user')->first();
-            $profiles = Address::where('id',$dealUser->user_id)->first();
+            $dealUser = Item::where('id', $dealItemId)->with('user')->first();//アイテム情報と出品者名
+            $profiles = Address::where('user_id',$dealUser->user_id)->first(); //取引相手の情報
             $rating = Rating::where('item_id', $dealItemId)
                 ->where('from_user_id', $loginUser->id)->first();
             return view('chat', compact('loginUser', 'messages', 'dealUser', 'dealItem', 'profiles', 'chatFlag', 'firstPart','allChats','rating'));
         }elseif($firstPart !== $loginUser->id){
             $dealUserId = $firstPart;
+            $profiles = Address::where('id', $dealUserId)->first();//取引相手の情報
+
             $dealUser = User::where('id', $dealUserId)->with('address')->first();
             return view('chat', compact('loginUser', 'messages', 'dealUser', 'dealItem', 'chatFlag', 'firstPart', 'allChats'));
         }
@@ -71,10 +73,10 @@ class ChatController extends Controller
             'chat_flag',
             'message',
         ]);
-        if ($request->hasFile('user_img')) {
-            $image = $request->file('user_img');
-            $image_url = Storage::disk('public')->put('users', $image);
-            $profiles['user_img'] = $image_url;
+        if ($request->hasFile('chat_img')) {
+            $image = $request->file('chat_img');
+            $image_url = Storage::disk('public')->put('items', $image);
+            $message['chat_img'] = $image_url;
         }
         Chat::create($message);
         return (redirect('chat?chat_flag='.$chatFlag));
