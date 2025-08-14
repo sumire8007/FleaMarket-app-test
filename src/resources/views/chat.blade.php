@@ -103,7 +103,6 @@
                         </div>
                     </div>
                     <script src="{{ asset('js/modal.js') }}"></script>
-
                 @elseif($firstPart !== $loginUser->id)<!--購入者へメッセージタイトル-->
                     <div class="circle">
                         @if (!empty($dealUser->address->user_img))
@@ -120,12 +119,12 @@
 
                     <!-- 取引完了モーダルの内容 (購入者の評価が済んでいる　&&　購入者へ評価がまだの時)-->
                     @php
-    $buyersRating = App\Models\Rating::where('item_id', $dealItem->id)
-        ->where('from_user_id', $dealUser->id)
-        ->first();
-    $sellerRating = App\Models\Rating::where('item_id', $dealItem->id)
-        ->where('from_user_id', $loginUser->id)
-        ->first();
+                        $buyersRating = App\Models\Rating::where('item_id', $dealItem->id)
+                            ->where('from_user_id', $dealUser->id)
+                            ->first();
+                        $sellerRating = App\Models\Rating::where('item_id', $dealItem->id)
+                            ->where('from_user_id', $loginUser->id)
+                            ->first();
                     @endphp
                     @if(isset($buyersRating) && empty($sellerRating))
                         <div id="myModal" class="modal-open">
@@ -219,7 +218,6 @@
                                             </div>
                                             <div class="user_name">{{ $dealUser->user->name }}</div>
                                         </div>
-
                                         <div class="client_message">
                                             <p>{{ $message->message }}</p>
                                         </div>
