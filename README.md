@@ -1,11 +1,16 @@
 # coachtechフリマ
-## デモユーザー
- mail : demo1@example.com  /  password : password
+## テストユーザー
+ mail : test1@example.com  /  password : testpass
  
- mail : demo2@example.com  /  password : password
+ mail : test2@example.com  /  password : testpass
  
- mail : demo3@example.com  /  password : password
+ mail : test3@example.com  /  password : testpass
 
+## Strip決済　テスト_クレジットカード番号
+ 4242 4242 4242 4242
+ 
+(セキュリティコード・日付は任意の数字をご入力ください。)
+ 
 ## 環境構築
 **◽️Dockerビルド**
 
@@ -26,22 +31,10 @@ docker-compose exec php bash
 ```
 composer install
 ```
-3. .env.exampleファイルから、envを作成し、環境変数を変更 (下記に変更)
+3. .envファイルを作成
 ```
 cp .env.example .env
 ```
-【.envファイル 変更箇所】
-```
-   DB_HOST=mysql
-   
-   DB_PORT=3306
-   
-   DB_DATABASE=laravel_db
-   
-   DB_USERNAME=laravel_user
-   
-   DB_PASSWORD=laravel_pass
-   ```
 4.　KEYを与える
   ```
   php artisan key:generate
@@ -72,10 +65,9 @@ cp .env.example .env
    ```exit;```
    
 
-**◽️storage保存するため、リンクを作成**
+**◽️画像をstorage保存するため、リンクを作成**
 
-> *itemとuser画像をstorageに保存します。
-  src/storage/app/publicディレクトリ下に[items] ・　[users]ディレクトリを作成してください。*
+> src/storage/app/publicディレクトリ下に[items] ・　[users]ディレクトリを作成してください。
     
    ```
    mkdir src/storage/app/public/items
