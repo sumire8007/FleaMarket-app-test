@@ -128,53 +128,59 @@
         ->first();
                     @endphp
                     @if(isset($buyersRating) && empty($sellerRating))
-                    <div id="myModal" class="modal-open">
-                        <div class="modal-content">
-                            <span id="closeModal">&times;</span>
-                            <div class="modal-title">
-                                <p>取引が完了しました。</p>
-                            </div>
-                            <div class="rating-star">
-                                <form action="{{ route('rating.store') }}" method="POST" enctype="multipart/form-data">
-                                    @csrf
-                                    <input type="hidden" name="chat_flag" value="{{ $chatFlag }}">
-                                    <input type="hidden" name="to_user_id" value="{{ $dealUser->id }}">
-                                    <input type="hidden" name="item_id" value="{{ $dealItem->id }}">
-                                    <p>今回の取引相手はどうでしたか？</p>
-                                    <div class="star-rating">
-                                        @for ($i = 1; $i <= 5; $i++)
-                                            <span class="star" data-value="{{ $i }}">★</span>
-                                        @endfor
-                                    </div>
-                                    <input type="hidden" name="stars" id="stars">
-                                    <div class="rating-star__button">
-                                        <button type="submit">送信する</button>
-                                    </div>
-                                </form>
-                                <style>
-                                    .star {
-                                        cursor: pointer;
-                                        color: lightgray;
-                                    }
+                        <div id="myModal" class="modal-open">
+                            <div class="modal-content">
+                                <div class="modal-title">
+                                    <p>取引が完了しました。</p>
+                                </div>
+                                <div class="rating-star">
+                                    <form id="ratingForm" action="{{ route('rating.store') }}" method="POST" enctype="multipart/form-data">
+                                        @csrf
+                                        <input type="hidden" name="chat_flag" value="{{ $chatFlag }}">
+                                        <input type="hidden" name="to_user_id" value="{{ $dealUser->id }}">
+                                        <input type="hidden" name="item_id" value="{{ $dealItem->id }}">
+                                        <p>今回の取引相手はどうでしたか？</p>
+                                        <div class="star-rating">
+                                            @for ($i = 1; $i <= 5; $i++)
+                                                <span class="star" data-value="{{ $i }}">★</span>
+                                            @endfor
+                                        </div>
+                                        <input type="hidden" name="stars" id="stars">
+                                        <div class="rating-star__button">
+                                            <button type="submit">送信する</button>
+                                        </div>
+                                    </form>
+                                    <style>
+                                        .star {
+                                            cursor: pointer;
+                                            color: lightgray;
+                                        }
 
-                                    .star.selected {
-                                        color: gold;
-                                    }
-                                </style>
-                                <script>
-                                    document.querySelectorAll('.star').forEach(star => {
-                                        star.addEventListener('click', function () {
-                                            const value = this.getAttribute('data-value');
-                                            document.getElementById('stars').value = value;
-                                            document.querySelectorAll('.star').forEach(s => {
-                                                s.classList.toggle('selected', s.getAttribute('data-value') <= value);
+                                        .star.selected {
+                                            color: gold;
+                                        }
+                                    </style>
+                                    <script>
+                                        document.querySelectorAll('.star').forEach(star => {
+                                            star.addEventListener('click', function () {
+                                                const value = this.getAttribute('data-value');
+                                                document.getElementById('stars').value = value;
+                                                document.querySelectorAll('.star').forEach(s => {
+                                                    s.classList.toggle('selected', s.getAttribute('data-value') <= value);
+                                                });
                                             });
                                         });
-                                    });
-                                </script>
+                                        document.getElementById('ratingForm').addEventListener('submit', function (e) {
+                                                const stars = document.getElementById('stars').value;
+                                                if (!stars || stars < 1) {
+                                                    e.preventDefault();
+                                                    alert('星1つ以上で評価してください');
+                                                }
+                                            });
+                                    </script>
+                                </div>
                             </div>
                         </div>
-                    </div>
                     @endif
                 @endif
             </div>
@@ -265,7 +271,7 @@
                                                 <input type="hidden" name="chat_flag" value="{{ $chatFlag }}">
                                                 <input type="hidden" name="id" value="{{ $message->id }}">
                                                 <div class="edit-message__textbox">
-                                                    <textarea name="message" value="">{{ $message->message }}</textarea>
+                                                    <textarea name="message" value="">{{ old($message->message) }}</textarea>
                                                 </div>
                                                 <div class="edit-message__button">
                                                     <button type="submit">保存</button>
@@ -297,46 +303,56 @@
                                     </div>
                                 </div>
                                 <script src="{{ asset('js/chat.js') }}"></script>
-
                             @endif
                     @endforeach
                 </div>
                 <!-- メッセージ入力・送信欄 -->
-                <div class="previewImage">
-                    <img id="previewImage">
-                </div>
-                <div class="send_message">
+                @php
+                    $buyersRating = App\Models\Rating::where('item_id', $dealItem->id)
+                    ->where('from_user_id', $loginUser->id)
+                    ->first();
+                @endphp
+                @if($buyersRating)
+                    <div class="deal-complete">
+                        <p>取引完了のため、メッセージは送れません。</p>
+                    </div>
+                @else
+                    <div class="previewImage">
+                        <img id="previewImage" class="preview">
+                    </div>
+                    <div class="send_message">
                         <div class="form__error">
                             @error('message')
                                 {{ $message }}
                             @enderror
                             <br />
-                            @error('item_img')
+                            @error('chat_img')
                                 {{ $message }}
                             @enderror
                         </div>
-                    <form action="/send/message" method="post" enctype="multipart/form-data">
-                        @csrf
-                        <input type="hidden" name="user_id" value="{{ $loginUser->id }}">
-                        <input type="hidden" name="item_id" value="{{ $dealItem->id }}">
-                        <input type="hidden" name="chat_flag" value="{{ $chatFlag }}">
+                        <form action="/send/message" method="post" enctype="multipart/form-data">
+                            @csrf
+                            <input type="hidden" name="user_id" value="{{ $loginUser->id }}">
+                            <input type="hidden" name="item_id" value="{{ $dealItem->id }}">
+                            <input type="hidden" name="chat_flag" value="{{ $chatFlag }}">
 
-                        <textarea class ="message-box" name="message"  placeholder="  取引メッセージを記入してください" data-item-id="{{ $dealItem->id }}"></textarea>
-                        <script src="/js/chatDraft.js"></script>
+                            <textarea class ="message-box" name="message" placeholder="  取引メッセージを記入してください" data-item-id="{{ $dealItem->id }}">{{ old('message') }}</textarea>
+                            <script src="/js/chatDraft.js"></script>
 
-                        <div class="chat__img-box">
-                            <input id="imageUploader"  class="img_select-button" type="file" accept="image/*" name="chat_img" value="">
-                        </div>
-                        <script src="{{ asset('js/profile_image.js') }}"></script>
-                        <div class="send-btm__group">
-                            <button id="sendButton" class="send-btm__button">
-                                <div class="send-btm__img">
-                                <img src="{{ asset('../../img/send_button.jpg') }}" alt="送信ボタン">
-                                </div>
-                            </button>
-                        </div>
-                    </form>
-                </div>
+                            <div class="chat__img-box">
+                                <input id="imageUploader"  class="img_select-button" type="file" accept="image/*" name="chat_img" value="">
+                            </div>
+                            <script src="{{ asset('js/profile_image.js') }}"></script>
+                            <div class="send-btm__group">
+                                <button id="sendButton" class="send-btm__button">
+                                    <div class="send-btm__img">
+                                    <img src="{{ asset('../../img/send_button.jpg') }}" alt="送信ボタン">
+                                    </div>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                @endif
             @elseif($firstPart !== $loginUser->id)<!--出品者から購入者へメッセージ-->
                 <div class="chat_content">
                     <!-- メッセージ相手 -->
@@ -406,7 +422,7 @@
                                                     <input type="hidden" name="chat_flag" value="{{ $chatFlag }}">
                                                     <input type="hidden" name="id" value="{{ $message->id }}">
                                                     <div class="edit-message__textbox">
-                                                        <textarea name="message" value="">{{ $message->message }}</textarea>
+                                                        <textarea name="message" value="">{{ old($message->message) }}</textarea>
                                                     </div>
                                                     <div class="edit-message__button">
                                                         <button type="submit">保存</button>
@@ -442,27 +458,41 @@
                     @endforeach
                 </div>
                 <!-- メッセージ入力・送信欄 -->
+                @if(isset($buyersRating) && empty($sellerRating))
+                    <div></div>
+                @elseif(isset($buyersRating) && isset($sellerRating))
+                    <div></div>
+                @else
                 <div class="previewImage">
                     <img id="previewImage" class="preview">
                 </div>
-
+                @endif
                 <div class="send_message">
                     <div class="form__error">
                         @error('message')
                             {{ $message }}
                         @enderror
                         <br />
-                        @error('item_img')
+                        @error('chat_img')
                             {{ $message }}
                         @enderror
                     </div>
+                    @if(isset($buyersRating) && empty($sellerRating))
+                        <div class="deal-complete">
+                            <p>取引完了のため、メッセージは送れません。</p>
+                        </div>
+                    @elseif(isset($buyersRating) && isset($sellerRating))
+                        <div class="deal-complete">
+                            <p>取引完了のため、メッセージは送れません。</p>
+                        </div>
+                    @else
                     <form action="/send/message" method="post" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" name="user_id" value="{{ $loginUser->id }}">
                         <input type="hidden" name="item_id" value="{{ $dealItem->id }}">
                         <input type="hidden" name="chat_flag" value="{{ $chatFlag }}">
 
-                        <textarea class ="message-box" name="message"  placeholder="  取引メッセージを記入してください" data-item-id="{{ $dealItem->id }}"></textarea>
+                        <textarea class ="message-box" name="message"  placeholder="  取引メッセージを記入してください" data-item-id="{{ $dealItem->id }}">{{ old("message") }}</textarea>
                         <script src="/js/chatDraft.js"></script>
 
                         <div class="chat__img-box">
@@ -478,6 +508,7 @@
                             </button>
                         </div>
                     </form>
+                    @endif
                 </div>
             @endif
         </main>

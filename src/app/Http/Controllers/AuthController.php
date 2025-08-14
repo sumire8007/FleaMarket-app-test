@@ -19,18 +19,16 @@ class AuthController extends Controller
     public function mypage(){
         $user = Auth::user();
         $profiles = Address::where('user_id',$user->id)->first();
-        //自分が購入したアイテムの出品者情報
 
         //自分が出品したもので、取引メッセージが来ているもの　かつ、出品者（自分）がまだ評価を完了していないものを表示させたい
         $sellItems = Item::where('user_id',$user->id)->pluck('id');//出品したもの
         $sellChats = Chat::whereIn('item_id', $sellItems)
-            // ->where('completed_at', NULL)
-            ->get();//出品したものに対して届いているチャット
+            ->get();
         //自分がメッセージを送ってまだ完了していないもの
         $dealChats = Chat::where('user_id', $user->id)
             ->where('completed_at', NULL)
             ->get();
-        //「取引中の商品」に表示させるもの（自分が出品したアイテムのチャットと自分がメッセージを送ったもの）
+        //「取引中の商品」に表示させる
         $allChats = $sellChats->merge($dealChats)->values();
         $viewChats = $sellChats->merge($dealChats)->sortByDesc('created_at')->unique('chat_flag')->values();
         $badge = Chat::whereIn('chat_flag', $allChats->pluck('chat_flag'))
@@ -40,7 +38,7 @@ class AuthController extends Controller
 
         if (request()->routeIs('mypage.buy')) {
             $purchases = Purchase::where('user_id', $user->id)->pluck('item_id');//購入した商品
-            $items = Item::whereIn('id', $purchases)->get();
+            $items = Item::whereIn('id', $purchases)->with('purchase')->get();
 
         } elseif (request()->routeIs('mypage')) {
             $items = Item::where('user_id', $user->id)->with('purchase')->get(); //出品した商品

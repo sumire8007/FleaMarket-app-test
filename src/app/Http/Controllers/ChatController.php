@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ChatRequest;
 use Carbon\Carbon;
+use App\Http\Requests\ChatRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -79,7 +79,7 @@ class ChatController extends Controller
             $message['chat_img'] = $image_url;
         }
         Chat::create($message);
-        return (redirect('chat?chat_flag='.$chatFlag));
+        return redirect('chat?chat_flag='. $chatFlag);
     }
     //メッセージの編集
     public function edit(Request $request){
@@ -90,14 +90,14 @@ class ChatController extends Controller
         $chat = Chat::findOrFail($request->id);
         $chat->message = $request->message;
         $chat->save();
-        return (redirect('chat?chat_flag=' . $chatFlag));
+        return redirect('chat?chat_flag=' . $chatFlag);
     }
     //メッセージの削除
     public function delete(Request $request){
         $chatFlag = $request->input('chat_flag');
         $chat = Chat::findOrFail($request->id);
         $chat->delete();
-        return (redirect('chat?chat_flag=' . $chatFlag));
+        return redirect('chat?chat_flag=' . $chatFlag);
     }
     //評価送信
     public function store(Request $request)
@@ -131,7 +131,7 @@ class ChatController extends Controller
             ];
             Mail::send('email.test', $data, function ($message)use($toMailAddress, $toMailUserName) {
                 $message->to($toMailAddress, $toMailUserName.'さん')
-                ->subject('取引評価のご連絡');
+                ->subject('COACHTECHフリマ　取引評価のご連絡');
             });
         }
         return redirect('/')->with('success','評価を送信しました');
