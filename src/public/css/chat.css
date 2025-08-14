@@ -1,6 +1,6 @@
 header {
     background-color: black;
-    width: 100vw;
+    width: 100%;
     position: fixed;
 }
 
@@ -13,10 +13,12 @@ header {
 body, main{
     width: 100%;
 }
+
 main {
     margin-top: 52px;
     margin-left: 200px;
 }
+
 .content{
     display: flex;
     width: 100%;
@@ -46,6 +48,7 @@ main {
 .side a {
     text-decoration-line: none;
 }
+
 .deal_user{
     display: flex;
     padding: 5px;
@@ -133,6 +136,7 @@ main {
     /* margin-top: 250px; */
     left: 200px;
 }
+
 .user_detail__img-name, .user_content__img-name {
     display: flex;
     align-items: center;
@@ -150,6 +154,7 @@ main {
 .user_name {
     font-weight: bold;
 }
+
 .user_content__user_message {
     display: inline-block;
     width: 300px;

@@ -256,7 +256,6 @@
                                         <button id="openEditModal" type="submit" class="edit-open-modal" data-message-id="{{ $message->id }}" data-message="{{ $message->message }}">編集</button>
                                         <button id="openDeleteModal" type="submit" class="delete-open-modal" data-message-id="{{ $message->id }}" data-message="{{ $message->message }}">削除</button>
                                     </div>
-
                                 </div>
                                 <!-- 編集モーダルの内容 -->
                                 <div id="myEditModal" class="modal">
@@ -395,7 +394,7 @@
                                             </div>
                                         </div>
                                         <div class="user_content__user_message">
-                                            <div class="user_message ">
+                                            <div class="user_message">
                                                 <p>{{ $message->message }}</p>
                                             </div>
                                             @if($message->chat_img)
