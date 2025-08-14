@@ -25,7 +25,7 @@ class ChatRequest extends FormRequest
     {
         return [
             'message' => ['required', 'max:400',],
-            'item_img' => [
+            'chat_img' => [
                 'nullable',
                 'mimes:jpeg,png',
                 function ($attribute, $value, $fail) {

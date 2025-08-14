@@ -16,7 +16,6 @@ document.getElementById("closeEditModal").addEventListener("click", function () 
     document.getElementById("myEditModal").style.display = "none";
 });
 
-
 // 削除ボタンとモーダル
 document.querySelectorAll(".delete-open-modal").forEach((btn) => {
     btn.addEventListener("click", function () {

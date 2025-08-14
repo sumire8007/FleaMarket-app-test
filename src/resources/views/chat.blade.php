@@ -359,7 +359,7 @@
                                             <p>{{ $message->message }}</p>
                                         </div>
                                         @if($message->chat_img)
-                                        <div class="client_img">
+                                        <div class="client_chat_img">
                                             <img src="{{ asset('storage/' . $message->chat_img) }}" alt="">
                                         </div>
                                         @endif
@@ -383,7 +383,7 @@
                                                 <p>{{ $message->message }}</p>
                                             </div>
                                             @if($message->chat_img)
-                                            <div class="user_img">
+                                            <div class="user_chat_img">
                                                 <img src="{{ asset('storage/' . $message->chat_img) }}" alt="">
                                             </div>
                                             @endif
