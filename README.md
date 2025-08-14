@@ -7,9 +7,9 @@
  mail : test3@example.com  /  password : testpass
 
 ## Strip決済　テスト_クレジットカード番号
- 4242 4242 4242 4242
- 
-(セキュリティコード・日付は任意の数字をご入力ください。)
+ > 4242 4242 4242 4242　　　(セキュリティコード・日付は任意の数字をご入力ください。)
+<img width="741" height="250" alt="Stripテスト クレカ番号" src="https://github.com/user-attachments/assets/d51dc75e-2bd5-408e-96ba-91ec32330b12" />
+
  
 ## 環境構築
 **◽️Dockerビルド**
@@ -183,6 +183,7 @@ php artisan db:seed
 
 **ER図**
 
-<img width="870" height="634" alt="ER" src="https://github.com/user-attachments/assets/4a4f02bc-8ff1-4c45-8683-07e05a4c2438" />
+<img width="673" height="464" alt="ER" src="https://github.com/user-attachments/assets/191826ae-443b-4098-826d-c17fe407e8a6" />
+
 
 
