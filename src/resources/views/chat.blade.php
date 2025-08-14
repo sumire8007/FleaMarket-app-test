@@ -202,26 +202,26 @@
                     @foreach($messages as $message)
                         @if($message->user_id !== $loginUser->id) <!--相手（出品者のメッセージ）-->
                                 <div class="client_content">
-                                    <div>
-                                        <div class="user_detail">
-                                            <div class="user_detail__img-name">
-                                                <div class="circle">
-                                                    @if (!empty($profiles->user_img))
-                                                        <img src="{{ asset('storage/' . $profiles->user_img) }}" alt="プロフ画像">
-                                                    @else
-                                                        <img src="../img/default_user_img.png" alt="">
-                                                    @endif
-                                                </div>
-                                                <div class="user_name">{{ $dealUser->user->name }}</div>
+                                    <div class="user_detail">
+                                        <div class="user_detail__img-name">
+                                            <div class="circle">
+                                                @if (!empty($profiles->user_img))
+                                                    <img src="{{ asset('storage/' . $profiles->user_img) }}" alt="プロフ画像">
+                                                @else
+                                                    <img src="../img/default_user_img.png" alt="">
+                                                @endif
                                             </div>
-
-                                            <div class="user_message">
-                                                <p>{{ $message->message }}</p>
-                                            </div>
-                                            <div class="client_img">
-                                                <img src="{{ asset('storage/' . $message->chat_img) }}" alt="">
-                                            </div>
+                                            <div class="user_name">{{ $dealUser->user->name }}</div>
                                         </div>
+
+                                        <div class="client_message">
+                                            <p>{{ $message->message }}</p>
+                                        </div>
+                                        @if($message->chat_img)
+                                        <div class="client_chat_img">
+                                            <img src="{{ asset('storage/' . $message->chat_img) }}" alt="">
+                                        </div>
+                                        @endif
                                     </div>
                                 </div>
                             @elseif($message->user_id === $loginUser->id)<!-- 自分側（購入者のメッセージ） -->
@@ -237,17 +237,20 @@
                                         </div>
                                     </div>
                                     <div data-message-id="{{ $message->id }}" class="user_content__user_message">
-                                        <div class="user_message ">
+                                        <div class="user_message">
                                             <p class="message-text">{{ $message->message }}</p>
                                         </div>
-                                        <div class="user_img">
+                                        @if($message->chat_img)
+                                        <div class="user_chat_img">
                                             <img src="{{ asset('storage/' . $message->chat_img) }}" alt="">
                                         </div>
+                                        @endif
                                     </div>
                                     <div class="edit_action">
-                                        <button type="submit" id="openEditModal" class="edit-btn">編集</button>
-                                        <button type="submit" id="openDeleteModal" class="delete-btn">削除</button>
+                                        <button id="openEditModal" type="submit" class="edit-open-modal" data-message-id="{{ $message->id }}" data-message="{{ $message->message }}">編集</button>
+                                        <button id="openDeleteModal" type="submit" class="delete-open-modal" data-message-id="{{ $message->id }}" data-message="{{ $message->message }}">削除</button>
                                     </div>
+
                                 </div>
                                 <!-- 編集モーダルの内容 -->
                                 <div id="myEditModal" class="modal">
@@ -284,7 +287,7 @@
                                                 <input type="hidden" name="chat_flag" value="{{ $chatFlag }}">
                                                 <input type="hidden" name="id" value="{{ $message->id }}">
                                                 <div class="delete-message__textbox">
-                                                    <textarea>{{ $message->message }}</textarea>
+                                                    <textarea name="message">{{ $message->message }}</textarea>
                                                 </div>
                                                 <div class="delete-message__button">
                                                     <button type="submit">削除</button>
@@ -355,83 +358,87 @@
                                         <div class="user_message">
                                             <p>{{ $message->message }}</p>
                                         </div>
+                                        @if($message->chat_img)
                                         <div class="client_img">
                                             <img src="{{ asset('storage/' . $message->chat_img) }}" alt="">
                                         </div>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
-                        @elseif($message->user_id === $loginUser->id)<!--相手（出品者のメッセージ）-->
-                                <div class="user_content">
-                                    <div class="user_content__img-name">
-                                        <div class="user_name">{{ $loginUser->name }}</div>
-                                        <div class="circle">
-                                            @if (!empty($loginUser->address->user_img))
-                                                <img src="{{ asset('storage/' . $loginUser->address->user_img) }}" alt="プロフ画像">
-                                            @else
-                                                <img src="../img/default_user_img.png" alt="">
+                            @elseif($message->user_id === $loginUser->id)<!--相手（出品者のメッセージ）-->
+                                    <div class="user_content">
+                                        <div class="user_content__img-name">
+                                            <div class="user_name">{{ $loginUser->name }}</div>
+                                            <div class="circle">
+                                                @if (!empty($loginUser->address->user_img))
+                                                    <img src="{{ asset('storage/' . $loginUser->address->user_img) }}" alt="プロフ画像">
+                                                @else
+                                                    <img src="../img/default_user_img.png" alt="">
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="user_content__user_message">
+                                            <div class="user_message ">
+                                                <p>{{ $message->message }}</p>
+                                            </div>
+                                            @if($message->chat_img)
+                                            <div class="user_img">
+                                                <img src="{{ asset('storage/' . $message->chat_img) }}" alt="">
+                                            </div>
                                             @endif
                                         </div>
-                                    </div>
-                                    <div class="user_content__user_message">
-                                        <div class="user_message ">
-                                            <p>{{ $message->message }}</p>
-                                        </div>
-                                        <div class="user_img">
-                                            <img src="{{ asset('storage/' . $message->chat_img) }}" alt="">
+                                        <div class="edit_action">
+                                            <button id="openEditModal" type="submit" class="edit-open-modal" data-message-id="{{ $message->id }}" data-message="{{ $message->message }}">編集</button>
+                                            <button id="openDeleteModal" type="submit" class="delete-open-modal" data-message-id="{{ $message->id }}" data-message="{{ $message->message }}">削除</button>
                                         </div>
                                     </div>
-                                    <div class="edit_action">
-                                        <button id="openEditModal" type="submit">編集</button>
-                                        <button id="openDeleteModal" type="submit">削除</button>
+                                    <!-- 編集モーダルの内容 -->
+                                    <div id="myEditModal" class="modal">
+                                        <div class="modal-content">
+                                            <span id="closeEditModal">&times;</span>
+                                            <div class="modal-title">
+                                                <p>メッセージの編集</p>
+                                            </div>
+                                            <div class="edit-message">
+                                                <form id="editForm" action="{{ route('message.edit') }}" method="POST">
+                                                    @csrf
+                                                    <input type="hidden" name="chat_flag" value="{{ $chatFlag }}">
+                                                    <input type="hidden" name="id" value="{{ $message->id }}">
+                                                    <div class="edit-message__textbox">
+                                                        <textarea name="message" value="">{{ $message->message }}</textarea>
+                                                    </div>
+                                                    <div class="edit-message__button">
+                                                        <button type="submit">保存</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <!-- 編集モーダルの内容 -->
-                                <div id="myEditModal" class="modal">
+                                <!-- 削除モーダルの内容 -->
+                                <div id="myDeleteModal" class="modal">
                                     <div class="modal-content">
-                                        <span id="closeEditModal">&times;</span>
+                                        <span id="closeDeleteModal">&times;</span>
                                         <div class="modal-title">
-                                            <p>メッセージの編集</p>
+                                            <p>このメッセージを削除してもよろしいですか？</p>
                                         </div>
-                                        <div class="edit-message">
-                                            <form id="editForm" action="{{ route('message.edit') }}" method="POST">
+                                        <div class="delete-message">
+                                            <form id="deleteForm" action="{{ route('message.delete') }}" method="POST">
                                                 @csrf
                                                 <input type="hidden" name="chat_flag" value="{{ $chatFlag }}">
                                                 <input type="hidden" name="id" value="{{ $message->id }}">
-                                                <div class="edit-message__textbox">
-                                                    <textarea name="message" value="">{{ $message->message }}</textarea>
+                                                <div class="delete-message__textbox">
+                                                    <textarea name="message">{{ $message->message }}</textarea>
                                                 </div>
-                                                <div class="edit-message__button">
-                                                    <button type="submit">保存</button>
+                                                <div class="delete-message__button">
+                                                    <button type="submit">削除</button>
                                                 </div>
                                             </form>
                                         </div>
                                     </div>
                                 </div>
-                            <!-- 削除モーダルの内容 -->
-                            <div id="myDeleteModal" class="modal">
-                                <div class="modal-content">
-                                    <span id="closeDeleteModal">&times;</span>
-                                    <div class="modal-title">
-                                        <p>このメッセージを削除してもよろしいですか？</p>
-                                    </div>
-                                    <div class="delete-message">
-                                        <form id="deleteForm" action="{{ route('message.delete') }}" method="POST">
-                                            @csrf
-                                            <input type="hidden" name="chat_flag" value="{{ $chatFlag }}">
-                                            <input type="hidden" name="id" value="{{ $message->id }}">
-                                            <div class="delete-message__textbox">
-                                                <textarea>{{ $message->message }}</textarea>
-                                            </div>
-                                            <div class="delete-message__button">
-                                                <button type="submit">削除</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            <script src="{{ asset('js/chat.js') }}"></script>
-                        @endif
+                                <script src="{{ asset('js/chat.js') }}"></script>
+                            @endif
                     @endforeach
                 </div>
                 <!-- メッセージ入力・送信欄 -->
@@ -464,7 +471,7 @@
                         <script src="{{ asset('js/profile_image.js') }}"></script>
 
                         <div class="send-btm__group">
-                            <button class="send-btm__button">
+                            <button id="sendButton" class="send-btm__button">
                                 <div class="send-btm__img">
                                 <img src="{{ asset('../../img/send_button.jpg') }}" alt="送信ボタン">
                                 </div>

@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
             })
         .then(response => response.json())
         .then(data => {
-        if (data.status === 'NULL_OK') {
+        if (data.status === 'OK') {
             textarea.value = ""; // 入力欄を空にする
         }
     });

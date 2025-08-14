@@ -1,23 +1,36 @@
-//メッセージの編集
-var editModal = document.getElementById("myEditModal"); //モーダルの要素を取得
-var editBtn = document.getElementById("openEditModal"); //開くボタンの要素を取得
-var editSpan = document.getElementById("closeEditModal"); //閉じる要素を取得
+// 編集ボタンとモーダル
+document.querySelectorAll(".edit-open-modal").forEach((btn) => {
+    btn.addEventListener("click", function () {
+        const messageId = btn.dataset.messageId;
+        const messageText = btn.dataset.message;
+        const modal = document.getElementById("myEditModal");
+        modal.style.display = "block";
+        // hidden input に messageId をセット
+        modal.querySelector('input[name="id"]').value = messageId;
+        modal.querySelector('textarea[name="message"]').value = messageText;
+    });
+});
 
-editBtn.onclick = function () {
-    editModal.style.display = "block";//モーダルのdisplayスタイルをblockにして表示
-}
-editSpan.onclick = function () {
-    editModal.style.display = "none"; //モーダルのdisplayスタイルをnoneにして非表示
-}
+// 閉じるボタン
+document.getElementById("closeEditModal").addEventListener("click", function () {
+    document.getElementById("myEditModal").style.display = "none";
+});
 
-//メッセージの削除
-var deleteModal = document.getElementById("myDeleteModal"); //モーダルの要素を取得
-var deleteBtn = document.getElementById("openDeleteModal"); //開くボタンの要素を取得
-var deleteSpan = document.getElementById("closeDeleteModal"); //閉じる要素を取得
 
-deleteBtn.onclick = function () {
-    deleteModal.style.display = "block";//モーダルのdisplayスタイルをblockにして表示
-}
-deleteSpan.onclick = function () {
-    deleteModal.style.display = "none"; //モーダルのdisplayスタイルをnoneにして非表示
-}
+// 削除ボタンとモーダル
+document.querySelectorAll(".delete-open-modal").forEach((btn) => {
+    btn.addEventListener("click", function () {
+        const messageId = btn.dataset.messageId;
+        const messageText = btn.dataset.message;
+        const modal = document.getElementById("myDeleteModal");
+        modal.style.display = "block";
+        // hidden input に messageId をセット
+        modal.querySelector('input[name="id"]').value = messageId;
+        modal.querySelector('textarea[name="message"]').value = messageText;
+    });
+});
+
+// 閉じるボタン
+document.getElementById("closeDeleteModal").addEventListener("click", function () {
+    document.getElementById("myDeleteModal").style.display = "none";
+});
