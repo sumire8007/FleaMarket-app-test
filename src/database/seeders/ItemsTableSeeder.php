@@ -29,8 +29,8 @@ class ItemsTableSeeder extends Seeder
             'coffeeMill.jpg' => public_path('img/Waitress+with+Coffee+Grinder.jpg'),
             'makeupSet.jpg' => public_path('img/makeupset.jpg'),
         ];
-        $user1 = User::where('email', 'demo1@example.com')->first();
-        $user2 = User::where('email', 'demo2@example.com')->first();
+        $user1 = User::where('email', 'test1@example.com')->first();
+        $user2 = User::where('email', 'test2@example.com')->first();
         foreach ($images as $filename => $url) {
             $imageContents = file_get_contents($url);
             Storage::put("public/items/{$filename}", $imageContents);

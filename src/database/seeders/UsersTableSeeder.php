@@ -18,19 +18,19 @@ class UsersTableSeeder extends Seeder
             [
                 'name' => 'ユーザー1',
                 'email' => 'test1@example.com',
-                'password' => Hash::make('testpass'),
+                'password' => Hash::make('password'),
                 'email_verified_at' => '2025-08-01 09:00:00',
             ],
             [
                 'name' => 'ユーザー2',
                 'email' => 'test2@example.com',
-                'password' => Hash::make('testpass'),
+                'password' => Hash::make('password'),
                 'email_verified_at' => '2025-08-01 09:00:00'
             ],
             [
                 'name' => 'ユーザー3',
                 'email' => 'test3@example.com',
-                'password' => Hash::make('testpass'),
+                'password' => Hash::make('password'),
                 'email_verified_at' => '2025-08-01 09:00:00'
             ]
 
