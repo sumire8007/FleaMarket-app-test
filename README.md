@@ -1,10 +1,14 @@
 # coachtechフリマ
 ## テストユーザー
- mail : test1@example.com  /  password : testpass
+ mail : test1@example.com  /  password : password
  
- mail : test2@example.com  /  password : testpass
+ mail : test2@example.com  /  password : password
  
- mail : test3@example.com  /  password : testpass
+ mail : test3@example.com  /  password : password
+
+> マルチブラウザで複数ユーザーがログインできないようになっています。
+> 
+> 一度ログアウトしてから各ユーザーへログインして頂きますようお願いします。
 
 ## Strip決済　テスト_クレジットカード番号
  > 4242 4242 4242 4242　　　(セキュリティコード・日付は任意の数字をご入力ください。)
