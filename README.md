@@ -180,6 +180,7 @@ php artisan db:seed
 
 ・ユーザー登録　: http://localhost/register
 
+・ MailHog : http://localhost:8025
 
 **ER図**
 
