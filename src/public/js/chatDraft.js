@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     const textarea = document.querySelector(".message-box");
     if (!textarea) return;
-
     const itemId = textarea.dataset.itemId;
 
     // 下書き取得

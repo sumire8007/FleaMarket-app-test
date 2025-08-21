@@ -339,7 +339,7 @@
                             <div class="chat__img-box">
                                 <input id="imageUploader"  class="img_select-button" type="file" accept="image/*" name="chat_img" value="">
                             </div>
-                            <script src="{{ asset('js/profile_image.js') }}"></script>
+                            <script src="{{ asset('js/chat_img.js') }}"></script>
                             <div class="send-btm__group">
                                 <button id="sendButton" class="send-btm__button">
                                     <div class="send-btm__img">
@@ -495,7 +495,7 @@
                         <div class="chat__img-box">
                             <input id="imageUploader" class="img_select-button" type="file" accept="image/*" name="chat_img" value="">
                         </div>
-                        <script src="{{ asset('js/profile_image.js') }}"></script>
+                        <script src="{{ asset('js/chat_img.js') }}"></script>
 
                         <div class="send-btm__group">
                             <button id="sendButton" class="send-btm__button">

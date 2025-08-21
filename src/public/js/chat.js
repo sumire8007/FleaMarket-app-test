@@ -5,7 +5,6 @@ document.querySelectorAll(".edit-open-modal").forEach((btn) => {
         const messageText = btn.dataset.message;
         const modal = document.getElementById("myEditModal");
         modal.style.display = "block";
-        // hidden input に messageId をセット
         modal.querySelector('input[name="id"]').value = messageId;
         modal.querySelector('textarea[name="message"]').value = messageText;
     });
@@ -23,7 +22,6 @@ document.querySelectorAll(".delete-open-modal").forEach((btn) => {
         const messageText = btn.dataset.message;
         const modal = document.getElementById("myDeleteModal");
         modal.style.display = "block";
-        // hidden input に messageId をセット
         modal.querySelector('input[name="id"]').value = messageId;
         modal.querySelector('textarea[name="message"]').value = messageText;
     });

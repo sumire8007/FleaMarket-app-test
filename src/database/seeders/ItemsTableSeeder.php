@@ -47,7 +47,7 @@ class ItemsTableSeeder extends Seeder
             ],
             [
                 'user_id' => $user1->id,
-                'item_name' => 'HDD', //ファッション、レディース　ブランド：西芝
+                'item_name' => 'HDD',
                 'price' => '5000',
                 'detail' => '高速で信頼性の高いハードディスク',
                 'item_img' => 'items/hdd.jpg',

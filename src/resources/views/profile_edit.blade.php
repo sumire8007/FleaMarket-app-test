@@ -25,10 +25,10 @@
                 <!-- プロフ画像 -->
                 <div class="form__group-content-img">
                     <div class="circle">
-                        @if(!empty($profiles->user_img))
-                            <img id="previewImage" src="{{ asset('storage/' . $profiles->user_img) }}" alt="プロフ画像">
+                        @if(empty($profiles->user_img))
+                            <img id="previewImage" src="{{ asset('img/default_user_img.png') }}" alt="プロフ画像">
                         @else
-                            <img id="previewImage" src="img/default_user_img.png" alt="プロフ画像">
+                            <img id="previewImage" src="{{ asset('storage/' . $profiles->user_img) }}" alt="プロフ画像">
                         @endif
                     </div>
                     @if(isset($profiles))
