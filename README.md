@@ -186,6 +186,7 @@ php artisan db:seed
 
 ・ MailHog : http://localhost:8025
 
+
 **ER図**
 
 <img width="673" height="464" alt="ER" src="https://github.com/user-attachments/assets/191826ae-443b-4098-826d-c17fe407e8a6" />
