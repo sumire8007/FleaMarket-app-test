@@ -186,7 +186,6 @@ php artisan db:seed
 
 ・ MailHog : http://localhost:8025
 
-・test-test
 
 **ER図**
 
